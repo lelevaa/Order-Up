@@ -1,2 +1,0 @@
-# Order-Up
-Arquivos TCC
