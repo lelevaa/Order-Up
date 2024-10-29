@@ -27,252 +27,130 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
 
 <body>
     <style>
-/* Estilo para o modal de carrinho */
-.modal-carrinho {
-    display: none;
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 350px;
-    height: 100%;
-    background-color: white;
-    border-left: 1px solid #ccc;
-    padding: 20px;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    font-family: 'Georgia', serif;
-    overflow-y: auto;
-}
+        /* Estilo básico para o modal */
+        .login-modal {
+            display: none;
+            /* O modal começa oculto */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Fundo semi-transparente */
+        }
 
-.modal-content-carrinho {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-}
+        /* Conteúdo do modal */
+        .login-modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            width: 300px;
+            border-radius: 10px;
+        }
 
-/* Título do modal */
-.modal-content-carrinho h3 {
-    font-size: 24px;
-    color: #1f2141;
-    margin-bottom: 20px;
-    text-align: center;
-}
+        /* Estilo para o botão de fechar (X) */
+        .close {
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
-/* Botão de fechar o modal */
-#fechar-modal-carrinho {
-    background-color: transparent;
-    border: none;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    display: flex;
-    justify-content: end;
-}
+        .close:hover {
+            color: red;
+        }
 
-/* Lista de itens no carrinho */
-#lista-carrinho {
-    flex-grow: 1;
-    margin-bottom: 20px;
-}
+        .item-carrinho input[type="number"] {
+            width: 20%;
+            padding: 5px;
+            margin-right: 10px;
+            text-align: center;
+        }
 
-#lista-carrinho .item-carrinho {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-    justify-content: space-between;
-    /* Adiciona espaçamento entre os elementos */
-}
+        .item-carrinho {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
 
-/* Imagem do produto */
-#lista-carrinho .item-carrinho img {
-    width: 50px; /* Largura consistente */
-    height: 50px; /* Altura consistente */
-    object-fit: cover;
-    margin-right: 10px;
-    border-radius: 5px; /* Bordas arredondadas */
-}
+        .modal-carrinho {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 350px;
+            height: 100%;
+            background-color: white;
+            border-left: 1px solid #ccc;
+            padding: 20px;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
 
-/* Nome e preço empilhados verticalmente */
-#lista-carrinho .item-carrinho .produto-info {
-    display: flex;
-    flex-direction: column; /* Exibe nome e preço em coluna */
-    justify-content: center;
-    font-size: 14px;
-    margin-right: 10px;
-    flex-grow: 1;
-}
+        .modal-content-carrinho {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
 
-#lista-carrinho .item-carrinho .produto-nome {
-    font-size: 14px;
-    color: #333;
-    font-weight: bold;
-}
+        .modal-content-carrinho h3 {
+            margin-bottom: 20px;
+        }
 
-#lista-carrinho .item-carrinho .produto-preco {
-    font-size: 14px;
-    color: #555;
-    margin-top: 5px; /* Espaço entre o nome e o preço */
-}
+        #lista-carrinho {
+            flex-grow: 1;
+            margin-bottom: 20px;
+        }
 
-/* Seção de quantidade */
-#lista-carrinho .item-carrinho .quantidade {
-    display: flex;
-    align-items: center;
-    margin-right: 10px;
-}
+        #ir-para-pagamento,
+        #confirmar-pagamento,
+        #cancelar-pagamento,#confirmar-recebimento {
+            background-color: #DDA52F;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
 
-/* Botões de quantidade (+ e -) */
-#lista-carrinho .item-carrinho .quantidade button {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    color: #333;
-    font-size: 16px;
-    width: 30px;
-    height: 30px;
-    margin: 0 5px;
-    cursor: pointer;
-}
+        #ir-para-pagamento:hover {
+            background-color: #CDA52F;
+            /* Cor de hover mais escura */
+        }
 
-/* Campo de entrada para a quantidade */
-#lista-carrinho .item-carrinho .quantidade input {
-    width: 40px; /* Largura consistente para o input */
-    text-align: center;
-    font-size: 16px;
-}
+        .modal {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            z-index: 10;
+        }
 
-/* Botão Deletar */
-#lista-carrinho .item-carrinho .botao-deletar {
-    background-color: #fff;
-    border: 1px solid #333;
-    color: #333;
-    padding: 5px 10px;
-    font-size: 14px;
-    cursor: pointer;
-}
+        .modal-content {
+            max-width: 400px;
+        }
 
-/* Total do carrinho */
-#total-carrinho {
-    font-weight: bold;
-    color: #333;
-    text-align: right;
-    font-size: 18px;
-}
+        #fechar-modal-carrinho {
+            background-color: transparent;
+            border: none;
+            display: flex;
+            justify-content: end;
+        }
 
-.preco-total {
-    margin-top: 20px; /* Espaço acima da div de preço */
-    text-align: right; /* Alinha o texto à direita */
-    font-size: 18px; /* Tamanho da fonte */
-    color: #333; /* Cor do texto */
-    font-weight: bold; /* Negrito para o preço */
-}
-
-
-/* Botão de ir para o pagamento */
-#ir-para-pagamento {
-    background-color: #f5a623;
-    color: white;
-    padding: 10px;
-    width: 100%;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 20px;
-}
-
-/* Efeito hover no botão de pagamento */
-#ir-para-pagamento:hover {
-    background-color: #e59500;
-}
-
-/* Botão genérico para ações como continuar comprando e finalizar pedido */
-.a {
-    background-color: #DDA52F;
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 10px;
-    font-size: 16px;
-}
-
-.a:hover {
-    background-color: #CDA52F;
-}
-
-/* Subtotal e total no carrinho */
-p.subtotal, p.total {
-    text-align: right;
-    font-size: 16px;
-    color: #333;
-    margin-top: 10px;
-}
-
-/* Modal básico de login */
-.login-modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.login-modal-content {
-    background-color: #fff;
-    margin: 15% auto;
-    padding: 20px;
-    width: 300px;
-    border-radius: 10px;
-}
-
-/* Botão de fechar do modal de login */
-.close {
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.close:hover {
-    color: red;
-}
-
-/* Estilo para o input de quantidade no carrinho */
-.item-carrinho input[type="number"] {
-    width: 40px;
-    padding: 5px;
-    margin-right: 10px;
-    text-align: center;
-}
-
-/* Modal genérico */
-.modal {
-    display: none;
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    z-index: 10;
-}
-
-/* Conteúdo do modal genérico */
-.modal-content {
-    max-width: 400px;
-}
-
-
+        .a {
+            background-color: #DDA52F;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
     </style>
     <div class="header_header">
         <div>
@@ -283,8 +161,7 @@ p.subtotal, p.total {
                         <div class="col-lg-2">
                             <div class="header-logo">
                                 <a href="index.html">
-                                    <img src="..
-                                    /img/logoOrderup.png" alt="Logo" />
+                                    <img src="../img/logoOrderup.png" alt="Logo" />
                                 </a>
                             </div>
                         </div>
@@ -680,22 +557,20 @@ p.subtotal, p.total {
 
     <!-- Modal de Carrinho que fica do lado direito da página -->
     <div id="modal-carrinho" class="modal-carrinho">
-    <div class="modal-content-carrinho">
-        <button id="fechar-modal-carrinho" class="fechar-modal-btn">&times;</button> <!-- Botão de fechar -->
-        <h3>Carrinho de Compras</h3>
+        <div class="modal-content-carrinho">
+            <button id="fechar-modal-carrinho" class="fechar-modal-btn">&times;</button> <!-- Botão de fechar -->
+            <h3>Carrinho de Compras</h3>
 
-        <!-- Lista de Itens no Carrinho -->
-        <div id="lista-carrinho"></div>
+            <!-- Lista de Itens no Carrinho -->
+            <div id="lista-carrinho"></div>
 
-        <!-- Total Geral -->
-        <div class="preco-total">
+            <!-- Total Geral -->
             <p>Total: R$ <span id="total-carrinho">0.00</span></p>
-        </div>
 
-        <!-- Botão de Pagamento -->
-        <button class="n" id="ir-para-pagamento">Ir para pagamento</button>
+            <!-- Botão de Pagamento -->
+            <button class="n" id="ir-para-pagamento">Ir para pagamento</button>
+        </div>
     </div>
-</div>
 
 <!-- Modal de Pagamento -->
 <div id="modal-pagamento" class="modal">
@@ -713,7 +588,8 @@ p.subtotal, p.total {
         <p id="codigo-pedido-container" style="display: none;">Código do Pedido: <span id="codigo-pedido"></span></p>
 
         <!-- Botões de Ação -->
-        <button id="confirmar-pagamento" onclick="verificacaoSaldo()">Confirmar Pagamento</button>
+        <button id="confirmar-pagamento" onclick="verificacaoSaldo()">Confirmar compra</button>
+        <button id="confirmar-recebimento">Pedido Recebido</button>
         <button id="cancelar-pagamento">Cancelar</button>
     </div>
 </div>
@@ -765,7 +641,7 @@ p.subtotal, p.total {
         </div>
     </div>
 
-    <!-- JavaScript -->
+
     <div id="modal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span> <!-- Botão de fechar -->
@@ -815,9 +691,8 @@ p.subtotal, p.total {
 </div>
 
 <script>
- let carrinho = [];
+let carrinho = [];
 let saldo = 10;
-
 let total = 0;
 
 const modalCarrinho = document.getElementById('modal-carrinho');
@@ -838,6 +713,13 @@ const loginModal = document.getElementById('loginModal');
 const closeModalBtn = document.querySelector('.close');
 
 let carrinhoAberto = false;
+
+// Inicializa a visibilidade dos botões
+const confirmarRecebimentoBtn = document.getElementById('confirmar-recebimento');
+const confirmarPagamentoBtn = document.getElementById('confirmar-pagamento');
+
+confirmarRecebimentoBtn.style.display = 'none'; // Inicialmente invisível
+confirmarPagamentoBtn.style.display = 'block'; // Inicialmente visível
 
 // Função para abrir o modal de login
 if (headerDropdownBtn) {
@@ -1026,6 +908,11 @@ function abrirCode() {
     
     // Exibe o elemento do código do pedido
     codigoPedidoContainer.style.display = 'block';
+
+    // Torna o botão "confirmar-recebimento" visível
+    confirmarRecebimentoBtn.style.display = 'block'; 
+    // Torna o botão "confirmar-pagamento" invisível
+    confirmarPagamentoBtn.style.display = 'none'; 
 }
 
 // Função para gerar um código aleatório de 6 caracteres
@@ -1052,8 +939,6 @@ function verificacaoSaldo() {
 
 // Chama a função de verificação ao clicar no botão "Confirmar Pagamento"
 document.getElementById('confirmar-pagamento').addEventListener('click', verificacaoSaldo);
-
-
 
 </script>
 

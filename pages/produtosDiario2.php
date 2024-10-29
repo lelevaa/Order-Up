@@ -74,26 +74,24 @@ $conn->close();
         </nav>
     </header>
 
+
+    <!-- Modal cantina-->
+    <div id="modalCantina" class="modalCantina">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2>Escolha uma Cantina</h2>
+            <div id="cantinaButtons">
+                <a href="produtosDiario.php" class="cantinaBtn" data-value="cantina1">Cantina 1</a>
+                <a href="produtosDiario2.php" class="cantinaBtn" data-value="cantina2">Cantina 2</a>
+
+            </div>
+            <button id="confirmBtn">Confirmar</button>
+        </div>
+    </div>
     <div class="Botões-cantinas">
         <a href="produtosDiario.php" class="cantinaBtn" data-value="cantina1">Cantina 1</a>
         <a href="produtosDiario2.php" class="cantinaBtn" data-value="cantina2">Cantina 2</a>
     </div>
-
-
-<!-- Modal cantina-->
-<div id="modalCantina" class="modalCantina">
-    <div class="modal-content">
-        <span class="close" id="closeModal">&times;</span>
-        <h2>Escolha uma Cantina</h2>
-        <div id="cantinaButtons">
-            <a href="produtosDiario.php" class="cantinaBtn" data-value="cantina1">Cantina 1</a>
-            <a href="produtosDiario2.php" class="cantinaBtn" data-value="cantina2">Cantina 2</a>
-
-        </div>
-        <button id="confirmBtn">Confirmar</button>
-    </div>
-</div>
-
 
     <!-- Formulário de filtro -->
     <div class="filtroCategoria">
@@ -101,7 +99,7 @@ $conn->close();
             <div class="linha_add">
                 <div class="form-container">
                     <!--div que temos que mexer-->
-                    <h1>Filtrar Produtos - Cantina 1</h1>
+                    <h1>Filtrar Produtos - Cantina 2</h1>
                     <form id="filtroForm" method="POST" action="">
                         <div class="form-container">
                             <div class="form-group">
@@ -141,9 +139,9 @@ $conn->close();
 
 
                             <div class="form-group">
-    <label for="preco">Preço:</label>
-    <input id="preco" name="preco" readonly value="<?php echo isset($precoProduto) ? htmlspecialchars($precoProduto) : ''; ?>"><br><br>
-</div>
+                                <label for="preco">Preço:</label>
+                                <input id="preco" name="preco" readonly value="<?php echo isset($precoProduto) ? htmlspecialchars($precoProduto) : ''; ?>"><br><br>
+                            </div>
 
 
                             <!-- Certifique-se de que o campo 'preco' está correto -->
@@ -207,7 +205,7 @@ $conn->close();
                             <option value="">Lançamento</option>
                             <?php
                             include '../php/conexao.php';
-                            $sql = "SELECT DISTINCT lancamento FROM tb_produtos";
+                            $sql = "SELECT DISTINCT lancamento FROM tb_produtos2";
                             $result = $conn->query($sql);
                             while ($row = $result->fetch_assoc()) {
                                 echo '<option value="' . $row["lancamento"] . '">' . $row["lancamento"] . '</option>';
@@ -224,7 +222,7 @@ $conn->close();
                 include '../php/conexao.php';
 
                 // Consulta SQL para buscar os produtos
-                $sql = "SELECT nome, descricao, preco, quantidade, categoria, lancamento, vencimento, imagem FROM tb_produtos";
+                $sql = "SELECT nome, descricao, preco, quantidade, categoria, lancamento, vencimento, imagem FROM tb_produtos2";
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
@@ -232,7 +230,7 @@ $conn->close();
                     while ($row = $result->fetch_assoc()) {
                         echo "<tr>";
                         echo "<td><img src='../pages/uploads/" . $row["imagem"] . "' alt='Imagem do produto' width='50' height='50'></td>";
-                       echo "<td>" . $row["nome"] . "</td>";
+                        echo "<td>" . $row["nome"] . "</td>";
                         echo "<td>" . $row["descricao"] . "</td>";
                         echo "<td>" . $row["preco"] . "</td>";
                         echo "<td>" . $row["quantidade"] . "</td>";
@@ -244,7 +242,6 @@ $conn->close();
                         echo ' | ';
                         echo '<a href="../php/deleteDiario.php?nome=' . urlencode($row['nome']) . '" style="color: red;">Remover</a>';
                         echo '</td>';
-                        
                     }
                 } else {
                     echo "<tr><td colspan='6'>Nenhum produto encontrado</td></tr>";
@@ -415,6 +412,7 @@ $conn->close();
 </script>
 
 
+
 </body>
 
 </html>
@@ -440,11 +438,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $vencimento = $date->format('Y-m-d');
     } else {
         echo "<div class='produtosEncontrados'>Data inválida. O formato esperado é yyyy-mm-dd.</div>";
-        exit;   
+        exit;
     }
 
     // Prepara e executa a consulta SQL para inserir os dados
-    $sql = "INSERT INTO tb_produtos (nome, descricao, preco,quantidade, categoria,lancamento, vencimento) VALUES (?, ?,?,?, ?, ?, ?)";
+    $sql = "INSERT INTO tb_produtos2 (nome, descricao, preco,quantidade, categoria,lancamento, vencimento) VALUES (?, ?,?,?, ?, ?, ?)";
     if ($stmt = $conn->prepare($sql)) {
         $stmt->bind_param("ssdisss", $nome, $descricao, $preco, $quantidade, $categoria, $lancamento, $vencimento);
 
