@@ -10,7 +10,6 @@ $dataLancamento = '';
 // Capture a data de lançamento
 $dataLancamento = isset($_POST['lancamento']) ? date('Y-m-d', strtotime($_POST['lancamento'])) : '';
 
-
 // Consulta para obter todos os produtos
 $sql = "SELECT * FROM produtosgeral";
 $result = $conn->query($sql);
@@ -18,6 +17,7 @@ $result = $conn->query($sql);
 while ($row = $result->fetch_assoc()) {
     $produtos[] = $row;
 }
+
 // Aplicar filtro se houver
 $categoriaFiltro = isset($_POST['categoriaFiltro']) ? $_POST['categoriaFiltro'] : '';
 $nomeFiltro = isset($_POST['nomeFiltro']) ? $_POST['nomeFiltro'] : '';
@@ -96,7 +96,7 @@ $conn->close();
             <div class="linha_add">
                 <div class="form-container">
                     <!--div que temos que mexer-->
-                    <h1>Filtrar Produtos - Cantina 1</h1>
+                    <h1>Filtrar Produtos - Cantina 2</h1>
                     <form id="filtroForm" method="POST" action="">
                         <div class="form-container">
                             <div class="form-group">
@@ -253,9 +253,11 @@ $conn->close();
     </div>
 
     <script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
         // Função para remover produto da tabela
         function removerProdutoTabela(button) {
-            const row = button.parentNode.parentNode;
+            const row = button.closest('tr');
             row.parentNode.removeChild(row);
         }
 
@@ -277,7 +279,7 @@ $conn->close();
                 nomeFiltro.appendChild(option);
             });
 
-            atualizarDescricaoPreco(); // Atualiza descrição e preço ao alterar a categoria
+            atualizarDescricaoPreco(); // Atualiza descrição e preço
         }
 
         // Atualiza a descrição, preço e vencimento do produto selecionado
@@ -332,44 +334,23 @@ $conn->close();
             novaLinha.insertCell(7).innerHTML = '<button onclick="removerProdutoTabela(this)">Remover</button>';
         }
 
-        // Função chamada ao clicar no botão "Adicionar ao Cardápio"
-        function adicionarAoCardapio() {
+        // Filtrar produtos ao clicar no botão "Adicionar ao Cardápio"
+        document.getElementById('adicionarAoCardapioBtn').onclick = function() {
             const categoriaFiltro = document.getElementById('categoriaFiltro').value;
             const nomeFiltro = document.getElementById('nomeFiltro').value;
+            const filtroLancamento = document.getElementById('lancamento').value;
 
             const produtos = <?php echo json_encode($produtos); ?>;
-            const produtoSelecionado = produtos.find(produto => produto.nome === nomeFiltro);
-
-            if (produtoSelecionado) {
-                adicionarProdutoTabela(produtoSelecionado);
-            }
-
             const produtosFiltrados = produtos.filter(produto => {
                 const correspondeCategoria = categoriaFiltro === '' || produto.categoria === categoriaFiltro;
                 const correspondeNome = nomeFiltro === '' || produto.nome === nomeFiltro;
-                return correspondeCategoria && correspondeNome;
+                const correspondeLancamento = filtroLancamento === '' || produto.lancamento === filtroLancamento;
+
+                return correspondeCategoria && correspondeNome && correspondeLancamento;
             });
 
             atualizarProdutosLista(produtosFiltrados);
-        }
-
-        // Filtrar tabela por data de lançamento
-        function filtrarTabelaPorLancamento() {
-            const filtroLancamento = document.getElementById('lancamento').value;
-            const tabela = document.getElementById('produtosTabela');
-            const linhas = tabela.getElementsByTagName('tr');
-
-            for (let i = 1; i < linhas.length; i++) {
-                const colunaLancamento = linhas[i].getElementsByTagName('td')[5];
-                if (colunaLancamento) {
-                    const dataLancamento = colunaLancamento.textContent || colunaLancamento.innerText;
-                    linhas[i].style.display = (dataLancamento === filtroLancamento || filtroLancamento === '') ? '' : 'none';
-                }
-            }
-        }
-
-        // Adiciona evento para filtrar a tabela quando a data for alterada
-        document.getElementById('lancamento').addEventListener('change', filtrarTabelaPorLancamento);
+        };
 
         // Inicializar a lista com todos os produtos e atualizar a lista de nomes
         atualizarProdutosLista(<?php echo json_encode($produtos); ?>);
@@ -388,7 +369,7 @@ $conn->close();
         // Fechar o modal ao clicar fora do conteúdo
         window.onclick = function(event) {
             const modal = document.getElementById('modalCantina');
-            if (event.target == modal) {
+            if (event.target === modal) {
                 modal.style.display = 'none';
             }
         };
@@ -399,6 +380,9 @@ $conn->close();
             alert('Você escolheu: ' + selectedCantina);
             document.getElementById('modalCantina').style.display = 'none';
         };
+    });
+</script>
+
     </script>
 
 </body>
