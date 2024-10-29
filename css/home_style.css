@@ -1852,12 +1852,6 @@ p {
     transform: translateX(0);
 }
 
-.cart-modal-content {
-    padding: 20px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
 
 .cart-modal .close {
     position: absolute;

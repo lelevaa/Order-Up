@@ -337,16 +337,16 @@
         </div>
 
         <!-- Modal para Carrinho -->
-        <div id="cartModal" class="cart-modal">
+        <!-- <div id="cartModal" class="cart-modal">
             <div class="cart-modal-content">
                 <span class="close">&times;</span>
                 <h4>Seu Carrinho</h4>
                 <div class="subtitulo">
                     <p>ops, seu carrinho ainda está vazio...</p>
-                </div>
+                </div> -->
 
                 <!-- Adicione mais conteúdo conforme necessário -->
-                <button class="button">escolher produtos</button>
+                <!-- <button class="button">escolher produtos</button>
 
                 <div class="caixa">
                     <div class="escrita">
@@ -359,7 +359,7 @@
                 </div>
                 <button class="botao">comprar</button>
             </div>
-        </div>
+        </div> -->
 
 
 
