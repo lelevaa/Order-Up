@@ -120,7 +120,7 @@ $conn->close();
                 <li class="nav_g">
                     <a href="produtosDiario.php">Inserção de produtos diario</a>
                 </li>
-                <li class="nav_g"><a href="#"></a></li>
+                <li class="nav_g"><a href="#">Relatório</a></li>
                 <li class="nav_g"><a href="#"></a></li>
             </ul>
         </nav>
