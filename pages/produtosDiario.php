@@ -74,6 +74,11 @@ $conn->close();
         </nav>
     </header>
 
+    <div class="Botões-cantinas">
+        <a href="produtosDiario.php" class="cantinaBtn" data-value="cantina1">Cantina 1</a>
+        <a href="produtosDiario2.php" class="cantinaBtn" data-value="cantina2">Cantina 2</a>
+    </div>
+
 
 <!-- Modal cantina-->
 <div id="modalCantina" class="modalCantina">
@@ -202,7 +207,7 @@ $conn->close();
                             <option value="">Lançamento</option>
                             <?php
                             include '../php/conexao.php';
-                            $sql = "SELECT DISTINCT lancamento FROM tb_produtos2";
+                            $sql = "SELECT DISTINCT lancamento FROM tb_produtos";
                             $result = $conn->query($sql);
                             while ($row = $result->fetch_assoc()) {
                                 echo '<option value="' . $row["lancamento"] . '">' . $row["lancamento"] . '</option>';
@@ -219,7 +224,7 @@ $conn->close();
                 include '../php/conexao.php';
 
                 // Consulta SQL para buscar os produtos
-                $sql = "SELECT nome, descricao, preco, quantidade, categoria, lancamento, vencimento, imagem FROM tb_produtos2";
+                $sql = "SELECT nome, descricao, preco, quantidade, categoria, lancamento, vencimento, imagem FROM tb_produtos";
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
@@ -253,153 +258,162 @@ $conn->close();
     </div>
 
     <script>
-        // Função para remover produto da tabela
-        function removerProdutoTabela(button) {
-            const row = button.parentNode.parentNode;
-            row.parentNode.removeChild(row);
+    // Função para remover produto da tabela
+    function removerProdutoTabela(button) {
+        const row = button.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+    }
+
+    // Atualiza a lista de nomes de produtos
+    function atualizarNomes() {
+        const categoriaFiltro = document.getElementById('categoriaFiltro').value;
+        const nomeFiltro = document.getElementById('nomeFiltro');
+
+        const produtos = <?php echo json_encode($produtos); ?>;
+        const nomesFiltrados = produtos
+            .filter(produto => categoriaFiltro === '' || produto.categoria === categoriaFiltro)
+            .map(produto => produto.nome);
+
+        nomeFiltro.innerHTML = '<option value="">Mostrar Todos</option>';
+        nomesFiltrados.forEach(nome => {
+            const option = document.createElement('option');
+            option.value = nome;
+            option.textContent = nome;
+            nomeFiltro.appendChild(option);
+        });
+
+        atualizarDescricaoPreco(); // Atualiza descrição e preço ao alterar a categoria
+    }
+
+    // Atualiza a descrição, preço e vencimento do produto selecionado
+    function atualizarDescricaoPreco() {
+        const nomeFiltro = document.getElementById('nomeFiltro').value;
+        const produtos = <?php echo json_encode($produtos); ?>;
+        const produtoSelecionado = produtos.find(produto => produto.nome === nomeFiltro);
+
+        if (produtoSelecionado) {
+            document.getElementById('descricao').value = produtoSelecionado.descricao;
+            document.getElementById('preco').value = produtoSelecionado.preco;
+            document.getElementById('quantidade').value = produtoSelecionado.quantidade;
+            document.getElementById('lancamento').value = produtoSelecionado.lancamento;
+            document.getElementById('vencimento').value = produtoSelecionado.vencimento;
+        } else {
+            document.getElementById('descricao').value = '';
+            document.getElementById('preco').value = '';
+            document.getElementById('quantidade').value = '';
+            document.getElementById('lancamento').value = '';
+            document.getElementById('vencimento').value = '';
+        }
+    }
+
+    // Filtra e mostra produtos
+    function atualizarProdutosLista(produtos) {
+        const lista = document.getElementById('produtosLista');
+        lista.innerHTML = '';
+        produtos.forEach(produto => {
+            const item = document.createElement('li');
+            item.className = 'produto-option';
+            item.dataset.produto = JSON.stringify(produto);
+            item.innerHTML = `${produto.nome} - ${produto.descricao} - ${produto.preco} - ${produto.categoria}`;
+            item.onclick = function() {
+                adicionarProdutoTabela(produto);
+            };
+            lista.appendChild(item);
+        });
+    }
+
+    // Adiciona o produto à tabela
+    function adicionarProdutoTabela(produto) {
+        const tabela = document.getElementById('produtosTabela').getElementsByTagName('tbody')[0];
+        const novaLinha = tabela.insertRow();
+
+        novaLinha.insertCell(0).innerText = produto.nome;
+        novaLinha.insertCell(1).innerText = produto.descricao;
+        novaLinha.insertCell(2).innerText = produto.preco;
+        novaLinha.insertCell(3).innerText = produto.quantidade;
+        novaLinha.insertCell(4).innerText = produto.categoria;
+        novaLinha.insertCell(5).innerText = produto.lancamento;
+        novaLinha.insertCell(6).innerText = produto.vencimento;
+        novaLinha.insertCell(7).innerHTML = '<button onclick="removerProdutoTabela(this)">Remover</button>';
+    }
+
+    // Função chamada ao clicar no botão "Adicionar ao Cardápio"
+    function adicionarAoCardapio() {
+        const categoriaFiltro = document.getElementById('categoriaFiltro').value;
+        const nomeFiltro = document.getElementById('nomeFiltro').value;
+
+        const produtos = <?php echo json_encode($produtos); ?>;
+        const produtoSelecionado = produtos.find(produto => produto.nome === nomeFiltro);
+
+        if (produtoSelecionado) {
+            adicionarProdutoTabela(produtoSelecionado);
         }
 
-        // Atualiza a lista de nomes de produtos
-        function atualizarNomes() {
-            const categoriaFiltro = document.getElementById('categoriaFiltro').value;
-            const nomeFiltro = document.getElementById('nomeFiltro');
+        const produtosFiltrados = produtos.filter(produto => {
+            const correspondeCategoria = categoriaFiltro === '' || produto.categoria === categoriaFiltro;
+            const correspondeNome = nomeFiltro === '' || produto.nome === nomeFiltro;
+            return correspondeCategoria && correspondeNome;
+        });
 
-            const produtos = <?php echo json_encode($produtos); ?>;
-            const nomesFiltrados = produtos
-                .filter(produto => categoriaFiltro === '' || produto.categoria === categoriaFiltro)
-                .map(produto => produto.nome);
+        atualizarProdutosLista(produtosFiltrados);
+    }
 
-            nomeFiltro.innerHTML = '<option value="">Mostrar Todos</option>';
-            nomesFiltrados.forEach(nome => {
-                const option = document.createElement('option');
-                option.value = nome;
-                option.textContent = nome;
-                nomeFiltro.appendChild(option);
-            });
+    // Filtrar tabela por data de lançamento
+    function filtrarTabelaPorLancamento() {
+        const filtroLancamento = document.getElementById('lancamento').value;
+        const tabela = document.getElementById('produtosTabela');
+        const linhas = tabela.getElementsByTagName('tr');
 
-            atualizarDescricaoPreco(); // Atualiza descrição e preço ao alterar a categoria
-        }
-
-        // Atualiza a descrição, preço e vencimento do produto selecionado
-        function atualizarDescricaoPreco() {
-            const nomeFiltro = document.getElementById('nomeFiltro').value;
-            const produtos = <?php echo json_encode($produtos); ?>;
-            const produtoSelecionado = produtos.find(produto => produto.nome === nomeFiltro);
-
-            if (produtoSelecionado) {
-                document.getElementById('descricao').value = produtoSelecionado.descricao;
-                document.getElementById('preco').value = produtoSelecionado.preco;
-                document.getElementById('quantidade').value = produtoSelecionado.quantidade;
-                document.getElementById('lancamento').value = produtoSelecionado.lancamento;
-                document.getElementById('vencimento').value = produtoSelecionado.vencimento;
-            } else {
-                document.getElementById('descricao').value = '';
-                document.getElementById('preco').value = '';
-                document.getElementById('quantidade').value = '';
-                document.getElementById('lancamento').value = '';
-                document.getElementById('vencimento').value = '';
+        for (let i = 1; i < linhas.length; i++) {
+            const colunaLancamento = linhas[i].getElementsByTagName('td')[5];
+            if (colunaLancamento) {
+                const dataLancamento = colunaLancamento.textContent || colunaLancamento.innerText;
+                linhas[i].style.display = (dataLancamento === filtroLancamento || filtroLancamento === '') ? '' : 'none';
             }
         }
+    }
 
-        // Filtra e mostra produtos
-        function atualizarProdutosLista(produtos) {
-            const lista = document.getElementById('produtosLista');
-            lista.innerHTML = '';
-            produtos.forEach(produto => {
-                const item = document.createElement('li');
-                item.className = 'produto-option';
-                item.dataset.produto = JSON.stringify(produto);
-                item.innerHTML = `${produto.nome} - ${produto.descricao} - ${produto.preco} - ${produto.categoria}`;
-                item.onclick = function () {
-                    adicionarProdutoTabela(produto);
-                };
-                lista.appendChild(item);
-            });
-        }
+    // Adiciona evento para filtrar a tabela quando a data for alterada
+    document.getElementById('lancamento').addEventListener('change', filtrarTabelaPorLancamento);
 
-        // Adiciona o produto à tabela
-        function adicionarProdutoTabela(produto) {
-            const tabela = document.getElementById('produtosTabela').getElementsByTagName('tbody')[0];
-            const novaLinha = tabela.insertRow();
+    // Inicializar a lista com todos os produtos e atualizar a lista de nomes
+    atualizarProdutosLista(<?php echo json_encode($produtos); ?>);
+    atualizarNomes();
 
-            novaLinha.insertCell(0).innerText = produto.nome;
-            novaLinha.insertCell(1).innerText = produto.descricao;
-            novaLinha.insertCell(2).innerText = produto.preco;
-            novaLinha.insertCell(3).innerText = produto.quantidade;
-            novaLinha.insertCell(4).innerText = produto.categoria;
-            novaLinha.insertCell(5).innerText = produto.lancamento;
-            novaLinha.insertCell(6).innerText = produto.vencimento;
-            novaLinha.insertCell(7).innerHTML = '<button onclick="removerProdutoTabela(this)">Remover</button>';
-        }
+    // Função para verificar se o modal já foi exibido
+    function mostrarModalCantina() {
+        const modalExibido = localStorage.getItem('modalCantinaExibido');
 
-        // Função chamada ao clicar no botão "Adicionar ao Cardápio"
-        function adicionarAoCardapio() {
-            const categoriaFiltro = document.getElementById('categoriaFiltro').value;
-            const nomeFiltro = document.getElementById('nomeFiltro').value;
-
-            const produtos = <?php echo json_encode($produtos); ?>;
-            const produtoSelecionado = produtos.find(produto => produto.nome === nomeFiltro);
-
-            if (produtoSelecionado) {
-                adicionarProdutoTabela(produtoSelecionado);
-            }
-
-            const produtosFiltrados = produtos.filter(produto => {
-                const correspondeCategoria = categoriaFiltro === '' || produto.categoria === categoriaFiltro;
-                const correspondeNome = nomeFiltro === '' || produto.nome === nomeFiltro;
-                return correspondeCategoria && correspondeNome;
-            });
-
-            atualizarProdutosLista(produtosFiltrados);
-        }
-
-        // Filtrar tabela por data de lançamento
-        function filtrarTabelaPorLancamento() {
-            const filtroLancamento = document.getElementById('lancamento').value;
-            const tabela = document.getElementById('produtosTabela');
-            const linhas = tabela.getElementsByTagName('tr');
-
-            for (let i = 1; i < linhas.length; i++) {
-                const colunaLancamento = linhas[i].getElementsByTagName('td')[5];
-                if (colunaLancamento) {
-                    const dataLancamento = colunaLancamento.textContent || colunaLancamento.innerText;
-                    linhas[i].style.display = (dataLancamento === filtroLancamento || filtroLancamento === '') ? '' : 'none';
-                }
-            }
-        }
-
-        // Adiciona evento para filtrar a tabela quando a data for alterada
-        document.getElementById('lancamento').addEventListener('change', filtrarTabelaPorLancamento);
-
-        // Inicializar a lista com todos os produtos e atualizar a lista de nomes
-        atualizarProdutosLista(<?php echo json_encode($produtos); ?>);
-        atualizarNomes();
-
-        // Exibir o modal ao carregar a página
-        window.onload = function() {
+        if (!modalExibido) {
             document.getElementById('modalCantina').style.display = 'block';
-        };
+            localStorage.setItem('modalCantinaExibido', 'true');
+        }
+    }
 
-        // Fechar o modal ao clicar no "x"
-        document.getElementById('closeModal').onclick = function() {
-            document.getElementById('modalCantina').style.display = 'none';
-        };
+    // Exibir o modal ao carregar a página (se ainda não foi exibido)
+    window.onload = mostrarModalCantina;
 
-        // Fechar o modal ao clicar fora do conteúdo
-        window.onclick = function(event) {
-            const modal = document.getElementById('modalCantina');
-            if (event.target == modal) {
-                modal.style.display = 'none';
-            }
-        };
+    // Fechar o modal ao clicar no "x"
+    document.getElementById('closeModal').onclick = function() {
+        document.getElementById('modalCantina').style.display = 'none';
+    };
 
-        // Confirmar a escolha da cantina
-        document.getElementById('confirmBtn').onclick = function() {
-            const selectedCantina = document.getElementById('cantinaSelectInput').value;
-            alert('Você escolheu: ' + selectedCantina);
-            document.getElementById('modalCantina').style.display = 'none';
-        };
-    </script>
+    // Fechar o modal ao clicar fora do conteúdo
+    window.onclick = function(event) {
+        const modal = document.getElementById('modalCantina');
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    };
+
+    // Confirmar a escolha da cantina
+    document.getElementById('confirmBtn').onclick = function() {
+        const selectedCantina = document.getElementById('cantinaSelectInput').value;
+        alert('Você escolheu: ' + selectedCantina);
+        document.getElementById('modalCantina').style.display = 'none';
+    };
+</script>
+
 
 </body>
 
@@ -430,7 +444,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Prepara e executa a consulta SQL para inserir os dados
-    $sql = "INSERT INTO tb_produtos2 (nome, descricao, preco,quantidade, categoria,lancamento, vencimento) VALUES (?, ?,?,?, ?, ?, ?)";
+    $sql = "INSERT INTO tb_produtos (nome, descricao, preco,quantidade, categoria,lancamento, vencimento) VALUES (?, ?,?,?, ?, ?, ?)";
     if ($stmt = $conn->prepare($sql)) {
         $stmt->bind_param("ssdisss", $nome, $descricao, $preco, $quantidade, $categoria, $lancamento, $vencimento);
 

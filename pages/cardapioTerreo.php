@@ -108,7 +108,7 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
 
         #ir-para-pagamento,
         #confirmar-pagamento,
-        #cancelar-pagamento {
+        #cancelar-pagamento,#confirmar-recebimento {
             background-color: #DDA52F;
             color: white;
             border: none;
@@ -161,8 +161,7 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
                         <div class="col-lg-2">
                             <div class="header-logo">
                                 <a href="index.html">
-                                    <img src="..
-                                    /img/logoOrderup.png" alt="Logo" />
+                                    <img src="../img/logoOrderup.png" alt="Logo" />
                                 </a>
                             </div>
                         </div>
@@ -589,7 +588,8 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
         <p id="codigo-pedido-container" style="display: none;">Código do Pedido: <span id="codigo-pedido"></span></p>
 
         <!-- Botões de Ação -->
-        <button id="confirmar-pagamento" onclick="verificacaoSaldo()">Confirmar Pagamento</button>
+        <button id="confirmar-pagamento" onclick="verificacaoSaldo()">Confirmar compra</button>
+        <button id="confirmar-recebimento">Pedido Recebido</button>
         <button id="cancelar-pagamento">Cancelar</button>
     </div>
 </div>
@@ -641,7 +641,7 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
         </div>
     </div>
 
-    <!-- JavaScript -->
+
     <div id="modal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span> <!-- Botão de fechar -->
@@ -691,9 +691,8 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
 </div>
 
 <script>
- let carrinho = [];
+let carrinho = [];
 let saldo = 10;
-
 let total = 0;
 
 const modalCarrinho = document.getElementById('modal-carrinho');
@@ -714,6 +713,13 @@ const loginModal = document.getElementById('loginModal');
 const closeModalBtn = document.querySelector('.close');
 
 let carrinhoAberto = false;
+
+// Inicializa a visibilidade dos botões
+const confirmarRecebimentoBtn = document.getElementById('confirmar-recebimento');
+const confirmarPagamentoBtn = document.getElementById('confirmar-pagamento');
+
+confirmarRecebimentoBtn.style.display = 'none'; // Inicialmente invisível
+confirmarPagamentoBtn.style.display = 'block'; // Inicialmente visível
 
 // Função para abrir o modal de login
 if (headerDropdownBtn) {
@@ -902,6 +908,11 @@ function abrirCode() {
     
     // Exibe o elemento do código do pedido
     codigoPedidoContainer.style.display = 'block';
+
+    // Torna o botão "confirmar-recebimento" visível
+    confirmarRecebimentoBtn.style.display = 'block'; 
+    // Torna o botão "confirmar-pagamento" invisível
+    confirmarPagamentoBtn.style.display = 'none'; 
 }
 
 // Função para gerar um código aleatório de 6 caracteres
@@ -928,8 +939,6 @@ function verificacaoSaldo() {
 
 // Chama a função de verificação ao clicar no botão "Confirmar Pagamento"
 document.getElementById('confirmar-pagamento').addEventListener('click', verificacaoSaldo);
-
-
 
 </script>
 
