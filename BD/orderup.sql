@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 23-Out-2024 às 16:16
--- Versão do servidor: 10.4.32-MariaDB
--- versão do PHP: 8.0.30
+-- Tempo de geração: 29-Out-2024 às 15:27
+-- Versão do servidor: 10.4.13-MariaDB
+-- versão do PHP: 7.4.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,7 +33,7 @@ CREATE TABLE `payment` (
   `status` varchar(255) NOT NULL DEFAULT 'pending1',
   `user_id` int(11) DEFAULT NULL,
   `created` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `payment`
@@ -55,29 +55,39 @@ CREATE TABLE `produtosgeral` (
   `preco` decimal(10,2) NOT NULL,
   `categoria` varchar(255) NOT NULL,
   `imagem` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `produtosgeral`
 --
 
 INSERT INTO `produtosgeral` (`ID`, `nome`, `descricao`, `preco`, `categoria`, `imagem`) VALUES
-(9, 'croquete', 'dad', 6.00, 'salgados', '6707e1bee1dd17.61152158.jfif'),
-(21, 'espirra', 'tetetet', 2.90, 'salgados', '6709335daa9098.40476080.jpg');
+(9, 'croquete', 'dad', '6.00', 'salgados', '6707e1bee1dd17.61152158.jfif'),
+(21, 'espirra', 'tetetet', '2.90', 'salgados', '6709335daa9098.40476080.jpg');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tb_categoria`
+-- Estrutura da tabela `tb_pedidos`
 --
 
-CREATE TABLE `tb_categoria` (
-  `ID` int(11) NOT NULL,
-  `salgados` varchar(255) NOT NULL,
-  `bebidas` varchar(255) NOT NULL,
-  `combos` varchar(255) NOT NULL,
-  `almoco` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+CREATE TABLE `tb_pedidos` (
+  `id` int(25) NOT NULL,
+  `usuario` varchar(255) NOT NULL,
+  `codigo` varchar(255) NOT NULL,
+  `total` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `tb_pedidos`
+--
+
+INSERT INTO `tb_pedidos` (`id`, `usuario`, `codigo`, `total`) VALUES
+(0, '', '', '0.00'),
+(0, '', '', '0.00'),
+(0, '', '', '0.00'),
+(0, '', '', '0.00'),
+(0, '', '', '0.00');
 
 -- --------------------------------------------------------
 
@@ -95,15 +105,46 @@ CREATE TABLE `tb_produtos` (
   `lancamento` varchar(255) NOT NULL,
   `vencimento` varchar(255) NOT NULL,
   `imagem` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `tb_produtos`
 --
 
 INSERT INTO `tb_produtos` (`id`, `nome`, `descricao`, `preco`, `quantidade`, `categoria`, `lancamento`, `vencimento`, `imagem`) VALUES
-(39, 'coxinha com frango', 'coxinha de frango', 6.00, 10, 'salgados', '2024-10-11', '2024-10-14', '6709296c0e0917.66655770.png'),
-(48, 'espirra', 'tetetet', 2.90, 0, 'salgados', '', '', '6709335daa9098.40476080.jpg');
+(39, 'coxinha com frango', 'coxinha de frango', '6.00', 10, 'salgados', '2024-10-11', '2024-10-14', '6709296c0e0917.66655770.png'),
+(48, 'espirra', 'tetetet', '2.90', 0, 'salgados', '', '', '6709335daa9098.40476080.jpg'),
+(49, 'croquete', 'dad', '6.00', 28, 'salgados', '2024-10-30', '2024-10-30', NULL),
+(50, 'espirra', 'tetetet', '2.90', 89, 'salgados', '2024-10-29', '2024-10-31', NULL),
+(51, 'croquete', 'dad', '6.00', 100, 'salgados', '2024-10-29', '2024-11-01', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tb_produtos2`
+--
+
+CREATE TABLE `tb_produtos2` (
+  `id` int(25) NOT NULL,
+  `nome` varchar(255) NOT NULL,
+  `descricao` varchar(255) NOT NULL,
+  `preco` decimal(10,2) NOT NULL,
+  `quantidade` int(255) NOT NULL,
+  `categoria` varchar(255) NOT NULL,
+  `lancamento` varchar(255) NOT NULL,
+  `vencimento` varchar(255) NOT NULL,
+  `imagem` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `tb_produtos2`
+--
+
+INSERT INTO `tb_produtos2` (`id`, `nome`, `descricao`, `preco`, `quantidade`, `categoria`, `lancamento`, `vencimento`, `imagem`) VALUES
+(39, 'coxinha com frango', 'coxinha de frango', '6.00', 10, 'salgados', '2024-10-11', '2024-10-14', '6709296c0e0917.66655770.png'),
+(48, 'espirra', 'tetetet', '2.90', 0, 'salgados', '', '', '6709335daa9098.40476080.jpg'),
+(49, 'croquete', 'dad', '6.00', 100, 'salgados', '2024-10-30', '2024-11-01', NULL),
+(50, 'espirra', 'tetetet', '2.90', 100, 'salgados', '2024-10-29', '2024-11-01', NULL);
 
 -- --------------------------------------------------------
 
@@ -116,7 +157,7 @@ CREATE TABLE `user` (
   `username` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `balance` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `user`
@@ -137,7 +178,7 @@ CREATE TABLE `usuarios` (
   `cpf` varchar(20) NOT NULL,
   `email` varchar(100) NOT NULL,
   `senha` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `usuarios`
@@ -163,15 +204,15 @@ ALTER TABLE `produtosgeral`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Índices para tabela `tb_categoria`
---
-ALTER TABLE `tb_categoria`
-  ADD PRIMARY KEY (`ID`);
-
---
 -- Índices para tabela `tb_produtos`
 --
 ALTER TABLE `tb_produtos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices para tabela `tb_produtos2`
+--
+ALTER TABLE `tb_produtos2`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -205,16 +246,16 @@ ALTER TABLE `produtosgeral`
   MODIFY `ID` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
--- AUTO_INCREMENT de tabela `tb_categoria`
---
-ALTER TABLE `tb_categoria`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de tabela `tb_produtos`
 --
 ALTER TABLE `tb_produtos`
-  MODIFY `id` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+
+--
+-- AUTO_INCREMENT de tabela `tb_produtos2`
+--
+ALTER TABLE `tb_produtos2`
+  MODIFY `id` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT de tabela `user`
