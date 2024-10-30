@@ -1,6 +1,5 @@
 <?php
-include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dados
-
+include '../php/conexao.php';
 
 ?>
 
@@ -108,7 +107,8 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
 
         #ir-para-pagamento,
         #confirmar-pagamento,
-        #cancelar-pagamento,#confirmar-recebimento {
+        #cancelar-pagamento,
+        #confirmar-recebimento {
             background-color: #DDA52F;
             color: white;
             border: none;
@@ -572,25 +572,23 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
         </div>
     </div>
 
-<!-- Modal de Pagamento -->
-<div id="modal-pagamento" class="modal">
+    <div id="modal-pagamento" class="modal">
     <div class="modal-content">
-        <span class="close-pagamento">&times;</span> <!-- Botão de fechar -->
+        <span class="close-pagamento">&times;</span> <!-- Botão de fechar pagamento -->
         <h3>Resumo do Pedido</h3>
-
-        <!-- Lista de Itens no Resumo -->
         <div id="resumo-carrinho"></div>
-
-        <!-- Total Geral -->
         <p>Total: R$ <span id="total-pagamento">0.00</span></p>
-
-        <!-- Código do Pedido, inicialmente oculto -->
-        <p id="codigo-pedido-container" style="display: none;">Código do Pedido: <span id="codigo-pedido"></span></p>
-
-        <!-- Botões de Ação -->
-        <button id="confirmar-pagamento" onclick="verificacaoSaldo()">Confirmar compra</button>
-        <button id="confirmar-recebimento">Pedido Recebido</button>
-        <button id="cancelar-pagamento">Cancelar</button>
+        <p id="codigo-pedido-container" style="display: none;">
+            Código do Pedido: <span id="codigo-pedido"></span>
+        </p>
+        
+        <form method="POST" id="form-pagamento">
+            <input type="hidden" id="codigo-pedido-input" name="codigo-pedido">
+            <input type="hidden" id="total-pagamento-input" name="total-pagamento">
+            <button type="submit" id="confirmar-pagamento" onclick="enviarPedido()">Confirmar Compra</button>
+            <button id="confirmar-recebimento" style="display: none;">Pedido Recebido</button>
+            <button type="button" id="cancelar-pagamento">Cancelar</button>
+        </form>
     </div>
 </div>
 
@@ -669,265 +667,243 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
         </div>
     </div>
 
-<!-- Modal de Pagamento -->
-<div id="modal-pagamento" class="modal">
-    <div class="modal-content">
-        <span class="close-pagamento">&times;</span> <!-- Botão de fechar -->
-        <h3>Resumo do Pedido</h3>
+    <!-- Modal de Pagamento -->
+    <div id="modal-pagamento" class="modal">
+        <div class="modal-content">
+            <span class="close-pagamento">&times;</span> <!-- Botão de fechar -->
+            <h3>Resumo do Pedido</h3>
 
-        <!-- Lista de Itens no Resumo -->
-        <div id="resumo-carrinho"></div>
+            <!-- Lista de Itens no Resumo -->
+            <div id="resumo-carrinho"></div>
 
-        <!-- Total Geral -->
-        <p>Total: R$ <span id="total-pagamento">0.00</span></p>
+            <!-- Total Geral -->
+            <p>Total: R$ <span id="total-pagamento">0.00</span></p>
 
-        <!-- Código do Pedido, inicialmente oculto -->
-        <p id="codigo-pedido-container" style="display: none;">Código do Pedido: <span id="codigo-pedido"></span></p>
+            <!-- Código do Pedido, inicialmente oculto -->
+            <p id="codigo-pedido-container" style="display: none;">Código do Pedido: <span id="codigo-pedido"></span></p>
 
-        <!-- Botões de Ação -->
-        <button id="confirmar-pagamento" onclick="abrirCode()">Confirmar Pagamento</button>
-        <button id="cancelar-pagamento">Cancelar</button>
+            <!-- Botões de Ação -->
+            <button id="confirmar-pagamento" onclick="abrirCode()">Confirmar Pagamento</button>
+            <button id="cancelar-pagamento">Cancelar</button>
+        </div>
     </div>
-</div>
 
-<script>
-let carrinho = [];
-let saldo = 10;
-let total = 0;
+    <script>
+        let carrinho = [];
+        let saldo = 10;
+        let total = 0;
 
-const modalCarrinho = document.getElementById('modal-carrinho');
-const modalPagamento = document.getElementById('modal-pagamento');
-const closePagamento = document.querySelector('.close-pagamento');
-const closeCarrinho = document.getElementById('fechar-modal-carrinho');
-const resumoCarrinho = document.getElementById('resumo-carrinho');
-const totalPagamentoDisplay = document.getElementById('total-pagamento');
-const listaCarrinho = document.getElementById('lista-carrinho');
-const totalCarrinhoDisplay = document.getElementById('total-carrinho');
-const produtoNomeModal = document.getElementById('produto-nome-modal');
-const produtoImagemModal = document.getElementById('produto-imagem-modal');
-const produtoPrecoModal = document.getElementById('produto-preco-modal');
-const produtoTotalModal = document.getElementById('produto-total-modal');
-const quantidadeInput = document.getElementById('quantidade');
-const headerDropdownBtn = document.querySelector('.header-btn.header-dropdown');
-const loginModal = document.getElementById('loginModal');
-const closeModalBtn = document.querySelector('.close');
+        const modalCarrinho = document.getElementById('modal-carrinho');
+        const modalPagamento = document.getElementById('modal-pagamento');
+        const closePagamento = document.querySelector('.close-pagamento');
+        const closeCarrinho = document.getElementById('fechar-modal-carrinho');
+        const resumoCarrinho = document.getElementById('resumo-carrinho');
+        const totalPagamentoDisplay = document.getElementById('total-pagamento');
+        const listaCarrinho = document.getElementById('lista-carrinho');
+        const totalCarrinhoDisplay = document.getElementById('total-carrinho');
+        const produtoNomeModal = document.getElementById('produto-nome-modal');
+        const produtoImagemModal = document.getElementById('produto-imagem-modal');
+        const produtoPrecoModal = document.getElementById('produto-preco-modal');
+        const produtoTotalModal = document.getElementById('produto-total-modal');
+        const quantidadeInput = document.getElementById('quantidade');
+        const headerDropdownBtn = document.querySelector('.header-btn.header-dropdown');
+        const loginModal = document.getElementById('loginModal');
+        const closeModalBtn = document.querySelector('.close');
 
-let carrinhoAberto = false;
+        let carrinhoAberto = false;
 
-// Inicializa a visibilidade dos botões
-const confirmarRecebimentoBtn = document.getElementById('confirmar-recebimento');
-const confirmarPagamentoBtn = document.getElementById('confirmar-pagamento');
+        const confirmarRecebimentoBtn = document.getElementById('confirmar-recebimento');
+        const confirmarPagamentoBtn = document.getElementById('confirmar-pagamento');
 
-confirmarRecebimentoBtn.style.display = 'none'; // Inicialmente invisível
-confirmarPagamentoBtn.style.display = 'block'; // Inicialmente visível
+        confirmarRecebimentoBtn.style.display = 'none';
+        confirmarPagamentoBtn.style.display = 'block';
 
-// Função para abrir o modal de login
-if (headerDropdownBtn) {
-    headerDropdownBtn.addEventListener('click', function () {
-        const dropdownContent = document.querySelector('.dropdown-content');
-        dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
-    });
-}
+        if (headerDropdownBtn) {
+            headerDropdownBtn.addEventListener('click', function() {
+                const dropdownContent = document.querySelector('.dropdown-content');
+                dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
+            });
+        }
 
-// Função para fechar o modal de login
-if (closeModalBtn) {
-    closeModalBtn.addEventListener('click', function () {
-        loginModal.style.display = 'none';
-    });
-}
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', function() {
+                loginModal.style.display = 'none';
+            });
+        }
 
-// Fecha o modal de login ao clicar fora
-window.addEventListener('click', function (event) {
-    if (event.target === loginModal) {
-        loginModal.style.display = 'none';
-    }
-});
-
-// Função para adicionar novo item ao carrinho
-function adicionarNovoItem() {
-    const nome = produtoNomeModal.textContent;
-    const imagem = produtoImagemModal.src.split('/').pop();
-    const preco = parseFloat(produtoPrecoModal.textContent);
-    const quantidade = parseInt(quantidadeInput.value);
-    const totalProduto = preco * quantidade;
-
-    const item = {
-        nome,
-        imagem,
-        preco,
-        quantidade,
-        totalProduto
-    };
-
-    carrinho.push(item);
-    atualizarCarrinho();
-
-    if (!carrinhoAberto) {
-        abrirCarrinho();
-        carrinhoAberto = true;
-    }
-}
-
-// Função para abrir o modal do carrinho
-function abrirCarrinho() {
-    modalCarrinho.style.display = 'block';
-}
-
-// Função para atualizar o carrinho
-function atualizarCarrinho() {
-    listaCarrinho.innerHTML = '';
-    total = 0;
-    carrinho.forEach((item, index) => {
-        const itemDiv = document.createElement('div');
-        itemDiv.classList.add('item-carrinho');
-
-        const img = document.createElement('img');
-        img.src = '../uploads/' + item.imagem;
-        img.alt = item.nome;
-        img.style.width = '50px';
-        img.style.marginRight = '10px';
-
-        const quantidadeInput = document.createElement('input');
-        quantidadeInput.type = 'number';
-        quantidadeInput.value = item.quantidade;
-        quantidadeInput.min = 1;
-        quantidadeInput.addEventListener('input', function () {
-            atualizarQuantidade(index, parseInt(quantidadeInput.value));
+        window.addEventListener('click', function(event) {
+            if (event.target === loginModal) {
+                loginModal.style.display = 'none';
+            }
         });
 
-        const p = document.createElement('p');
-        p.textContent = `${item.nome} - R$ ${item.totalProduto.toFixed(2)}`;
+        function adicionarNovoItem() {
+            const nome = produtoNomeModal.textContent;
+            const imagem = produtoImagemModal.src.split('/').pop();
+            const preco = parseFloat(produtoPrecoModal.textContent);
+            const quantidade = parseInt(quantidadeInput.value);
+            const totalProduto = preco * quantidade;
 
-        const deletarBtn = document.createElement('button');
-        deletarBtn.textContent = 'Deletar';
-        deletarBtn.addEventListener('click', () => deletarItem(index));
+            const item = {
+                nome,
+                imagem,
+                preco,
+                quantidade,
+                totalProduto
+            };
 
-        itemDiv.appendChild(img);
-        itemDiv.appendChild(p);
-        itemDiv.appendChild(quantidadeInput);
-        itemDiv.appendChild(deletarBtn);
+            carrinho.push(item);
+            atualizarCarrinho();
 
-        listaCarrinho.appendChild(itemDiv);
-        total += item.totalProduto;
-    });
+            if (!carrinhoAberto) {
+                abrirCarrinho();
+                carrinhoAberto = true;
+            }
+        }
 
-    totalCarrinhoDisplay.textContent = total.toFixed(2);
-}
+        function abrirCarrinho() {
+            modalCarrinho.style.display = 'block';
+        }
 
-// Função para atualizar a quantidade de um item
-function atualizarQuantidade(index, novaQuantidade) {
-    const item = carrinho[index];
-    item.quantidade = novaQuantidade;
-    item.totalProduto = item.preco * novaQuantidade;
-    atualizarCarrinho();
-}
+        function atualizarCarrinho() {
+            listaCarrinho.innerHTML = '';
+            total = 0;
+            carrinho.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.classList.add('item-carrinho');
 
-// Função para deletar um item do carrinho
-function deletarItem(index) {
-    carrinho.splice(index, 1);
-    atualizarCarrinho();
-}
+                const img = document.createElement('img');
+                img.src = '../uploads/' + item.imagem;
+                img.alt = item.nome;
+                img.style.width = '50px';
+                img.style.marginRight = '10px';
 
-// Função para atualizar o resumo no modal de pagamento
-function atualizarResumoPagamento() {
-    resumoCarrinho.innerHTML = '';
-    carrinho.forEach(item => {
-        const divItem = document.createElement('div');
-        divItem.textContent = `${item.quantidade}x ${item.nome} - R$ ${item.totalProduto.toFixed(2)}`;
-        resumoCarrinho.appendChild(divItem);
-    });
-    totalPagamentoDisplay.textContent = total.toFixed(2);
-}
+                const quantidadeInput = document.createElement('input');
+                quantidadeInput.type = 'number';
+                quantidadeInput.value = item.quantidade;
+                quantidadeInput.min = 1;
+                quantidadeInput.addEventListener('input', function() {
+                    atualizarQuantidade(index, parseInt(quantidadeInput.value));
+                });
 
-// Quando clicar no botão "Ir para pagamento"
-document.getElementById('ir-para-pagamento').addEventListener('click', () => {
-    atualizarResumoPagamento();
-    modalCarrinho.style.display = 'none'; // Oculta o modal do carrinho
-    modalPagamento.style.display = 'block'; // Abre o modal de pagamento
-});
+                const p = document.createElement('p');
+                p.textContent = `${item.nome} - R$ ${item.totalProduto.toFixed(2)}`;
 
-// Fechar o modal de pagamento
-closePagamento.addEventListener('click', () => {
-    modalPagamento.style.display = 'none';
-    modalCarrinho.style.display = 'block'; // Retorna ao modal do carrinho
-});
+                const deletarBtn = document.createElement('button');
+                deletarBtn.textContent = 'Deletar';
+                deletarBtn.addEventListener('click', () => deletarItem(index));
 
-// Fechar o modal de pagamento clicando fora da área de conteúdo
-window.addEventListener('click', function (event) {
-    if (event.target === modalPagamento) {
-        modalPagamento.style.display = 'none';
-        modalCarrinho.style.display = 'block'; // Retorna ao modal do carrinho
-    }
-});
+                itemDiv.appendChild(img);
+                itemDiv.appendChild(p);
+                itemDiv.appendChild(quantidadeInput);
+                itemDiv.appendChild(deletarBtn);
 
-// Fechar o modal do carrinho
-closeCarrinho.addEventListener('click', () => {
-    modalCarrinho.style.display = 'none'; // Fecha o modal do carrinho
-    carrinhoAberto = false; // Reseta o estado para permitir a reabertura
-});
+                listaCarrinho.appendChild(itemDiv);
+                total += item.totalProduto;
+            });
 
-// Função para abrir o modal do produto
-const buyButtons = document.querySelectorAll('.buy-btn');
-buyButtons.forEach(button => {
-    button.addEventListener('click', function () {
-        const nome = this.getAttribute('data-nome');
-        const imagem = this.getAttribute('data-imagem');
-        const preco = parseFloat(this.getAttribute('data-preco'));
+            totalCarrinhoDisplay.textContent = total.toFixed(2);
+        }
 
-        produtoNomeModal.textContent = nome;
-        produtoImagemModal.src = '../uploads/' + imagem;
-        produtoPrecoModal.textContent = preco.toFixed(2);
-        produtoTotalModal.textContent = preco.toFixed(2);
-        quantidadeInput.value = 1;
+        function atualizarQuantidade(index, novaQuantidade) {
+            const item = carrinho[index];
+            item.quantidade = novaQuantidade;
+            item.totalProduto = item.preco * novaQuantidade;
+            atualizarCarrinho();
+        }
 
-        adicionarNovoItem();
-    });
-});
+        function deletarItem(index) {
+            carrinho.splice(index, 1);
+            atualizarCarrinho();
+        }
 
-// Fechar o modal de pagamento quando clicar no botão "Cancelar"
-document.getElementById('cancelar-pagamento').addEventListener('click', () => {
-    modalPagamento.style.display = 'none'; // Fecha o modal de pagamento
-    modalCarrinho.style.display = 'block'; // Retorna ao modal do carrinho
-});
+        function atualizarResumoPagamento() {
+            resumoCarrinho.innerHTML = '';
+            carrinho.forEach(item => {
+                const divItem = document.createElement('div');
+                divItem.textContent = `${item.quantidade}x ${item.nome} - R$ ${item.totalProduto.toFixed(2)}`;
+                resumoCarrinho.appendChild(divItem);
+            });
+            totalPagamentoDisplay.textContent = total.toFixed(2);
+        }
 
-// Fecha o dropdown se clicar fora dele
-window.addEventListener('click', function (event) {
-    const dropdownContent = document.querySelector('.dropdown-content');
-    if (dropdownContent && !headerDropdownBtn.contains(event.target) && !dropdownContent.contains(event.target)) {
-        dropdownContent.style.display = 'none';
-    }
-});
+        document.getElementById('ir-para-pagamento').addEventListener('click', () => {
+            atualizarResumoPagamento();
+            modalCarrinho.style.display = 'none';
+            modalPagamento.style.display = 'block';
+        });
 
-// Função para exibir o código do pedido
-function abrirCode() {
-    const codigoPedidoContainer = document.getElementById('codigo-pedido-container');
-    
-    // Gera o código aleatório
-    const codigoAleatorio = gerarCodigoAleatorio();
-    document.getElementById('codigo-pedido').textContent = codigoAleatorio;
-    
-    // Exibe o elemento do código do pedido
-    codigoPedidoContainer.style.display = 'block';
+        closePagamento.addEventListener('click', () => {
+            modalPagamento.style.display = 'none';
+            modalCarrinho.style.display = 'block';
+        });
 
-    // Torna o botão "confirmar-recebimento" visível
-    confirmarRecebimentoBtn.style.display = 'block'; 
-    // Torna o botão "confirmar-pagamento" invisível
-    confirmarPagamentoBtn.style.display = 'none'; 
-}
+        window.addEventListener('click', function(event) {
+            if (event.target === modalPagamento) {
+                modalPagamento.style.display = 'none';
+                modalCarrinho.style.display = 'block';
+            }
+        });
 
-// Função para gerar um código aleatório de 6 caracteres
-function gerarCodigoAleatorio() {
-    const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let codigo = '';
-    for (let i = 0; i < 6; i++) {
-        const indiceAleatorio = Math.floor(Math.random() * caracteres.length);
-        codigo += caracteres[indiceAleatorio];
-    }
-    return codigo;
-}
+        closeCarrinho.addEventListener('click', () => {
+            modalCarrinho.style.display = 'none';
+            carrinhoAberto = false;
+        });
 
-// Função para verificar o saldo e exibir o código, se houver saldo suficiente
-function verificacaoSaldo() {
+        const buyButtons = document.querySelectorAll('.buy-btn');
+        buyButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const nome = this.getAttribute('data-nome');
+                const imagem = this.getAttribute('data-imagem');
+                const preco = parseFloat(this.getAttribute('data-preco'));
+
+                produtoNomeModal.textContent = nome;
+                produtoImagemModal.src = '../uploads/' + imagem;
+                produtoPrecoModal.textContent = preco.toFixed(2);
+                produtoTotalModal.textContent = preco.toFixed(2);
+                quantidadeInput.value = 1;
+
+                adicionarNovoItem();
+            });
+        });
+
+        document.getElementById('cancelar-pagamento').addEventListener('click', () => {
+            modalPagamento.style.display = 'none';
+            modalCarrinho.style.display = 'block';
+        });
+
+        window.addEventListener('click', function(event) {
+            const dropdownContent = document.querySelector('.dropdown-content');
+            if (dropdownContent && !headerDropdownBtn.contains(event.target) && !dropdownContent.contains(event.target)) {
+                dropdownContent.style.display = 'none';
+            }
+        });
+
+        function abrirCode() {
+            const codigoPedidoContainer = document.getElementById('codigo-pedido-container');
+            const codigoAleatorio = gerarCodigoAleatorio();
+            document.getElementById('codigo-pedido').textContent = codigoAleatorio;
+            codigoPedidoContainer.style.display = 'block';
+            confirmarRecebimentoBtn.style.display = 'block';
+            confirmarPagamentoBtn.style.display = 'none';
+            enviarPedido(codigoAleatorio, total);
+        }
+
+        function enviarPedido(){
+          let pgmTotal =  total-pagamento-input.value;
+        }
+
+        function gerarCodigoAleatorio() {
+            const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let codigo = '';
+            for (let i = 0; i < 6; i++) {
+                const indiceAleatorio = Math.floor(Math.random() * caracteres.length);
+                codigo += caracteres[indiceAleatorio];
+            }
+            return codigo;
+        }
+
+        function verificacaoSaldo() {
     const totalPagamento = parseFloat(totalPagamentoDisplay.textContent);
 
     if (saldo >= totalPagamento) {
@@ -937,10 +913,9 @@ function verificacaoSaldo() {
     }
 }
 
-// Chama a função de verificação ao clicar no botão "Confirmar Pagamento"
-document.getElementById('confirmar-pagamento').addEventListener('click', verificacaoSaldo);
 
-</script>
+        document.getElementById('confirmar-pagamento').addEventListener('click', verificacaoSaldo);
+    </script>
 
 
     <!-- jquery  -->
