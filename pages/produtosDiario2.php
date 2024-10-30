@@ -238,7 +238,7 @@ $conn->close();
                         echo "<td>" . $row["lancamento"] . "</td>";
                         echo "<td>" . $row["vencimento"] . "</td>";
                         echo "<td>";
-                        echo '<a href="editDiario.php?nome=' . urlencode($row['nome']) . '">Editar</a>';
+                        echo '<a href="../php/editDiario.php?nome=' . urlencode($row['nome']) . '">Editar</a>';
                         echo ' | ';
                         echo '<a href="../php/deleteDiario.php?nome=' . urlencode($row['nome']) . '" style="color: red;">Remover</a>';
                         echo '</td>';

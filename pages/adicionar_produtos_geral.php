@@ -213,9 +213,9 @@ $conn->close();
                                     echo "<td>" . $row["categoria"] . "</td>";
                                     echo "<td><img src='../pages/uploads/" . $row["imagem"] . "' alt='Imagem do produto' width='50' height='50'></td>";
                                     echo '<td>';
-                                    echo '<a href="edit.php?nome=' . urlencode($row['nome']) . '">Editar</a>';
+                                    echo '<a href="../php/edit.php?nome=' . urlencode($row['nome']) . '">Editar</a>';
                                     echo ' | ';
-                                    echo '<a href="delete.php?nome=' . urlencode($row['nome']) . '" style="color: red;">Remover</a>';
+                                    echo '<a href="../php/delete.php?nome=' . urlencode($row['nome']) . '" style="color: red;">Remover</a>';
                                     echo '</td>';
                                 }
                             } else {

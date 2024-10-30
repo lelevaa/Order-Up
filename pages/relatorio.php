@@ -468,7 +468,7 @@
 
         function gerarPDF() {
             const filtroLancamento = document.getElementById('filtro0').value;
-            window.location.href = `gerar_pdf.php?filtroLancamento=${filtroLancamento}`;
+            window.location.href = `../php/gerar_pdf.php?filtroLancamento=${filtroLancamento}`;
         }
     </script>
 

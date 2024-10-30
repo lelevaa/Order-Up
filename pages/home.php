@@ -148,9 +148,9 @@
                                                             <div class="blog-text">
                                                                 <a href="#" class="h4-title">Cantina Térreo</a>
                                                                 <p></p>
-                                                                <a href="" class="sec-btn">Compre Aqui</a>
+                                                                <a href="cardapioTerreo.php" class="sec-btn">Compre Aqui</a>
                                                             </div>
-                                                        </div>
+                                                        </div>  
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="blog-box">
@@ -161,7 +161,7 @@
 
                                                                 <a href="#" class="h4-title">Cantina 5 Andar</a>
                                                                 <p></p>
-                                                                <a href="cardapio.html" class="sec-btn">Compre Aqui</a>
+                                                                <a href="cardapioUltimoAndar.php" class="sec-btn">Compre Aqui</a>
                                                             </div>
                                                         </div>
                                                     </div>
