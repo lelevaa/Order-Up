@@ -60,13 +60,13 @@ nav a.active {
 
 .pai {
     display: flex;
+    gap: 10px;
     width: 100%;
     justify-content: center;
     padding: 0;
-    overflow-x: auto;
-    margin-bottom: 50px;
-    animation: fadeIn 1s ease-in;
+    flex-wrap: wrap;
 }
+
 
 
 
@@ -174,17 +174,6 @@ nav a.active {
 
 .n:active {
     transform: scale(0.95);
-}
-
-.pai {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    gap: 60px;
-    padding: 0;
-    overflow-x: auto;
-    margin-bottom: 50px;
-    animation: fadeIn 1s ease-in;
 }
 
 .filha {
@@ -816,5 +805,13 @@ p {
     cursor: pointer;
 }
 
+.ajuste-de-conteudo {
+    width: 100%; 
+    height: 400px; 
+    overflow-y: auto; 
+    overflow-x: hidden; 
+    padding: 10px; 
+    box-sizing: border-box;
+  }
 
 
