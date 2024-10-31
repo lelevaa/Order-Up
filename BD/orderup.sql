@@ -187,7 +187,27 @@ CREATE TABLE `usuarios` (
 INSERT INTO `usuarios` (`id`, `nome`, `cpf`, `email`, `senha`) VALUES
 (1, 'juninho souza silva', '6680994321', 'juninho_silva@gmail.com', '$2y$10$HhxEvSgul9sCJyioDWfDD.yqCfgukkcuP3gbXTPzFw55Y7qSKOmz.');
 
+-- --------------------------------------------------------
+
 --
+-- Estrutura da tabela `administrador`
+--
+
+CREATE TABLE `administrador` (
+  `id` int(11) NOT NULL,
+  `usuario` varchar(50) NOT NULL,
+  `senha` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `administrador`
+--
+
+INSERT INTO `administrador` (`id`, `usuario`, `senha`) VALUES
+(1, 'administrador01', 'adoleta@976854');
+
+-- --------------------------------------------------------
+
 -- Índices para tabelas despejadas
 --
 
@@ -269,6 +289,19 @@ ALTER TABLE `user`
 ALTER TABLE `usuarios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
+
+--
+-- Índices para tabela `administrador`
+--
+ALTER TABLE `administrador`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT de tabela `administrador`
+--
+ALTER TABLE `administrador`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
