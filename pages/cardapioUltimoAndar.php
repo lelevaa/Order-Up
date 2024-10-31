@@ -684,8 +684,14 @@ p.subtotal, p.total {
         <button id="fechar-modal-carrinho" class="fechar-modal-btn">&times;</button> <!-- Botão de fechar -->
         <h3>Carrinho de Compras</h3>
 
+        <!-- ajuste-de-conteudo -->
+
+        <div class="ajuste-de-conteudo">
+
         <!-- Lista de Itens no Carrinho -->
         <div id="lista-carrinho"></div>
+
+        </div>
 
         <!-- Total Geral -->
         <div class="preco-total">
