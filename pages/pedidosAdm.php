@@ -13,19 +13,12 @@
     <link rel="stylesheet" href="../css/administrador.adicionar.css">
 
     <style>
-        /* Estilo do body - Fontes e Cor de Fundo */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
+        /* Estilos para centralizar os retângulos */
+        .ajuste-de-centralizar {
             display: flex;
             justify-content: center;
             align-items: center;
-        }
-
-        .header{
-            background-color:#dda52f;
+            height: 100vh;
         }
 
         /* Contêiner dos retângulos */
@@ -35,20 +28,19 @@
             gap: 20px;
             width: 80%;
             max-width: 1000px;
-            justify-items: center;
         }
 
         /* Cada retângulo */
         .retangulo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             width: 100%;
             height: 120px;
             background-color: #F9EAE1;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             padding: 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
         }
 
         .pedido-info {
@@ -79,11 +71,57 @@
             .container-retangulos {
                 grid-template-columns: repeat(2, 1fr);
             }
+
+            /* Esconde o menu por padrão */
+            .navbar-menu {
+                display: none;
+                width: 100%;
+                text-align: center;
+            }
+
+            /* Torna o ícone de hambúrguer visível */
+            .menu-icon {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                width: 30px;
+                height: 20px;
+                cursor: pointer;
+            }
+
+            .menu-icon span {
+                display: block;
+                height: 4px;
+                background-color: #333;
+                border-radius: 4px;
+            }
+
+            /* Exibe o menu quando ele for ativo */
+            .navbar-menu.active {
+                display: block;
+            }
+
+            .navbar-menu ul {
+                display: block;
+                padding: 0;
+                margin-top: 20px;
+            }
+
+            .navbar-menu li {
+                margin: 10px 0;
+            }
+
+            .navbar-menu a {
+                font-size: 18px;
+                font-weight: normal;
+            }
         }
 
-        @media screen and (max-width: 480px) {
-            .container-retangulos {
-                grid-template-columns: 1fr;
+        /* Garantir que o menu está visível por padrão em telas grandes */
+        @media screen and (min-width: 769px) {
+            .navbar-menu {
+                display: flex;
+                justify-content: space-around;
             }
         }
     </style>
@@ -91,41 +129,33 @@
 </head>
 <body>
 
-    <!-- Navegação -->
-    <header class="site-header">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-2">
-                    <div class="header-logo">
-                        <a href="home.php">
-                            <img src="../img/logoOrderup.png" alt="Logo">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-10">
-                    <div class="main-navigation">
-                        <button class="menu-toggle"><span></span><span></span></button>
-                        <nav class="header-menu">
-                            <ul class="menu food-nav-menu">
-                                <li><a href="#inicio">Inicio</a></li>
-                                <li><a href="#about"></a></li>
-                                <li><a href="cardapio.html">Menu</a></li>
-                                <li><a href="#gallery"></a></li>
-                                <li><a href="#blog"></a></li>
-                                <li><a href="#con
-                                
-                                tact"></a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
+<header>
+    <nav class="navbar">
+        <div class="logo-container">
+            <img class="logo" src="../img/logoOrderup.png" alt="Logo">
         </div>
-    </header>
+        
+        <!-- Ícone de hambúrguer -->
+        <div class="menu-icon" id="menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
 
-    
+        <!-- Menu de navegação -->
+        <div class="navbar-menu" id="navbar-menu">
+            <ul>
+                <li><a href="adicionar_produtos_geral.php">Inserção de produtos</a></li>
+                <li><a href="produtosDiario.php">Inserção de produtos diário</a></li>
+                <li><a href="#">Relatório</a></li>
+                <li><a href="#"></a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
 
-    <!-- Seção com os 12 Retângulos -->
+<!-- Seção com os 12 Retângulos -->
+<div class="ajuste-de-centralizar">
     <div class="container-retangulos">
         <!-- Criando os 12 retângulos manualmente -->
         <div class="retangulo">
@@ -224,6 +254,18 @@
             </div>
         </div>
     </div>
+</div>
+
+<script>
+    // Selecionando o botão de menu e o menu de navegação
+    const menuIcon = document.getElementById('menu-icon');
+    const navbarMenu = document.getElementById('navbar-menu');
+
+    // Função para alternar a visibilidade do menu
+    menuIcon.addEventListener('click', function() {
+        navbarMenu.classList.toggle('active');
+    });
+</script>
 
 </body>
 </html>
