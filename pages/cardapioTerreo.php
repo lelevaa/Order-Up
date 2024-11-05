@@ -1018,10 +1018,10 @@ include '../php/conexao.php';
         }
 
         // Lógica para logout
-        logoutBtn2.onclick = function() {
+        logoutBtn.onclick = function() {
             alert('Logout realizado. (Aqui você pode implementar o logout real)');
             // Aqui você pode chamar uma função de logout real ou redirecionar o usuário
-            modalLGN.style.display = 'none'; // Fecha o modal após a ação
+            modal.style.display = 'none'; // Fecha o modal após a ação
         }
 
 
