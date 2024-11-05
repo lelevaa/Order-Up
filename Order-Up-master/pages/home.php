@@ -25,100 +25,114 @@
 </head>
 
 <body class="body-fixed">
-<style>
-    /* Estilos gerais dos modais */
-    #loginModal,
-    #cartModal {
-        display: none; /* Inicialmente oculto */
-        position: absolute;
-        top: 30px; /* Posição do modal */
-        right: 0;
-        background-color: #fff;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        padding: 15px;
-        border-radius: 5px;
-        width: 250px; /* Tamanho do modal */
-        z-index: 1000;
-        font-family: Arial, sans-serif;
-        animation: fadeIn 0.3s ease-in-out;
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
+    <style>
+        /* Estilos gerais dos modais */
+        #loginModal,
+        #cartModal {
+            display: none;
+            /* Inicialmente oculto */
+            position: absolute;
+            top: 30px;
+            /* Posição do modal */
+            right: 0;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            border-radius: 5px;
+            width: 250px;
+            /* Tamanho do modal */
+            z-index: 1000;
+            font-family: Arial, sans-serif;
+            /* Animação */
+            animation: fadeIn 0.3s ease-in-out;
         }
-        to {
-            opacity: 1;
+
+                /* Conteúdo do modal */
+                .login-modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            width: 300px;
+            border-radius: 10px;
         }
-    }
 
-    /* Estilo para o conteúdo dentro do modal de login */
-    #loginModal .dropdown-header p {
-        margin: 0;
-        font-size: 16px;
-        font-weight: bold;
-        color: #333;
-        text-align: center;
-    }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
 
-    #loginModal .dropdown-header a {
-        display: block;
-        text-align: center;
-        margin-top: 10px;
-        color: #007bff;
-        font-size: 14px;
-        text-decoration: none;
-    }
+            to {
+                opacity: 1;
+            }
+        }
 
-    #loginModal .dropdown-header a:hover {
-        text-decoration: underline;
-    }
+        /* Estilo para o conteúdo dentro do modal de login */
+        #loginModal .dropdown-header p {
+            margin: 0;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
 
-    /* Estilo para o modal do carrinho */
-    .cart-modal {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: #fff;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        padding: 20px;
-        border-radius: 5px;
-        width: 300px;
-        z-index: 9999;
-    }
+        #loginModal .dropdown-header a {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #007bff;
+            font-size: 14px;
+            text-decoration: none;
+        }
 
-    .cart-modal-content h4 {
-        text-align: center;
-        margin-bottom: 20px;
-    }
+        #loginModal .dropdown-header a:hover {
+            text-decoration: underline;
+        }
 
-    .cart-modal .subtitulo {
-        text-align: center;
-        margin-bottom: 20px;
-    }
+        /* Estilo para o modal do carrinho */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 5px;
+            width: 300px;
+            z-index: 9999;
+        }
 
-    /* Estilo do botão de fechar */
-    .cart-modal .close {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        font-size: 20px;
-        cursor: pointer;
-    }
+        .cart-modal-content h4 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-    /* Estilo para o ícone de carrinho */
-    .header-btn.header-cart i {
-        cursor: pointer;
-    }
+        .cart-modal .subtitulo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-    /* Ajuste para o modal do carrinho */
-    .cartModal {
-        display: flex;
-        justify-content: end;
-    }
-</style>
+        /* Estilo do botão de fechar */
+        .cart-modal .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* Estilo para o ícone de carrinho */
+        .header-btn.header-cart i {
+            cursor: pointer;
+        }
+
+        .cart-modal2{
+            height: 100%;
+            display: flex;
+            justify-content: end;
+        }
+    </style>
     <!-- start of header  -->
     <header class="site-header">
         <div class="container">
@@ -150,7 +164,6 @@
                                     <i class="uil uil-search"></i>
                                 </button>
                             </form>
-
                             <!-- Modal de Login -->
                             <div id="login" class="header-btn header-dropdown">
                                 <i class="uil uil-user-md" onclick="toggleLoginModal()"></i> <!-- Alterado para usar toggleLoginModal -->
@@ -163,9 +176,9 @@
                             </div>
 
                             <!-- Modal do Carrinho -->
-                            <div id="cartModal" class="cartModal">
+                            <div id="cartModal" class="cartModal2">
                                 <div class="cart-modal-content">
-                                    <span class="close" onclick="closeModal('cartModal')">&times;</span> <!-- Alterado para fechar corretamente -->
+                                    <span class="close" onclick="closeModal('cartModal2')">&times;</span>
                                     <h4>Seu Carrinho</h4>
                                     <div class="subtitulo">
                                         <p>Ops, seu carrinho ainda está vazio...</p>
@@ -173,6 +186,9 @@
                                     <button class="button">Escolher produtos</button>
                                 </div>
                             </div>
+
+
+
 
                             <!-- Ícone de Carrinho na Header -->
                             <a href="javascript:void(0)" class="header-btn header-cart">
@@ -209,7 +225,7 @@
                                     </h1>
                                     <p>Onde cada pedido é uma experiência! Saboreie salgados, bebidas e pratos deliciosos, tudo com a facilidade de um clique.</p>
                                     <div class="banner-btn mt-4">
-                                        <a href="#menu" class="sec-btn">Faça seu pedido</a>
+                                        <a href="#blog" class="sec-btn">Faça seu pedido</a>
                                     </div>
                                 </div>
                             </div>
@@ -516,31 +532,31 @@
     <script src="../js/main.js"></script>
 
     <script>
- // Função para alternar a exibição do modal de login
- function toggleLoginModal() {
-        const modal = document.getElementById('loginModal'); // Seleciona o modal pelo ID
-        if (modal.style.display === 'block') {
-            modal.style.display = 'none'; // Se estiver visível, oculta
-        } else {
-            modal.style.display = 'block'; // Se estiver oculto, exibe
+        // Função para alternar a exibição do modal de login
+        function toggleLoginModal() {
+            const modal = document.getElementById('loginModal'); // Seleciona o modal pelo ID
+            if (modal.style.display === 'block') {
+                modal.style.display = 'none'; // Se estiver visível, oculta
+            } else {
+                modal.style.display = 'block'; // Se estiver oculto, exibe
+            }
         }
-    }
 
-    // Função para alternar a exibição de outros modais (como o carrinho)
-    function toggleModal(modalId) {
-        const modal = document.getElementById(modalId); // Seleciona o modal pelo ID
-        if (modal.style.display === 'block') {
-            modal.style.display = 'none'; // Se estiver visível, oculta
-        } else {
-            modal.style.display = 'block'; // Se estiver oculto, exibe
+        // Função para alternar a exibição de outros modais (como o carrinho)
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId); // Seleciona o modal pelo ID
+            if (modal.style.display === 'block') {
+                modal.style.display = 'none'; // Se estiver visível, oculta
+            } else {
+                modal.style.display = 'block'; // Se estiver oculto, exibe
+            }
         }
-    }
 
-    // Função para fechar o modal
-    function closeModal(modalId) {
-        const modal = document.getElementById(modalId);
-        modal.style.display = 'none'; // Fecha o modal
-    }
+        // Função para fechar o modal
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'none'; // Fecha o modal
+        }
     </script>
 </body>
 

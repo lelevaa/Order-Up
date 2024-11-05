@@ -27,17 +27,25 @@ include '../php/conexao.php';
 <body>
     <style>
         /* Estilo básico para o modal */
-        .login-modal {
+/* Estilos gerais dos modais */
+#loginModal,
+        #cartModal {
             display: none;
-            /* O modal começa oculto */
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            /* Fundo semi-transparente */
+            /* Inicialmente oculto */
+            position: absolute;
+            top: 30px;
+            /* Posição do modal */
+            right: 0;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            border-radius: 5px;
+            width: 250px;
+            /* Tamanho do modal */
+            z-index: 1000;
+            font-family: Arial, sans-serif;
+            /* Animação */
+            animation: fadeIn 0.3s ease-in-out;
         }
 
         /* Conteúdo do modal */
@@ -47,6 +55,28 @@ include '../php/conexao.php';
             padding: 20px;
             width: 300px;
             border-radius: 10px;
+        }
+
+                /* Estilo para o conteúdo dentro do modal de login */
+                #loginModal .dropdown-header p {
+            margin: 0;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
+
+        #loginModal .dropdown-header a {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #007bff;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        #loginModal .dropdown-header a:hover {
+            text-decoration: underline;
         }
 
         /* Estilo para o botão de fechar (X) */
@@ -183,13 +213,16 @@ include '../php/conexao.php';
                                             <i class="uil uil-search"></i>
                                         </button>
                                     </form>
-                                    <div class="header-btn header-dropdown">
-                                        <button id="header-btn header-dropdown" class="loginbotao" type="submit">
-                                            <i class="uil uil-user-md"></i>
-                                        </button>
-
-
+                            <!-- Modal de Login -->
+                            <div id="login" class="header-btn header-dropdown">
+                                <i class="uil uil-user-md" onclick="toggleLoginModal()"></i> <!-- Alterado para usar toggleLoginModal -->
+                                <div id="loginModal" class="dropdown-menu">
+                                    <div class="dropdown-header">
+                                        <p id="welcomeMessage">Seja bem-vindo(a), Alana!</p>
+                                        <a href="javascript:void(0)" onclick="toggleModal('cartModal')">Abrir Carrinho</a> <!-- Abre o modal de carrinho -->
                                     </div>
+                                </div>
+                            </div>
                                     <a href="javascript:void(0)" class="header-btn header-cart">
                                         <i id="compr-btn" class="uil uil-shopping-bag"></i>
                                     </a>
@@ -956,6 +989,28 @@ include '../php/conexao.php';
     // Agora o formulário pode ser enviado
     document.getElementById('form-pagamento').submit();
 }
+function scrollToSection(sectionId) {
+            // Encontra a seção usando o ID
+            var section = document.getElementById(sectionId);
+
+            // Verifica se a seção existe
+            if (section) {
+                // Realiza a rolagem suave até a seção
+                section.scrollIntoView({
+                    behavior: 'smooth', // Faz a rolagem suave
+                    block: 'start' // Alinha a seção ao topo da página
+                });
+            }
+        }
+
+        function toggleLoginModal() {
+            const modal = document.getElementById('loginModal'); // Seleciona o modal pelo ID
+            if (modal.style.display === 'block') {
+                modal.style.display = 'none'; // Se estiver visível, oculta
+            } else {
+                modal.style.display = 'block'; // Se estiver oculto, exibe
+            }
+        }
 
     </script>
 
