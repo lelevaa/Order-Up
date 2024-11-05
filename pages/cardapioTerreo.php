@@ -27,17 +27,25 @@ include '../php/conexao.php';
 <body>
     <style>
         /* Estilo básico para o modal */
-        .login-modal {
+/* Estilos gerais dos modais */
+#loginModal,
+        #cartModal {
             display: none;
-            /* O modal começa oculto */
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            /* Fundo semi-transparente */
+            /* Inicialmente oculto */
+            position: absolute;
+            top: 30px;
+            /* Posição do modal */
+            right: 0;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            border-radius: 5px;
+            width: 250px;
+            /* Tamanho do modal */
+            z-index: 1000;
+            font-family: Arial, sans-serif;
+            /* Animação */
+            animation: fadeIn 0.3s ease-in-out;
         }
 
         /* Conteúdo do modal */
@@ -47,6 +55,28 @@ include '../php/conexao.php';
             padding: 20px;
             width: 300px;
             border-radius: 10px;
+        }
+
+                /* Estilo para o conteúdo dentro do modal de login */
+                #loginModal .dropdown-header p {
+            margin: 0;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
+
+        #loginModal .dropdown-header a {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #007bff;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        #loginModal .dropdown-header a:hover {
+            text-decoration: underline;
         }
 
         /* Estilo para o botão de fechar (X) */
@@ -151,53 +181,6 @@ include '../php/conexao.php';
             padding: 10px;
             cursor: pointer;
         }
-
-        /* O modal em si (inicialmente escondido) */
-        .modalLGN {
-            display: none;
-            /* O modal começa invisível */
-            position: fixed;
-            /* Fixa o modal no topo da tela */
-            z-index: 1000;
-            /* Garante que o modal ficará sobre outros elementos */
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            /* Fundo semitransparente */
-        }
-
-        /* Conteúdo do modal */
-        .modal-contentLGN {
-            background-color: #fff;
-            margin: 15% auto;
-            /* Centraliza o modal na tela */
-            padding: 20px;
-            width: 80%;
-            /* Ajuste a largura conforme necessário */
-            max-width: 500px;
-            /* Limita a largura do modal */
-            border-radius: 10px;
-            /* Bordas arredondadas */
-            position: relative;
-        }
-
-        /* O botão de fechar */
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 30px;
-            font-weight: bold;
-            color: #aaa;
-            cursor: pointer;
-        }
-
-        .close-btn:hover,
-        .close-btn:focus {
-            color: black;
-        }
     </style>
     <div class="header_header">
         <div>
@@ -219,8 +202,8 @@ include '../php/conexao.php';
                                 </button>
                                 <nav class="header-menu">
                                     <ul class="menu food-nav-menu">
-                                        <li><a href="home.php">Inicio</a></li>
-
+                                        <li><a href="index.html">Inicio</a></li>
+                                        <li><a href="cardapio.html">Menu</a></li>
                                     </ul>
                                 </nav>
                                 <div class="header-right">
@@ -230,25 +213,16 @@ include '../php/conexao.php';
                                             <i class="uil uil-search"></i>
                                         </button>
                                     </form>
-
-                                    <div class="header-btn header-dropdown">
-                                        <button id="openModalBtn" class="loginbotao" type="submit">
-
-                                            <i class="uil uil-user-md"></i>
-                                        </button>
-                                        <div id="modalLGN" class="modalLGN">
-                                            <div class="modal-contentLGN">
-                                                <span class="close-btn" id="closeModalBtn2">&times;</span>
-                                                <h2>Minha Conta</h2>
-                                                <p>Escolha uma opção:</p>
-
-                                                <!-- Botões para trocar de conta e fazer logout -->
-                                                <button id="switchAccountBtn2">Trocar Conta</button>
-                                                <button id="logoutBtn2">Logout</button>
-                                            </div>
-                                        </div>
-
+                            <!-- Modal de Login -->
+                            <div id="login" class="header-btn header-dropdown">
+                                <i class="uil uil-user-md" onclick="toggleLoginModal()"></i> <!-- Alterado para usar toggleLoginModal -->
+                                <div id="loginModal" class="dropdown-menu">
+                                    <div class="dropdown-header">
+                                        <p id="welcomeMessage">Seja bem-vindo(a), Alana!</p>
+                                        <a href="javascript:void(0)" onclick="toggleModal('cartModal')">Abrir Carrinho</a> <!-- Abre o modal de carrinho -->
                                     </div>
+                                </div>
+                            </div>
                                     <a href="javascript:void(0)" class="header-btn header-cart">
                                         <i id="compr-btn" class="uil uil-shopping-bag"></i>
                                     </a>
@@ -633,24 +607,29 @@ include '../php/conexao.php';
     </div>
 
     <div id="modal-pagamento" class="modal">
-        <div class="modal-content">
-            <span class="close-pagamento">&times;</span> <!-- Botão de fechar pagamento -->
-            <h3>Resumo do Pedido</h3>
-            <div id="resumo-carrinho"></div>
-            <p>Total: R$ <span id="total-pagamento">0.00</span></p>
-            <p id="codigo-pedido-container" style="display: none;">
-                Código do Pedido: <span id="codigo-pedido"></span>
-            </p>
+    <div class="modal-content">
+        <span class="close-pagamento">&times;</span> <!-- Botão de fechar pagamento -->
+        <h3>Resumo do Pedido</h3>
+        <div id="resumo-carrinho"></div>
+        <p>Total: R$ <span id="total-pagamento" name="total-pagamento">0.00</span></p>
+        <p id="codigo-pedido-container" style="display: none;">
+            Código do Pedido: <span id="codigo-pedido" name="codigo-pedido">12345</span>
+        </p>
 
-            <form method="POST" id="form-pagamento">
-                <input type="hidden" id="codigo-pedido-input" name="codigo-pedido">
-                <input type="hidden" id="total-pagamento-input" name="total-pagamento">
-                <button type="submit" id="confirmar-pagamento" onclick="enviarPedido()">Confirmar Compra</button>
-                <button id="confirmar-recebimento" style="display: none;">Pedido Recebido</button>
-                <button type="button" id="cancelar-pagamento">Cancelar</button>
-            </form>
-        </div>
+        <!-- Formulário de pagamento -->
+        <form method="POST" id="form-pagamento" action="">
+            <!-- Campos ocultos para enviar o código do pedido e o total do pagamento -->
+            <input type="hidden" id="codigo-pedido-input" name="codigo-pedido">
+            <input type="hidden" id="total-pagamento-input" name="total-pagamento">
+            <button type="button" id="confirmar-pagamento" onclick="preencherCampos()">Confirmar Compra</button>
+            <button type="submit" id="confirmar-recebimento" style="display: none;">Pedido Recebido</button>
+            <button type="button" id="cancelar-pagamento">Cancelar</button>
+        </form>
     </div>
+</div>
+
+
+
 
     <!-- Modal para Carrinho -->
     <div id="loginModal" class="login-modal">
@@ -769,6 +748,8 @@ include '../php/conexao.php';
         const headerDropdownBtn = document.querySelector('.header-btn.header-dropdown');
         const loginModal = document.getElementById('loginModal');
         const closeModalBtn = document.querySelector('.close');
+
+
 
         let carrinhoAberto = false;
 
@@ -949,9 +930,6 @@ include '../php/conexao.php';
             enviarPedido(codigoAleatorio, total);
         }
 
-        function enviarPedido() {
-            let pgmTotal = total - pagamento - input.value;
-        }
 
         function gerarCodigoAleatorio() {
             const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -973,7 +951,45 @@ include '../php/conexao.php';
             }
         }
 
-        function scrollToSection(sectionId) {
+
+        document.getElementById('confirmar-pagamento').addEventListener('click', function(event) {
+            event.preventDefault(); // Impede o comportamento padrão do botão
+
+            // Obtendo os valores de total e código do pedido
+            const totalPagamento = parseFloat(document.getElementById('total-pagamento').textContent);
+            const codigoPedido = document.getElementById('codigo-pedido').textContent;
+
+            // Verificação de saldo antes de prosseguir
+            if (saldo >= totalPagamento) {
+                // Chama a função para abrir o código de pedido (gerar o código aleatório)
+                abrirCode();
+
+                // Enviar os dados para o servidor
+                enviarPedido(totalPagamento, codigoPedido);
+            } else {
+                alert("Você não tem saldo suficiente");
+            }
+        });
+
+        function preencherCampos() {
+    // Captura os valores dos elementos visíveis
+    const total = document.getElementById('total-pagamento').innerText;
+    const codigoPedido = document.getElementById('codigo-pedido').innerText;
+
+    // Preenche os campos ocultos com os valores capturados
+    document.getElementById('codigo-pedido-input').value = codigoPedido;
+    document.getElementById('total-pagamento-input').value = total;
+
+    // Pode fazer uma verificação para garantir que os valores não estão vazios
+    if (!total || !codigoPedido) {
+        alert("Erro: Dados incompletos!");
+        return false; // Impede o envio do formulário se os dados estiverem faltando
+    }
+
+    // Agora o formulário pode ser enviado
+    document.getElementById('form-pagamento').submit();
+}
+function scrollToSection(sectionId) {
             // Encontra a seção usando o ID
             var section = document.getElementById(sectionId);
 
@@ -986,47 +1002,16 @@ include '../php/conexao.php';
                 });
             }
         }
-        // Obtém os elementos do modal e os botões
-        const modalLGN = document.getElementById('modalLGN');
-        const openModalBtn2 = document.getElementById('openModalBtn2');
-        const closeModalBtn2 = document.getElementById('closeModalBtn2');
-        const switchAccountBtn2 = document.getElementById('switchAccountBtn2');
-        const logoutBtn2 = document.getElementById('logoutBtn2');
 
-        // Quando o botão "Minha Conta" for clicado, abre o modal
-        openModalBtn2.onclick = function() {
-            modal.style.display = 'block'; // Torna o modal visível
-        }
-
-        // Quando o botão de fechar (×) for clicado, fecha o modal
-        closeModalBtn2.onclick = function() {
-            modalLGN.style.display = 'none'; // Torna o modal invisível
-        }
-
-        // Quando o usuário clica fora do conteúdo do modal, ele fecha
-        window.onclick = function(event) {
-            if (event.target === modalLGN) {
-                modalLGN.style.display = 'none'; // Fecha o modal
+        function toggleLoginModal() {
+            const modal = document.getElementById('loginModal'); // Seleciona o modal pelo ID
+            if (modal.style.display === 'block') {
+                modal.style.display = 'none'; // Se estiver visível, oculta
+            } else {
+                modal.style.display = 'block'; // Se estiver oculto, exibe
             }
         }
 
-        // Lógica para trocar de conta
-        switchAccountBtn2.onclick = function() {
-            alert('Trocar de conta clicado. (Aqui você pode implementar a troca de conta real)');
-            // Aqui você pode redirecionar para outra página ou abrir uma tela de login
-            modalLGN.style.display = 'none'; // Fecha o modal após a ação
-        }
-
-        // Lógica para logout
-        logoutBtn.onclick = function() {
-            alert('Logout realizado. (Aqui você pode implementar o logout real)');
-            // Aqui você pode chamar uma função de logout real ou redirecionar o usuário
-            modal.style.display = 'none'; // Fecha o modal após a ação
-        }
-
-
-
-        document.getElementById('confirmar-pagamento').addEventListener('click', verificacaoSaldo);
     </script>
 
 
@@ -1040,6 +1025,59 @@ include '../php/conexao.php';
 
     <!-- fancy box  -->
     <script src="./js/jquery.fancybox.min.js"></script>
+    <?php
+// Incluir a conexão com o banco de dados
+include '../php/conexao.php'; // Caminho correto para o arquivo conexao.php
+
+// Verificar se os dados foram enviados via POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Obter os dados enviados do formulário
+    $codigo_pedido = $_POST['codigo-pedido'];
+    $total_pagamento = $_POST['total-pagamento'];
+
+    // Validar os dados (opcional)
+    if (empty($codigo_pedido) || empty($total_pagamento)) {
+        echo "Erro: Dados incompletos!";
+        exit;
+    }
+
+    // Inserir os dados na tabela tb_pedidos
+    $query = "INSERT INTO tb_pedidos (usuario, codigo, total) VALUES (?, ?, ?)";
+
+    // Usar a conexão já estabelecida para preparar e executar a consulta
+    if ($stmt = $db->prepare($query)) {
+        // Definindo o valor de 'usuario'. Aqui você pode pegar o usuário logado ou um valor estático.
+        // Por exemplo, se o usuário for logado:
+        // $usuario = $_SESSION['usuario_id']; 
+        // Se for estático:
+        $usuario = '1'; // Este valor pode ser alterado conforme sua lógica
+
+        // Vincular os parâmetros da consulta (usuario como string, total como float/double, e codigo como string)
+        $stmt->bind_param('isd', $usuario, $codigo_pedido, $total_pagamento);
+
+        // Executar a consulta
+        if ($stmt->execute()) {
+            // Sucesso
+            echo json_encode(['success' => true, 'message' => 'Pedido realizado com sucesso!']);
+        } else {
+            // Erro ao executar a consulta
+            echo json_encode(['success' => false, 'message' => 'Erro ao salvar o pedido: ' . $stmt->error]);
+        }
+
+        // Fechar a declaração
+        $stmt->close();
+    } else {
+        echo "Erro ao preparar a consulta: " . $db->error;
+    }
+
+    // Fechar a conexão com o banco de dados
+    $db->close();
+} else {
+    // Caso o método não seja POST, retornar um erro
+    echo json_encode(['success' => false, 'message' => 'Método inválido.']);
+}
+?>
+
 
 </body>
 

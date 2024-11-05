@@ -12,7 +12,7 @@
 
     <!-- bootstrap  -->
     <link rel="stylesheet" href="../css/bootstrap.min.css">
-    
+
 
     <!-- for swiper slider  -->
     <link rel="stylesheet" href="../css/swiper-bundle.min.css">
@@ -25,6 +25,114 @@
 </head>
 
 <body class="body-fixed">
+    <style>
+        /* Estilos gerais dos modais */
+        #loginModal,
+        #cartModal {
+            display: none;
+            /* Inicialmente oculto */
+            position: absolute;
+            top: 30px;
+            /* Posição do modal */
+            right: 0;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            border-radius: 5px;
+            width: 250px;
+            /* Tamanho do modal */
+            z-index: 1000;
+            font-family: Arial, sans-serif;
+            /* Animação */
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+                /* Conteúdo do modal */
+                .login-modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            width: 300px;
+            border-radius: 10px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Estilo para o conteúdo dentro do modal de login */
+        #loginModal .dropdown-header p {
+            margin: 0;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
+
+        #loginModal .dropdown-header a {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #007bff;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        #loginModal .dropdown-header a:hover {
+            text-decoration: underline;
+        }
+
+        /* Estilo para o modal do carrinho */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 5px;
+            width: 300px;
+            z-index: 9999;
+        }
+
+        .cart-modal-content h4 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .cart-modal .subtitulo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Estilo do botão de fechar */
+        .cart-modal .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* Estilo para o ícone de carrinho */
+        .header-btn.header-cart i {
+            cursor: pointer;
+        }
+
+        .cart-modal2{
+            height: 100%;
+            display: flex;
+            justify-content: end;
+        }
+    </style>
     <!-- start of header  -->
     <header class="site-header">
         <div class="container">
@@ -56,30 +164,41 @@
                                     <i class="uil uil-search"></i>
                                 </button>
                             </form>
-                            <div class="header-btn header-dropdown">
-                                <i class="uil uil-user-md"></i>
-                                <div class="dropdown-menu">
+                            <!-- Modal de Login -->
+                            <div id="login" class="header-btn header-dropdown">
+                                <i class="uil uil-user-md" onclick="toggleLoginModal()"></i> <!-- Alterado para usar toggleLoginModal -->
+                                <div id="loginModal" class="dropdown-menu">
                                     <div class="dropdown-header">
-                                        <a href="" class="dropdown-link">entrar</a>
-                                        <span>|</span>
-                                        <a href="" class="dropdown-link">cadastrar</a>
+                                        <p id="welcomeMessage">Seja bem-vindo(a), Alana!</p>
+                                        <a href="javascript:void(0)" onclick="toggleModal('cartModal')">Abrir Carrinho</a> <!-- Abre o modal de carrinho -->
                                     </div>
-
                                 </div>
                             </div>
-                            <a href="javascript:void(0)" class="header-btn header-cart">
-                                <i id="compr-btn" class="uil uil-shopping-bag"></i>
 
+                            <!-- Modal do Carrinho -->
+                            <div id="cartModal" class="cartModal2">
+                                <div class="cart-modal-content">
+                                    <span class="close" onclick="closeModal('cartModal2')">&times;</span>
+                                    <h4>Seu Carrinho</h4>
+                                    <div class="subtitulo">
+                                        <p>Ops, seu carrinho ainda está vazio...</p>
+                                    </div>
+                                    <button class="button">Escolher produtos</button>
+                                </div>
+                            </div>
+
+
+
+
+                            <!-- Ícone de Carrinho na Header -->
+                            <a href="javascript:void(0)" class="header-btn header-cart">
+                                <i id="compr-btn" class="uil uil-shopping-bag" onclick="toggleModal('cartModal')"></i>
                             </a>
-                            <!-- Dropdown de Usuário Atualizado -->
 
                         </div>
-
-
                     </div>
                 </div>
             </div>
-        </div>
     </header>
     <!-- header ends  -->
 
@@ -106,14 +225,13 @@
                                     </h1>
                                     <p>Onde cada pedido é uma experiência! Saboreie salgados, bebidas e pratos deliciosos, tudo com a facilidade de um clique.</p>
                                     <div class="banner-btn mt-4">
-                                        <a href="#menu" class="sec-btn">Faça seu pedido</a>
+                                        <a href="#blog" class="sec-btn">Faça seu pedido</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="banner-img-wp">
-                                    <div class="banner-img"
-                                        style="background-image: url(../img/OrderUpsemnome.png);">
+                                    <div class="banner-img" style="background-image: url(../img/OrderUpsemnome.png);">
                                     </div>
                                 </div>
 
@@ -133,8 +251,7 @@
                                 <div class="sec-title-shape mb-4">
                                     <img src="assets/images/title-shape.svg" alt="">
                                 </div>
-                                <div class="bg-pattern bg-light repeat-img"
-                                    style="background-image: url(assets/images/blog-pattern-bg.png);">
+                                <div class="bg-pattern bg-light repeat-img" style="background-image: url(assets/images/blog-pattern-bg.png);">
                                     <section class="blog-sec section" id="blog">
                                         <div class="sec-wp">
                                             <div class="container">
@@ -142,20 +259,18 @@
                                                 <div class="row">
                                                     <div class="col-lg-4">
                                                         <div class="blog-box">
-                                                            <div class="blog-img back-img"
-                                                                style="background-image: url(../img/OrderUpsemnome.png);">
+                                                            <div class="blog-img back-img" style="background-image: url(../img/OrderUpsemnome.png);">
                                                             </div>
                                                             <div class="blog-text">
                                                                 <a href="#" class="h4-title">Cantina Térreo</a>
                                                                 <p></p>
                                                                 <a href="cardapioTerreo.php" class="sec-btn">Compre Aqui</a>
                                                             </div>
-                                                        </div>  
+                                                        </div>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="blog-box">
-                                                            <div class="blog-img back-img"
-                                                                style="background-image: url(../img/OrderUpsemnome.png);">
+                                                            <div class="blog-img back-img" style="background-image: url(../img/OrderUpsemnome.png);">
                                                             </div>
                                                             <div class="blog-text">
 
@@ -179,8 +294,7 @@
                     </div>
             </section>
 
-            <section style="background-image: url(assets/images/menu-bg.png);"
-                class="our-menu section bg-light repeat-img" id="menu">
+            <section style="background-image: url(assets/images/menu-bg.png);" class="our-menu section bg-light repeat-img" id="menu">
 
                 <div class="sec-wp">
                     <div class="container">
@@ -200,18 +314,10 @@
                             <div class="col-lg-10 m-auto">
                                 <div class="book-table-img-slider" id="icon">
                                     <div class="swiper-wrapper">
-                                        <a href="../imagens/bannercoxinha.jpeg" data-fancybox="table-slider"
-                                            class="book-table-img back-img swiper-slide"
-                                            style="background-image: url(../img/bannercoxinha.jpeg)"></a>
-                                        <a href="assets/images/bt2.jpg" data-fancybox="table-slider"
-                                            class="book-table-img back-img swiper-slide"
-                                            style="background-image: url(../img/banneralmoço.jpeg)"></a>
-                                        <a href="assets/images/bt3.jpg" data-fancybox="table-slider"
-                                            class="book-table-img back-img swiper-slide"
-                                            style="background-image: url(../img/doce.jpeg)"></a>
-                                        <a href="assets/images/bt4.jpg" data-fancybox="table-slider"
-                                            class="book-table-img back-img swiper-slide"
-                                            style="background-image: url(../img/banner-bebidas.png)"></a>
+                                        <a href="../imagens/bannercoxinha.jpeg" data-fancybox="table-slider" class="book-table-img back-img swiper-slide" style="background-image: url(../img/bannercoxinha.jpeg)"></a>
+                                        <a href="assets/images/bt2.jpg" data-fancybox="table-slider" class="book-table-img back-img swiper-slide" style="background-image: url(../img/banneralmoço.jpeg)"></a>
+                                        <a href="assets/images/bt3.jpg" data-fancybox="table-slider" class="book-table-img back-img swiper-slide" style="background-image: url(../img/doce.jpeg)"></a>
+                                        <a href="assets/images/bt4.jpg" data-fancybox="table-slider" class="book-table-img back-img swiper-slide" style="background-image: url(../img/banner-bebidas.png)"></a>
                                     </div>
 
                                     <div class="swiper-button-wp">
@@ -233,111 +339,110 @@
 
             </section>
 
-            <div class="bg-pattern bg-light repeat-img"
-                style="background-image: url(assets/images/blog-pattern-bg.png);">
+            <div class="bg-pattern bg-light repeat-img" style="background-image: url(assets/images/blog-pattern-bg.png);">
 
             </div>
 
-                <!-- footer starts  -->
-                <footer class="site-footer" id="contact">
-                    <div class="top-footer section">
-                        <div class="sec-wp">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <div class="footer-info">
-                                            <div class="footer-logo">
-                                                <a href="index.html">
-                                                    <img src="../img/OrderUpsemnome.png" alt="">
-                                                </a>
-                                            </div>
-                                            <p>Rua Mons. Andrade 298, São Paulo, SP, 03008-000</p>
-                                            <div class="social-icon">
-                                                <ul>
-                                                    <li>
-                                                        <a href="#">
-                                                            <i class="uil uil-facebook-f"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            <i class="uil uil-instagram"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            <i class="uil uil-github-alt"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            <i class="uil uil-youtube"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-8">
-                                        <div class="footer-flex-box">
-                                            <div class="footer-table-info">
-                                                <h3 class="h3-title">Nossos Horarios</h3>
-                                                <ul>
-                                                    <li><i class="uil uil-clock"></i> Seg-Sexta : 9:10 - 22:00</li>
-                                                    <li><i class="uil uil-clock"></i> Sabados : 9:10 - 22:00</li>
-
-                                                </ul>
-                                            </div>
-                                            <div class="footer-menu food-nav-menu">
-                                                <h3 class="h3-title">Links</h3>
-                                                <ul class="column-2">
-                                                    <li>
-                                                        <a href="#inicio" class="footer-active-menu">Inicio</a>
-                                                    </li>
-                                                    <li><a href="#about"></a></li>
-                                                    <li><a href="cardapio.html">Menu</a></li>
-                                                    <li><a href="#gallery"></a></li>
-                                                    <li><a href="#blog"></a></li>
-                                                    <li><a href="#contact"></a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="footer-menu">
-                                                <h3 class="h3-title">Companhia</h3>
-                                                <ul>
-                                                    <li><a href="termos.php">Termos e Condições</a></li>
-                                                    <li><a href="politica.php">Politica de Privacidade</a></li>
-                                                    <li><a href="#">Politica de Cookie</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bottom-footer">
+            <!-- footer starts  -->
+            <footer class="site-footer" id="contact">
+                <div class="top-footer section">
+                    <div class="sec-wp">
                         <div class="container">
                             <div class="row">
-                                <div class="col-lg-12 text-center">
-                                    <div class="copyright-text">
-                                        <p>Copyright &copy; 2024 <span class="name">Orderup.</span>Todos os direitos
-                                            reservados.
-                                        </p>
+                                <div class="col-lg-4">
+                                    <div class="footer-info">
+                                        <div class="footer-logo">
+                                            <a href="index.html">
+                                                <img src="../img/OrderUpsemnome.png" alt="">
+                                            </a>
+                                        </div>
+                                        <p>Rua Mons. Andrade 298, São Paulo, SP, 03008-000</p>
+                                        <div class="social-icon">
+                                            <ul>
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="uil uil-facebook-f"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="uil uil-instagram"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="uil uil-github-alt"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="uil uil-youtube"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="footer-flex-box">
+                                        <div class="footer-table-info">
+                                            <h3 class="h3-title">Nossos Horarios</h3>
+                                            <ul>
+                                                <li><i class="uil uil-clock"></i> Seg-Sexta : 9:10 - 22:00</li>
+                                                <li><i class="uil uil-clock"></i> Sabados : 9:10 - 22:00</li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="footer-menu food-nav-menu">
+                                            <h3 class="h3-title">Links</h3>
+                                            <ul class="column-2">
+                                                <li>
+                                                    <a href="#inicio" class="footer-active-menu">Inicio</a>
+                                                </li>
+                                                <li><a href="#about"></a></li>
+                                                <li><a href="cardapio.html">Menu</a></li>
+                                                <li><a href="#gallery"></a></li>
+                                                <li><a href="#blog"></a></li>
+                                                <li><a href="#contact"></a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="footer-menu">
+                                            <h3 class="h3-title">Companhia</h3>
+                                            <ul>
+                                                <li><a href="termos.php">Termos e Condições</a></li>
+                                                <li><a href="politica.php">Politica de Privacidade</a></li>
+                                                <li><a href="#">Politica de Cookie</a></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <button class="scrolltop"><i class="uil uil-angle-up"></i></button>
                         </div>
                     </div>
-                </footer>
+                </div>
+                <div class="bottom-footer">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12 text-center">
+                                <div class="copyright-text">
+                                    <p>Copyright &copy; 2024 <span class="name">Orderup.</span>Todos os direitos
+                                        reservados.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="scrolltop"><i class="uil uil-angle-up"></i></button>
+                    </div>
+                </div>
+            </footer>
 
 
 
-            </div>
         </div>
+    </div>
 
-        <!-- Modal para Carrinho -->
-        <!-- <div id="cartModal" class="cart-modal">
+    <!-- Modal para Carrinho -->
+    <!-- <div id="cartModal" class="cart-modal">
             <div class="cart-modal-content">
                 <span class="close">&times;</span>
                 <h4>Seu Carrinho</h4>
@@ -345,8 +450,8 @@
                     <p>ops, seu carrinho ainda está vazio...</p>
                 </div> -->
 
-                <!-- Adicione mais conteúdo conforme necessário -->
-                <!-- <button class="button">escolher produtos</button>
+    <!-- Adicione mais conteúdo conforme necessário -->
+    <!-- <button class="button">escolher produtos</button>
 
                 <div class="caixa">
                     <div class="escrita">
@@ -363,68 +468,96 @@
 
 
 
-        <!-- JavaScript -->
-        <script>
-            // Seleciona o modal e o botão do carrinho
-            const cartModal = document.getElementById('cartModal');
-            const cartButton = document.querySelector('.header-cart');
-            const closeButton = document.querySelector('.cart-modal .close');
+    <!-- JavaScript -->
+    <!-- <script>
+        // Seleciona o modal e o botão do carrinho
+        const cartModal = document.getElementById('cartModal');
+        const cartButton = document.querySelector('.header-cart');
+        const closeButton = document.querySelector('.cart-modal .close');
 
-            // Abre o modal
-            cartButton.addEventListener('click', () => {
-                cartModal.classList.add('open');
-            });
+        // Abre o modal
+        cartButton.addEventListener('click', () => {
+            cartModal.classList.add('open');
+        });
 
-            // Fecha o modal quando o botão de fechar é clicado
-            closeButton.addEventListener('click', () => {
+        // Fecha o modal quando o botão de fechar é clicado
+        closeButton.addEventListener('click', () => {
+            cartModal.classList.remove('open');
+        });
+
+        // Fecha o modal quando clicar fora do conteúdo do modal
+        window.addEventListener('click', (event) => {
+            if (event.target === cartModal) {
                 cartModal.classList.remove('open');
-            });
-
-            // Fecha o modal quando clicar fora do conteúdo do modal
-            window.addEventListener('click', (event) => {
-                if (event.target === cartModal) {
-                    cartModal.classList.remove('open');
-                }
-            });
-        </script>
+            }
+        });
+    </script> -->
 
 
-        <!-- jquery  -->
-        <script src="../js/jquery-3.5.1.min.js"></script>
+    <!-- jquery  -->
+    <script src="../js/jquery-3.5.1.min.js"></script>
 
-        <!-- bootstrap -->
-        <script src="../js/bootstrap.min.js"></script>
-        <script src="../js/popper.min.js"></script>
+    <!-- bootstrap -->
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/popper.min.js"></script>
 
-        <!-- fontawesome  -->
-        <script src="../js/font-awesome.min.js"></script>
+    <!-- fontawesome  -->
+    <script src="../js/font-awesome.min.js"></script>
 
-        <!-- swiper slider  -->
-        <script src="../js/swiper-bundle.min.js"></script>
+    <!-- swiper slider  -->
+    <script src="../js/swiper-bundle.min.js"></script>
 
-        <!-- mixitup -- filter  -->
-        <script src="../js/jquery.mixitup.min.js"></script>
+    <!-- mixitup -- filter  -->
+    <script src="../js/jquery.mixitup.min.js"></script>
 
-        <!-- fancy box  -->
-        <script src="../js/jquery.fancybox.min.js"></script>
+    <!-- fancy box  -->
+    <script src="../js/jquery.fancybox.min.js"></script>
 
-        <!-- parallax  -->
-        <script src="../js/parallax.min.js"></script>
+    <!-- parallax  -->
+    <script src="../js/parallax.min.js"></script>
 
-        <!-- gsap  -->
-        <script src="../js/gsap.min.js"></script>
+    <!-- gsap  -->
+    <script src="../js/gsap.min.js"></script>
 
-        <!-- scroll trigger  -->
-        <script src="../js/ScrollTrigger.min.js"></script>
+    <!-- scroll trigger  -->
+    <script src="../js/ScrollTrigger.min.js"></script>
 
-        <!-- scroll to plugin  -->
-        <script src="../js/ScrollToPlugin.min.js"></script>
+    <!-- scroll to plugin  -->
+    <script src="../js/ScrollToPlugin.min.js"></script>
 
-        <!-- smooth scroll  -->
-        <script src="../js/smooth-scroll.js"></script>
-        
-        <!-- custom js  -->
-        <script src="../js/main.js"></script>
+    <!-- smooth scroll  -->
+    <script src="../js/smooth-scroll.js"></script>
+
+    <!-- custom js  -->
+    <script src="../js/main.js"></script>
+
+    <script>
+        // Função para alternar a exibição do modal de login
+        function toggleLoginModal() {
+            const modal = document.getElementById('loginModal'); // Seleciona o modal pelo ID
+            if (modal.style.display === 'block') {
+                modal.style.display = 'none'; // Se estiver visível, oculta
+            } else {
+                modal.style.display = 'block'; // Se estiver oculto, exibe
+            }
+        }
+
+        // Função para alternar a exibição de outros modais (como o carrinho)
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId); // Seleciona o modal pelo ID
+            if (modal.style.display === 'block') {
+                modal.style.display = 'none'; // Se estiver visível, oculta
+            } else {
+                modal.style.display = 'block'; // Se estiver oculto, exibe
+            }
+        }
+
+        // Função para fechar o modal
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'none'; // Fecha o modal
+        }
+    </script>
 </body>
 
 </html>

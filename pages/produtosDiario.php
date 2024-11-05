@@ -68,8 +68,8 @@ $conn->close();
                 <li class="nav_g">
                     <a href="produtosDiario.php">Inserção de produtos diario</a>
                 </li>
-                <li class="nav_g"><a href="#"></a></li>
-                <li class="nav_g"><a href="#"></a></li>
+                <li class="nav_g"><a href="relatorio.php">Relatório</a></li>
+                <li class="nav_g"><a href="pedidosAdm.php">Pedidos</a></li>
             </ul>
         </nav>
     </header>
