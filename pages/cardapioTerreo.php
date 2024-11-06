@@ -27,20 +27,26 @@ include '../php/conexao.php';
 <body>
     <style>
         #loginModal .dropdown-menu {
-    max-width: 100%; /* Ajusta para caber no container */
-    overflow: hidden; /* Impede que o texto ultrapasse */
-    word-wrap: break-word; /* Quebra palavras longas se necessário */
-    padding: 10px; /* Ajusta o espaço interno para melhorar a legibilidade */
-}
+            max-width: 100%;
+            /* Ajusta para caber no container */
+            overflow: hidden;
+            /* Impede que o texto ultrapasse */
+            word-wrap: break-word;
+            /* Quebra palavras longas se necessário */
+            padding: 10px;
+            /* Ajusta o espaço interno para melhorar a legibilidade */
+        }
 
-#loginModal .dropdown-header {
-    word-wrap: break-word; /* Evita que texto se sobreponha */
-    white-space: normal; /* Permite que o texto se quebre normalmente */
-}
+        #loginModal .dropdown-header {
+            word-wrap: break-word;
+            /* Evita que texto se sobreponha */
+            white-space: normal;
+            /* Permite que o texto se quebre normalmente */
+        }
 
         /* Estilo básico para o modal */
-/* Estilos gerais dos modais */
-#loginModal,
+        /* Estilos gerais dos modais */
+
         #cartModal {
             display: none;
             /* Inicialmente oculto */
@@ -102,8 +108,8 @@ include '../php/conexao.php';
         }
 
 
-                /* Estilo para o conteúdo dentro do modal de login */
-                #loginModal .dropdown-header p {
+        /* Estilo para o conteúdo dentro do modal de login */
+        #loginModal .dropdown-header p {
             margin: 0;
             font-size: 16px;
             font-weight: bold;
@@ -202,7 +208,7 @@ include '../php/conexao.php';
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.5);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
             z-index: 10;
@@ -226,6 +232,54 @@ include '../php/conexao.php';
             padding: 10px;
             cursor: pointer;
         }
+
+        /* Estilos gerais dos modais */
+        #loginModal {
+            height: 100%;
+            /* Ajuste a altura do modal */
+            display: none;
+            /* Inicialmente oculto */
+            position: fixed;
+            /* Fica fixado na tela */
+            top: 0;
+            /* Fica no topo da tela */
+            right: 0;
+            /* Fica no canto direito da tela */
+            background-color: #fff;
+            /* Cor de fundo */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* Sombra suave */
+            padding: 15px;
+            border-radius: 5px;
+            width: 300px;
+            /* Largura fixa do modal */
+            z-index: 1000;
+            /* Fica acima de outros elementos */
+            font-family: Arial, sans-serif;
+            animation: fadeIn 0.3s ease-in-out;
+            /* Animação suave */
+        }
+
+        /* Definição da animação fadeIn */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .btn-resumo {
+            width: 100%;
+        }
+
+        .btns-resumo{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
     </style>
     <div class="header_header">
         <div>
@@ -247,8 +301,8 @@ include '../php/conexao.php';
                                 </button>
                                 <nav class="header-menu">
                                     <ul class="menu food-nav-menu">
-                                        <li><a href="index.html">Inicio</a></li>
-                                        <li><a href="cardapio.html">Menu</a></li>
+                                        <li><a href="home.php">Inicio</a></li>
+                                        <li><a href="#container">Menu</a></li>
                                     </ul>
                                 </nav>
                                 <div class="header-right">
@@ -259,19 +313,26 @@ include '../php/conexao.php';
                                         </button>
                                     </form>
 
-                            <!-- Modal de Login -->
-                            <div id="login" class="header-btn header-dropdown">
-                                <i class="uil uil-user-md" onclick="toggleLoginModal()"></i> <!-- Alterado para usar toggleLoginModal -->
-                                <div id="loginModal" class="dropdown-menu">
-                                    <div class="dropdown-header">
-                                        <p id="welcomeMessage">Seja bem-vindo(a), Alana!</p>
-                                        <a href="javascript:void(0)" onclick="toggleModal('modal-carrinho')">Abrir Carrinho</a> <!-- Abre o modal de carrinho -->
+
+                                    <!-- Modal de Login -->
+                                    <div id="login" class="header-btn header-dropdown">
+                                        <i class="uil uil-user-md" onclick="toggleLoginModal()"></i>
+                                        <!-- Abre/fecha o modal de login -->
+                                        <div id="loginModal" class="dropdown-menu">
+                                            <div class="dropdown-header">
+                                                <span class="close" onclick="closeModal('loginModal')">&times;</span>
+                                                <!-- Fechar o modal de login -->
+                                                <p id="welcomeMessage">Seja bem-vindo(a), Alana!</p>
+                                                <a href="javascript:void(0)" onclick="toggleModal('cartModal')">Abrir
+                                                    Carrinho</a> <!-- Abre o modal de carrinho -->
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <a href="javascript:void(0)" class="header-btn header-cart" onclick="toggleModal('modal-carrinho')">
-    <i id="compr-btn" class="uil uil-shopping-bag"></i>
-</a>
+
+                                    <a href="javascript:void(0)" class="header-btn header-cart"
+                                        onclick="toggleModal('modal-carrinho')">
+                                        <i id="compr-btn" class="uil uil-shopping-bag"></i>
+                                    </a>
 
                                     <!-- Dropdown de Usuário Atualizado -->
                                 </div>
@@ -294,8 +355,8 @@ include '../php/conexao.php';
 
     <div class="bg-pattern bg-light repeat-img" style="background-image: url(assets/images/blog-pattern-bg.png);">
         <section class="blog-sec section" id="blog">
-            <div class="sec-wp">
-                <div class="container">
+            <div class="sec-wp" id="sec-wp">
+                <div class="container" id="container">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="sec-title text-center mb-5">
@@ -310,8 +371,8 @@ include '../php/conexao.php';
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="blog-box-custom">
-                            <div class="blog-img-custom back-img" style="background-image: url('../img/474.webp');">
-                            </div>
+                                <div class="blog-img-custom back-img" style="background-image: url('../img/474.webp');">
+                                </div>
                                 <div class="blog-text-custom">
                                     <p class="blog-date-custom"></p>
                                     <a href="#" class="h4-title-custom"></a>
@@ -321,17 +382,20 @@ include '../php/conexao.php';
                         </div>
                         <div class="col-lg-4">
                             <div class="blog-box-custom">
-                                <div class="blog-img-custom back-img" style="background-image: url('../img/png-transparent-chicken-parm-thumbnail.png');"></div>
+                                <div class="blog-img-custom back-img"
+                                    style="background-image: url('../img/png-transparent-chicken-parm-thumbnail.png');">
+                                </div>
                                 <div class="blog-text-custom">
                                     <p class="blog-date-custom"></p>
                                     <a href="#" class="h4-title-custom"></a>
-                                    
+
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="blog-box-custom">
-                                <div class="blog-img-custom back-img" style="background-image: url('../img/OIP.jpg');"></div>
+                                <div class="blog-img-custom back-img" style="background-image: url('../img/OIP.jpg');">
+                                </div>
                                 <div class="blog-text-custom">
                                     <p class="blog-date-custom"></p>
                                     <a href="#" class="h4-title-custom"></a>
@@ -607,8 +671,10 @@ include '../php/conexao.php';
     <!-- footer ends  -->
 
     <!-- voltar para cima -->
-    <button id="botaoVoltar" class="botao" onclick="voltarAoTopo()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5" />
+    <button id="botaoVoltar" class="botao" onclick="voltarAoTopo()"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+            height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5" />
         </svg></button>
 
     <!-- <div id="cartModal" class="cart-modal">
@@ -653,26 +719,29 @@ include '../php/conexao.php';
     </div>
 
     <div id="modal-pagamento" class="modal">
-    <div class="modal-content">
-        <span class="close-pagamento">&times;</span> <!-- Botão de fechar pagamento -->
-        <h3>Resumo do Pedido</h3>
-        <div id="resumo-carrinho"></div>
-        <p>Total: R$ <span id="total-pagamento" name="total-pagamento">0.00</span></p>
-        <p id="codigo-pedido-container" style="display: none;">
-            Código do Pedido: <span id="codigo-pedido" name="codigo-pedido">12345</span>
-        </p>
+        <div class="modal-content">
+            <span class="close-pagamento">&times;</span> <!-- Botão de fechar pagamento -->
+            <h3>Resumo do Pedido</h3>
+            <div id="resumo-carrinho"></div>
+            <p>Total: R$ <span id="total-pagamento" name="total-pagamento">0.00</span></p>
+            <p id="codigo-pedido-container" style="display: none;">
+                Código do Pedido: <span id="codigo-pedido" name="codigo-pedido">12345</span>
+            </p>
 
-        <!-- Formulário de pagamento -->
-        <form method="POST" id="form-pagamento" action="">
-            <!-- Campos ocultos para enviar o código do pedido e o total do pagamento -->
-            <input type="hidden" id="codigo-pedido-input" name="codigo-pedido">
-            <input type="hidden" id="total-pagamento-input" name="total-pagamento">
-            <button type="button" id="confirmar-pagamento" onclick="preencherCampos()">Confirmar Compra</button>
-            <button type="submit" id="confirmar-recebimento" style="display: none;">Pedido Recebido</button>
-            <button type="button" id="cancelar-pagamento">Cancelar</button>
-        </form>
+            <!-- Formulário de pagamento -->
+            <form method="POST" id="form-pagamento" action="">
+                <!-- Campos ocultos para enviar o código do pedido e o total do pagamento -->
+                <input type="hidden" id="codigo-pedido-input" name="codigo-pedido">
+                <input type="hidden" id="total-pagamento-input" name="total-pagamento">
+                <div class="btns-resumo">
+                    <button class="btn-resumo" type="button" id="confirmar-pagamento">Confirmar Compra</button>
+                    <button class="btn-resumo" type="submit" id="confirmar-recebimento" style="display: none;">Pedido
+                        Recebido</button>
+                    <button class="btn-resumo" type="button" id="cancelar-pagamento">Cancelar</button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
 
 
@@ -765,7 +834,8 @@ include '../php/conexao.php';
             <p>Total: R$ <span id="total-pagamento">0.00</span></p>
 
             <!-- Código do Pedido, inicialmente oculto -->
-            <p id="codigo-pedido-container" style="display: none;">Código do Pedido: <span id="codigo-pedido"></span></p>
+            <p id="codigo-pedido-container" style="display: none;">Código do Pedido: <span id="codigo-pedido"></span>
+            </p>
 
             <!-- Botões de Ação -->
             <button id="confirmar-pagamento" onclick="abrirCode()">Confirmar Pagamento</button>
@@ -806,19 +876,19 @@ include '../php/conexao.php';
         confirmarPagamentoBtn.style.display = 'block';
 
         if (headerDropdownBtn) {
-            headerDropdownBtn.addEventListener('click', function() {
+            headerDropdownBtn.addEventListener('click', function () {
                 const dropdownContent = document.querySelector('.dropdown-content');
                 dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
             });
         }
 
         if (closeModalBtn) {
-            closeModalBtn.addEventListener('click', function() {
+            closeModalBtn.addEventListener('click', function () {
                 loginModal.style.display = 'none';
             });
         }
 
-        window.addEventListener('click', function(event) {
+        window.addEventListener('click', function (event) {
             if (event.target === loginModal) {
                 loginModal.style.display = 'none';
             }
@@ -869,7 +939,7 @@ include '../php/conexao.php';
                 quantidadeInput.type = 'number';
                 quantidadeInput.value = item.quantidade;
                 quantidadeInput.min = 1;
-                quantidadeInput.addEventListener('input', function() {
+                quantidadeInput.addEventListener('input', function () {
                     atualizarQuantidade(index, parseInt(quantidadeInput.value));
                 });
 
@@ -925,7 +995,7 @@ include '../php/conexao.php';
             modalCarrinho.style.display = 'block';
         });
 
-        window.addEventListener('click', function(event) {
+        window.addEventListener('click', function (event) {
             if (event.target === modalPagamento) {
                 modalPagamento.style.display = 'none';
                 modalCarrinho.style.display = 'block';
@@ -939,7 +1009,7 @@ include '../php/conexao.php';
 
         const buyButtons = document.querySelectorAll('.buy-btn');
         buyButtons.forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 const nome = this.getAttribute('data-nome');
                 const imagem = this.getAttribute('data-imagem');
                 const preco = parseFloat(this.getAttribute('data-preco'));
@@ -959,7 +1029,7 @@ include '../php/conexao.php';
             modalCarrinho.style.display = 'block';
         });
 
-        window.addEventListener('click', function(event) {
+        window.addEventListener('click', function (event) {
             const dropdownContent = document.querySelector('.dropdown-content');
             if (dropdownContent && !headerDropdownBtn.contains(event.target) && !dropdownContent.contains(event.target)) {
                 dropdownContent.style.display = 'none';
@@ -998,7 +1068,7 @@ include '../php/conexao.php';
         }
 
 
-        document.getElementById('confirmar-pagamento').addEventListener('click', function(event) {
+        document.getElementById('confirmar-pagamento').addEventListener('click', function (event) {
             event.preventDefault(); // Impede o comportamento padrão do botão
 
             // Obtendo os valores de total e código do pedido
@@ -1018,24 +1088,24 @@ include '../php/conexao.php';
         });
 
         function preencherCampos() {
-    // Captura os valores dos elementos visíveis
-    const total = document.getElementById('total-pagamento').innerText;
-    const codigoPedido = document.getElementById('codigo-pedido').innerText;
+            // Captura os valores dos elementos visíveis
+            const total = document.getElementById('total-pagamento').innerText;
+            const codigoPedido = document.getElementById('codigo-pedido').innerText;
 
-    // Preenche os campos ocultos com os valores capturados
-    document.getElementById('codigo-pedido-input').value = codigoPedido;
-    document.getElementById('total-pagamento-input').value = total;
+            // Preenche os campos ocultos com os valores capturados
+            document.getElementById('codigo-pedido-input').value = codigoPedido;
+            document.getElementById('total-pagamento-input').value = total;
 
-    // Pode fazer uma verificação para garantir que os valores não estão vazios
-    if (!total || !codigoPedido) {
-        alert("Erro: Dados incompletos!");
-        return false; // Impede o envio do formulário se os dados estiverem faltando
-    }
+            // Pode fazer uma verificação para garantir que os valores não estão vazios
+            if (!total || !codigoPedido) {
+                alert("Erro: Dados incompletos!");
+                return false; // Impede o envio do formulário se os dados estiverem faltando
+            }
 
-    // Agora o formulário pode ser enviado
-    document.getElementById('form-pagamento').submit();
-}
-function scrollToSection(sectionId) {
+            // Agora o formulário pode ser enviado
+            document.getElementById('form-pagamento').submit();
+        }
+        function scrollToSection(sectionId) {
             // Encontra a seção usando o ID
             var section = document.getElementById(sectionId);
 
@@ -1058,8 +1128,8 @@ function scrollToSection(sectionId) {
             }
         }
 
-                // Função para alternar a exibição do modal de login
-                function toggleLoginModal() {
+        // Função para alternar a exibição do modal de login
+        function toggleLoginModal() {
             const modal = document.getElementById('loginModal'); // Seleciona o modal pelo ID
             if (modal.style.display === 'block') {
                 modal.style.display = 'none'; // Se estiver visível, oculta
@@ -1098,57 +1168,57 @@ function scrollToSection(sectionId) {
     <!-- fancy box  -->
     <script src="./js/jquery.fancybox.min.js"></script>
     <?php
-// Incluir a conexão com o banco de dados
-include '../php/conexao.php'; // Caminho correto para o arquivo conexao.php
+    // Incluir a conexão com o banco de dados
+    include '../php/conexao.php'; // Caminho correto para o arquivo conexao.php
+    
+    // Verificar se os dados foram enviados via POST
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Obter os dados enviados do formulário
+        $codigo_pedido = $_POST['codigo-pedido'];
+        $total_pagamento = $_POST['total-pagamento'];
 
-// Verificar se os dados foram enviados via POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Obter os dados enviados do formulário
-    $codigo_pedido = $_POST['codigo-pedido'];
-    $total_pagamento = $_POST['total-pagamento'];
-
-    // Validar os dados (opcional)
-    if (empty($codigo_pedido) || empty($total_pagamento)) {
-        echo "Erro: Dados incompletos!";
-        exit;
-    }
-
-    // Inserir os dados na tabela tb_pedidos
-    $query = "INSERT INTO tb_pedidos (usuario, codigo, total) VALUES (?, ?, ?)";
-
-    // Usar a conexão já estabelecida para preparar e executar a consulta
-    if ($stmt = $db->prepare($query)) {
-        // Definindo o valor de 'usuario'. Aqui você pode pegar o usuário logado ou um valor estático.
-        // Por exemplo, se o usuário for logado:
-        // $usuario = $_SESSION['usuario_id']; 
-        // Se for estático:
-        $usuario = '1'; // Este valor pode ser alterado conforme sua lógica
-
-        // Vincular os parâmetros da consulta (usuario como string, total como float/double, e codigo como string)
-        $stmt->bind_param('isd', $usuario, $codigo_pedido, $total_pagamento);
-
-        // Executar a consulta
-        if ($stmt->execute()) {
-            // Sucesso
-            echo json_encode(['success' => true, 'message' => 'Pedido realizado com sucesso!']);
-        } else {
-            // Erro ao executar a consulta
-            echo json_encode(['success' => false, 'message' => 'Erro ao salvar o pedido: ' . $stmt->error]);
+        // Validar os dados (opcional)
+        if (empty($codigo_pedido) || empty($total_pagamento)) {
+            echo "Erro: Dados incompletos!";
+            exit;
         }
 
-        // Fechar a declaração
-        $stmt->close();
-    } else {
-        echo "Erro ao preparar a consulta: " . $db->error;
-    }
+        // Inserir os dados na tabela tb_pedidos
+        $query = "INSERT INTO tb_pedidos (usuario, codigo, total) VALUES (?, ?, ?)";
 
-    // Fechar a conexão com o banco de dados
-    $db->close();
-} else {
-    // Caso o método não seja POST, retornar um erro
-    echo json_encode(['success' => false, 'message' => 'Método inválido.']);
-}
-?>
+        // Usar a conexão já estabelecida para preparar e executar a consulta
+        if ($stmt = $db->prepare($query)) {
+            // Definindo o valor de 'usuario'. Aqui você pode pegar o usuário logado ou um valor estático.
+            // Por exemplo, se o usuário for logado:
+            // $usuario = $_SESSION['usuario_id']; 
+            // Se for estático:
+            $usuario = '1'; // Este valor pode ser alterado conforme sua lógica
+    
+            // Vincular os parâmetros da consulta (usuario como string, total como float/double, e codigo como string)
+            $stmt->bind_param('isd', $usuario, $codigo_pedido, $total_pagamento);
+
+            // Executar a consulta
+            if ($stmt->execute()) {
+                // Sucesso
+                echo json_encode(['success' => true, 'message' => 'Pedido realizado com sucesso!']);
+            } else {
+                // Erro ao executar a consulta
+                echo json_encode(['success' => false, 'message' => 'Erro ao salvar o pedido: ' . $stmt->error]);
+            }
+
+            // Fechar a declaração
+            $stmt->close();
+        } else {
+            echo "Erro ao preparar a consulta: " . $db->error;
+        }
+
+        // Fechar a conexão com o banco de dados
+        $db->close();
+    } else {
+        // Caso o método não seja POST, retornar um erro
+        echo json_encode(['success' => false, 'message' => 'Método inválido.']);
+    }
+    ?>
 
 
 </body>

@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Relatório</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- for icons  -->
@@ -20,7 +21,7 @@
     <link rel="stylesheet" href="./css/jquery.fancybox.min.css" />
     <!-- custom css  -->
     <link rel="stylesheet" href="./css/home_style.css" />
-    <link rel="stylesheet" href="./css/cardapio.css" />
+    <link rel="stylesheet" href="../css/administrador.adicionar.css" />
     <link rel="stylesheet" href="login.html" />
 
 
@@ -101,20 +102,47 @@
             background-color: #f5ebd9;
         }
 
+
+
+        /* Botão PDF */
+        .btn-pdf {
+            margin-top: 20px;
+            /* Ajuste o valor do margin-top */
+            margin-right: 20px;
+            /* Ajuste o valor do margin-right */
+            padding: 10px 20px;
+            /* Maior espaço interno */
+            background-color: #dda52f;
+            /* Cor de fundo do botão */
+            color: white;
+            /* Cor do texto */
+            border: none;
+            /* Remover borda */
+            border-radius: 29px;
+            /* Bordas arredondadas */
+            font-size: 16px;
+            /* Aumentar o tamanho da fonte */
+            cursor: pointer;
+            /* Mostrar o cursor como uma mão ao passar sobre o botão */
+            transition: background-color 0.3s ease;
+            /* Transição suave */
+        }
+
+        /* Efeito hover */
         .btn-pdf:hover {
             color: #000;
             background-color: #f5ebd9;
         }
 
-        .btn-pdf {
-            margin-top: -31px;
-            margin-right: 126px;
-            padding: 3px 10px;
-            background-color: #dda52f;
-            color: white;
-            border: none;
-            border-radius: 29px;
+        /* Alinhamento do botão para a direita */
+        .d-flex.justify-content-end {
+            display: flex;
+            justify-content: flex-end;
+            /* Alinha o botão à direita */
+            margin-top: 20px;
+            /* Ajusta o espaçamento superior */
         }
+
 
         .text-center {
             margin-top: 17px;
@@ -139,86 +167,59 @@
             transition: 0.5s;
             border-bottom: 1px solid transparent;
         }
+
         .site-nav-header {
-        display: flex;}
+            display: flex;
+        }
+
         .site-nav-header {
             display: flex;
             width: 100%;
             /* Ocupa 100% da largura */
         }
+
         .imagem-container {
-    width: 70px;
-    height: 70px;
-    background-color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 8px;
-    overflow: hidden;
+            width: 70px;
+            height: 70px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            overflow: hidden;
         }
+
         .imagem {
-    max-width: 100%;
-    max-height: 100%;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        h2 {
+            overflow: hidden;
         }
     </style>
 </head>
 
-<header class="site-nav-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-2">
-                <div class="header-logo">
-                    <a href="index.html">
-                        <img src="./img/logoOrderup.png" alt="Logo" />
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-10">
-                <div class="main-navigation">
-                    <button class="menu-toggle">
-                        <span></span><span></span>
-                    </button>
-                    <nav class="header-menu">
-                        <ul class="menu food-nav-menu">
-                            <li><a href="index.html">Adicionar produtos geral</a></li>
-                            <li><a href="cardapio.html">Menu</a></li>
-                        </ul>
-                    </nav>
-                    <div class="header-right">
-                        <form action="#" class="header-search-form for-des">
-                            <input type="search" class="form-input" placeholder="Pesquisar..." />
-                            <button type="submit">
-                                <i class="uil uil-search"></i>
-                            </button>
-                        </form>
-                        <div class="header-btn header-dropdown">
-                            <button class="loginbotao" type="submit">
-                                <i class="uil uil-user-md"></i>
-                            </button>
+<nav class="navbar">
+    <ul>
+        <img class="logo" src="../img/logoOrderup.png" alt="Logo" />
+        <li class="nav_g">
+            <a href="adicionar_produtos_geral.php">Inserção de produtos</a>
+        </li>
+        <li class="nav_g">
+            <a href="produtosDiario.php">Inserção de produtos diario</a>
+        </li>
+        <li class="nav_g"><a href="relatorio.php">Relatório</a></li>
+        <li class="nav_g"><a href="pedidosAdm.php">Pedidos</a></li>
+            
+    </ul>
+</nav>
 
 
-                        </div>
-                        <a href="javascript:void(0)" class="header-btn header-cart">
-                            <i id="compr-btn" class="uil uil-shopping-bag"></i>
-                        </a>
-
-                        <!-- Dropdown de Usuário Atualizado -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </header>
+
 </div>
-<div class="nav_link_ajuste" id="conteudo_oculto">
-    <nav class="nav_link">
-        <p class="n" onclick="scrollToSection('salgados')">Salgados</p>
-        <p class="n" onclick="scrollToSection('bebidas')">Bebidas</p>
-        <p class="n" onclick="scrollToSection('doces')">Doces</p>
-        <p class="n" onclick="scrollToSection('almoco')">Almoço</p>
-    </nav>
-</div>
-</div>
+
 
 <body>
     <h2 class="text-center flex-grow-1">Produtos no Cardápio</h2>
@@ -308,13 +309,14 @@
         </tbody>
     </table>
 
-    <div class="d-flex justify-content-end my-3">
-        <button id="gerarPDFtabela" class="btn-pdf" onclick="gerarPDF()">Gerar PDF</button>
-    </div>
+
+
 
     <div class="text-center my-3">
         <button class="btn-primary" onclick="filterData('week')">Semana</button>
         <button class="btn-secundary" onclick="filterData('month')">Mês</button>
+        <button id="gerarPDFtabela" class="btn-secundary" onclick="gerarPDF()">Gerar PDF</button>
+
     </div>
 
     <div class="bg-white ">
@@ -329,7 +331,9 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script>
 
     <script>
@@ -347,33 +351,33 @@
             data: {
                 labels: originalLabels,
                 datasets: [{
-                        label: 'Salgados',
-                        data: originalQuantidades['salgados'],
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Combos',
-                        data: originalQuantidades['combos'],
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Bebidas',
-                        data: originalQuantidades['bebidas'],
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Almoço',
-                        data: originalQuantidades['almoco'],
-                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                        borderColor: 'rgba(153, 102, 255, 1)',
-                        borderWidth: 1
-                    }
+                    label: 'Salgados',
+                    data: originalQuantidades['salgados'],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Combos',
+                    data: originalQuantidades['combos'],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Bebidas',
+                    data: originalQuantidades['bebidas'],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Almoço',
+                    data: originalQuantidades['almoco'],
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1
+                }
                 ]
             },
             options: {
