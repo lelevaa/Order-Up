@@ -231,7 +231,7 @@ $conn->close();
                     // Exibe os dados de cada linha
                     while ($row = $result->fetch_assoc()) {
                         echo "<tr>";
-                        echo "<td><img src='../pages/uploads/" . $row["imagem"] . "' alt='Imagem do produto' width='50' height='50'></td>";
+                        echo "<td><img src='/uploads/" . $row["imagem"] . "' alt='Imagem do produto' width='50' height='50'></td>";
                         echo "<td>" . $row["nome"] . "</td>";
                         echo "<td>" . $row["descricao"] . "</td>";
                         echo "<td>" . $row["preco"] . "</td>";
@@ -419,11 +419,9 @@ $conn->close();
 </html>
 
 <?php
-include '../php/conexao.php';
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['nomeFiltro']) && !empty($_POST['nomeFiltro'])) {
+    // Captura e sanitiza os dados do formulário
 
-// Verificar se o formulário foi enviado
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Obtém e sanitiza os dados do formulário
     $nome = isset($_POST['nomeFiltro']) ? $conn->real_escape_string(trim($_POST['nomeFiltro'])) : '';
     $descricao = isset($_POST['descricao']) ? $conn->real_escape_string(trim($_POST['descricao'])) : '';
     $preco = isset($_POST['preco']) ? floatval(str_replace(',', '.', $_POST['preco'])) : 0.0;
@@ -432,33 +430,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $lancamento = isset($_POST['lancamento']) ? $conn->real_escape_string(trim($_POST['lancamento'])) : '';
     $vencimento = isset($_POST['vencimento']) ? $conn->real_escape_string(trim($_POST['vencimento'])) : '';
 
+    // Verificação para evitar duplicação (exemplo de checagem se o produto já existe)
+    $sql = "SELECT COUNT(*) FROM tb_produtos WHERE nome = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $nome);
+    $stmt->execute();
+    $stmt->bind_result($produtoCount);
+    $stmt->fetch();
+    $stmt->close();
 
-    // Converte a data do formato dd-mm-yyyy para yyyy-mm-dd
-    $date = DateTime::createFromFormat('Y-m-d', $vencimento);
-    if ($date) {
-        $vencimento = $date->format('Y-m-d');
-    } else {
-        echo "<div class='produtosEncontrados'>Data inválida. O formato esperado é yyyy-mm-dd.</div>";
-        exit;
-    }
-
-    // Prepara e executa a consulta SQL para inserir os dados
-    $sql = "INSERT INTO tb_produtos (nome, descricao, preco,quantidade, categoria,lancamento, vencimento) VALUES (?, ?,?,?, ?, ?, ?)";
-    if ($stmt = $conn->prepare($sql)) {
-        $stmt->bind_param("ssdisss", $nome, $descricao, $preco, $quantidade, $categoria, $lancamento, $vencimento);
-
-        if ($stmt->execute()) {
-            echo "<script> window.location.href='produtosDiario.php'</script>";
+    if ($produtoCount == 0) {
+        // Se o produto não existir, insira no banco
+        $sql = "INSERT INTO tb_produtos (nome, descricao, preco, quantidade, categoria, lancamento, vencimento) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        if ($stmt = $conn->prepare($sql)) {
+            $stmt->bind_param("ssdisss", $nome, $descricao, $preco, $quantidade, $categoria, $lancamento, $vencimento);
+            if ($stmt->execute()) {
+                echo "<script> window.location.href='produtosDiario.php';</script>";
+            } else {
+                echo "Erro ao inserir produto: " . $stmt->error;
+            }
+            $stmt->close();
         } else {
-            echo "Erro ao inserir produto: " . $stmt->error;
+            echo "Erro ao preparar a consulta: " . $conn->error;
         }
-
-        // Fecha o statement
-        $stmt->close();
     } else {
-        echo "Erro ao preparar a consulta: " . $conn->error;
+        echo "Produto já existe no banco de dados.";
     }
 }
-
-$conn->close();
 ?>

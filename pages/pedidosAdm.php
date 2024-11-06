@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,6 +12,8 @@
     <link rel="stylesheet" href="../css/swiper-bundle.min.css">
     <link rel="stylesheet" href="../css/jquery.fancybox.min.css">
     <link rel="stylesheet" href="../css/administrador.adicionar.css">
+    <link rel="stylesheet" href="../css/administrador.adicionar.css">
+
 
     <style>
         /* Estilos para centralizar os retângulos */
@@ -32,6 +35,8 @@
 
         /* Cada retângulo */
         .retangulo {
+            cursor:pointer;
+            border:1px solid #d2ab60;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -124,148 +129,142 @@
                 justify-content: space-around;
             }
         }
+
+    
     </style>
 
 </head>
+
 <body>
 
-<header>
     <nav class="navbar">
-        <div class="logo-container">
-            <img class="logo" src="../img/logoOrderup.png" alt="Logo">
-        </div>
-        
-        <!-- Ícone de hambúrguer -->
-        <div class="menu-icon" id="menu-icon">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-
-        <!-- Menu de navegação -->
-        <div class="navbar-menu" id="navbar-menu">
-            <ul>
-                <li><a href="adicionar_produtos_geral.php">Inserção de produtos</a></li>
-                <li><a href="produtosDiario.php">Inserção de produtos diário</a></li>
-                <li><a href="#">Relatório</a></li>
-                <li><a href="#"></a></li>
-            </ul>
-        </div>
+        <ul>
+            <img class="logo" src="../img/logoOrderup.png" alt="Logo" />
+            <li class="nav_g">
+                <a href="adicionar_produtos_geral.php">Inserção de produtos</a>
+            </li>
+            <li class="nav_g">
+                <a href="produtosDiario.php">Inserção de produtos diario</a>
+            </li>
+            <li class="nav_g"><a href="relatorio.php">Relatório</a></li>
+            <li class="nav_g"><a href="pedidosAdm.php">Pedidos</a></li>
+        </ul>
     </nav>
-</header>
+    </header>
 
-<!-- Seção com os 12 Retângulos -->
-<div class="ajuste-de-centralizar">
-    <div class="container-retangulos">
-        <!-- Criando os 12 retângulos manualmente -->
-        <div class="retangulo">
-            <div class="pedido-info">
-                <span class="pedido-num">Pedido #1</span>
-                <span class="pedido-codigo">Código: A7B2C9</span>
-                <span class="pedido-total">Total: R$ 6,50</span>
+    <!-- Seção com os 12 Retângulos -->
+    <div class="ajuste-de-centralizar">
+        <div class="container-retangulos">
+            <!-- Criando os 12 retângulos manualmente -->
+            <div class="retangulo">
+                <div class="pedido-info">
+                    <span class="pedido-num">Pedido #1</span>
+                    <span class="pedido-codigo">Código: A7B2C9</span>
+                    <span class="pedido-total">Total: R$ 6,50</span>
+                </div>
             </div>
-        </div>
 
-        <div class="retangulo">
-            <div class="pedido-info">
-                <span class="pedido-num">Pedido #2</span>
-                <span class="pedido-codigo">Código: D3E4F1</span>
-                <span class="pedido-total">Total: R$ 12,50</span>
+            <div class="retangulo">
+                <div class="pedido-info">
+                    <span class="pedido-num">Pedido #2</span>
+                    <span class="pedido-codigo">Código: D3E4F1</span>
+                    <span class="pedido-total">Total: R$ 12,50</span>
+                </div>
             </div>
-        </div>
 
-        <div class="retangulo">
-            <div class="pedido-info">
-                <span class="pedido-num">Pedido #3</span>
-                <span class="pedido-codigo">Código: G1H8J0</span>
-                <span class="pedido-total">Total: R$ 2,50</span>
+            <div class="retangulo">
+                <div class="pedido-info">
+                    <span class="pedido-num">Pedido #3</span>
+                    <span class="pedido-codigo">Código: G1H8J0</span>
+                    <span class="pedido-total">Total: R$ 2,50</span>
+                </div>
             </div>
-        </div>
 
-        <div class="retangulo">
-            <div class="pedido-info">
-                <span class="pedido-num">Pedido #4</span>
-                <span class="pedido-codigo">Código: L6M9N2</span>
-                <span class="pedido-total">Total: R$ 5,00</span>
+            <div class="retangulo">
+                <div class="pedido-info">
+                    <span class="pedido-num">Pedido #4</span>
+                    <span class="pedido-codigo">Código: L6M9N2</span>
+                    <span class="pedido-total">Total: R$ 5,00</span>
+                </div>
             </div>
-        </div>
 
-        <div class="retangulo">
-            <div class="pedido-info">
-                <span class="pedido-num">Pedido #5</span>
-                <span class="pedido-codigo">Código: P3Q5R0</span>
-                <span class="pedido-total">Total: R$ 6,10</span>
+            <div class="retangulo">
+                <div class="pedido-info">
+                    <span class="pedido-num">Pedido #5</span>
+                    <span class="pedido-codigo">Código: P3Q5R0</span>
+                    <span class="pedido-total">Total: R$ 6,10</span>
+                </div>
             </div>
-        </div>
 
-        <div class="retangulo">
-            <div class="pedido-info">
-                <span class="pedido-num">Pedido #6</span>
-                <span class="pedido-codigo">Código: X7Y4Z1</span>
-                <span class="pedido-total">Total: R$ 15,60</span>
+            <div class="retangulo">
+                <div class="pedido-info">
+                    <span class="pedido-num">Pedido #6</span>
+                    <span class="pedido-codigo">Código: X7Y4Z1</span>
+                    <span class="pedido-total">Total: R$ 15,60</span>
+                </div>
             </div>
-        </div>
 
-        <div class="retangulo">
-            <div class="pedido-info">
-                <span class="pedido-num">Pedido #7</span>
-                <span class="pedido-codigo">Código: B9C0D4</span>
-                <span class="pedido-total">Total: R$ 9,60</span>
+            <div class="retangulo">
+                <div class="pedido-info">
+                    <span class="pedido-num">Pedido #7</span>
+                    <span class="pedido-codigo">Código: B9C0D4</span>
+                    <span class="pedido-total">Total: R$ 9,60</span>
+                </div>
             </div>
-        </div>
 
-        <div class="retangulo">
-            <div class="pedido-info">
-                <span class="pedido-num">Pedido #8</span>
-                <span class="pedido-codigo">Código: F6G1H3</span>
-                <span class="pedido-total">Total: R$ 8,45</span>
+            <div class="retangulo">
+                <div class="pedido-info">
+                    <span class="pedido-num">Pedido #8</span>
+                    <span class="pedido-codigo">Código: F6G1H3</span>
+                    <span class="pedido-total">Total: R$ 8,45</span>
+                </div>
             </div>
-        </div>
 
-        <div class="retangulo">
-            <div class="pedido-info">
-                <span class="pedido-num">Pedido #9</span>
-                <span class="pedido-codigo">Código: J2K4L7</span>
-                <span class="pedido-total">Total: R$ 5,40</span>
+            <div class="retangulo">
+                <div class="pedido-info">
+                    <span class="pedido-num">Pedido #9</span>
+                    <span class="pedido-codigo">Código: J2K4L7</span>
+                    <span class="pedido-total">Total: R$ 5,40</span>
+                </div>
             </div>
-        </div>
 
-        <div class="retangulo">
-            <div class="pedido-info">
-                <span class="pedido-num">Pedido #10</span>
-                <span class="pedido-codigo">Código: M8N9O2</span>
-                <span class="pedido-total">Total: R$ 4,60</span>
+            <div class="retangulo">
+                <div class="pedido-info">
+                    <span class="pedido-num">Pedido #10</span>
+                    <span class="pedido-codigo">Código: M8N9O2</span>
+                    <span class="pedido-total">Total: R$ 4,60</span>
+                </div>
             </div>
-        </div>
 
-        <div class="retangulo">
-            <div class="pedido-info">
-                <span class="pedido-num">Pedido #11</span>
-                <span class="pedido-codigo">Código: S3T0U4</span>
-                <span class="pedido-total">Total: R$ 0,15</span>
+            <div class="retangulo">
+                <div class="pedido-info">
+                    <span class="pedido-num">Pedido #11</span>
+                    <span class="pedido-codigo">Código: S3T0U4</span>
+                    <span class="pedido-total">Total: R$ 0,15</span>
+                </div>
             </div>
-        </div>
 
-        <div class="retangulo">
-            <div class="pedido-info">
-                <span class="pedido-num">Pedido #12</span>
-                <span class="pedido-codigo">Código: W1X5Y3</span>
-                <span class="pedido-total">Total: R$ 6,80</span>
+            <div class="retangulo">
+                <div class="pedido-info">
+                    <span class="pedido-num">Pedido #12</span>
+                    <span class="pedido-codigo">Código: W1X5Y3</span>
+                    <span class="pedido-total">Total: R$ 6,80</span>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-    // Selecionando o botão de menu e o menu de navegação
-    const menuIcon = document.getElementById('menu-icon');
-    const navbarMenu = document.getElementById('navbar-menu');
+    <script>
+        // Selecionando o botão de menu e o menu de navegação
+        const menuIcon = document.getElementById('menu-icon');
+        const navbarMenu = document.getElementById('navbar-menu');
 
-    // Função para alternar a visibilidade do menu
-    menuIcon.addEventListener('click', function() {
-        navbarMenu.classList.toggle('active');
-    });
-</script>
+        // Função para alternar a visibilidade do menu
+        menuIcon.addEventListener('click', function () {
+            navbarMenu.classList.toggle('active');
+        });
+    </script>
 
 </body>
+
 </html>

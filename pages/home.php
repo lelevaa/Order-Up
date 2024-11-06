@@ -27,35 +27,33 @@
 <body class="body-fixed">
     <style>
         /* Estilos gerais dos modais */
-        #loginModal,
-        #cartModal {
+        #loginModal {
+            height: 1200px;
+            /* Ajuste a altura do modal */
             display: none;
             /* Inicialmente oculto */
-            position: absolute;
-            top: 30px;
-            /* Posição do modal */
+            position: fixed;
+            /* Fica fixado na tela */
+            top: 0;
+            /* Fica no topo da tela */
             right: 0;
+            /* Fica no canto direito da tela */
             background-color: #fff;
+            /* Cor de fundo */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* Sombra suave */
             padding: 15px;
             border-radius: 5px;
-            width: 250px;
-            /* Tamanho do modal */
-            z-index: 1000;
-            font-family: Arial, sans-serif;
-            /* Animação */
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-                /* Conteúdo do modal */
-                .login-modal-content {
-            background-color: #fff;
-            margin: 15% auto;
-            padding: 20px;
             width: 300px;
-            border-radius: 10px;
+            /* Largura fixa do modal */
+            z-index: 1000;
+            /* Fica acima de outros elementos */
+            font-family: Arial, sans-serif;
+            animation: fadeIn 0.3s ease-in-out;
+            /* Animação suave */
         }
 
+        /* Definição da animação fadeIn */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -66,7 +64,47 @@
             }
         }
 
-        /* Estilo para o conteúdo dentro do modal de login */
+        /* Modal de Carrinho */
+        #cartModal {
+            height: 1200px;
+            /* Ajuste a altura do modal */
+            display: none;
+            /* Inicialmente oculto */
+            position: fixed;
+            /* Fica fixado na tela */
+            top: 0;
+            /* Fica no topo da tela */
+            right: 0;
+            /* Fica no canto direito da tela */
+            background-color: #fff;
+            /* Cor de fundo */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* Sombra suave */
+            padding: 15px;
+            border-radius: 5px;
+            width: 300px;
+            /* Largura fixa do modal */
+            z-index: 9999;
+            /* Fica acima de outros elementos */
+            font-family: Arial, sans-serif;
+            animation: fadeIn 0.3s ease-in-out;
+            /* Animação suave */
+        }
+
+        /* Definição da animação fadeIn */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+
+
+        /* Conteúdo do modal de login */
         #loginModal .dropdown-header p {
             margin: 0;
             font-size: 16px;
@@ -88,32 +126,58 @@
             text-decoration: underline;
         }
 
-        /* Estilo para o modal do carrinho */
-        .cart-modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #fff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            border-radius: 5px;
-            width: 300px;
-            z-index: 9999;
-        }
-
+        /* Estilo para o conteúdo dentro do modal de carrinho */
         .cart-modal-content h4 {
             text-align: center;
             margin-bottom: 20px;
         }
 
-        .cart-modal .subtitulo {
-            text-align: center;
-            margin-bottom: 20px;
+        /* Estilo para o botão de fechar */
+        #loginModal .close,
+        .cart-modal .close {
+            font-size: 20px;
+            color: #333;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: transparent;
+            border: none;
+            font-weight: bold;
         }
 
-        /* Estilo do botão de fechar */
+        #loginModal .close:hover,
+        .cart-modal .close:hover {
+            color: #ff0000;
+        }
+
+        /* Estilo para o ícone de carrinho */
+        .header-btn.header-cart i {
+            cursor: pointer;
+        }
+
+        /* Estilo para o modal do carrinho */
+        .cart-modal {
+            display: none;
+            /* Inicialmente oculto */
+            position: fixed;
+            /* Fica fixado na tela */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            /* Centraliza o modal */
+            background-color: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            /* Sombra mais forte */
+            padding: 20px;
+            border-radius: 5px;
+            width: 300px;
+            /* Tamanho do modal */
+            z-index: 9999;
+            /* Fica acima de outros elementos */
+        }
+
+        /* Ajustes no botão de fechar para o carrinho */
         .cart-modal .close {
             position: absolute;
             top: 10px;
@@ -122,15 +186,23 @@
             cursor: pointer;
         }
 
-        /* Estilo para o ícone de carrinho */
-        .header-btn.header-cart i {
-            cursor: pointer;
-        }
-
-        .cart-modal2{
+        /* Modal para exibir no lado direito */
+        .cart-modal2 {
             height: 100%;
             display: flex;
             justify-content: end;
+            /* Alinha o modal à direita */
+        }
+
+        /* Animação de Fade-In para os modais */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
     </style>
     <!-- start of header  -->
@@ -149,9 +221,9 @@
                         <button class="menu-toggle"><span></span><span></span></button>
                         <nav class="header-menu">
                             <ul class="menu food-nav-menu">
-                                <li><a href="#inicio">Inicio</a></li>
+                                <li><a href="home.php">Inicio</a></li>
                                 <li><a href="#about"></a></li>
-                                <li><a href="cardapio.html">Menu</a></li>
+                                <li><a href="#blog">Menu</a></li>
                                 <li><a href="#gallery"></a></li>
                                 <li><a href="#blog"></a></li>
                                 <li><a href="#contact"></a></li>
@@ -164,36 +236,40 @@
                                     <i class="uil uil-search"></i>
                                 </button>
                             </form>
+
                             <!-- Modal de Login -->
                             <div id="login" class="header-btn header-dropdown">
-                                <i class="uil uil-user-md" onclick="toggleLoginModal()"></i> <!-- Alterado para usar toggleLoginModal -->
+                                <i class="uil uil-user-md" onclick="toggleLoginModal()"></i>
+                                <!-- Abre/fecha o modal de login -->
                                 <div id="loginModal" class="dropdown-menu">
                                     <div class="dropdown-header">
+                                        <span class="close" onclick="closeModal('loginModal')">&times;</span>
+                                        <!-- Fechar o modal de login -->
                                         <p id="welcomeMessage">Seja bem-vindo(a), Alana!</p>
-                                        <a href="javascript:void(0)" onclick="toggleModal('cartModal')">Abrir Carrinho</a> <!-- Abre o modal de carrinho -->
-                                    </div>
+                                        <a href="javascript:void(0)" onclick="toggleModal('cartModal')">Abrir
+                                            Carrinho</a> <!-- Abre o modal de carrinho -->
+                                            <button onclick="window.location.href='saldo/pagamentoSDK.php'">Adicionar saldo</button>
+                                            </div>
                                 </div>
                             </div>
 
                             <!-- Modal do Carrinho -->
-                            <div id="cartModal" class="cartModal2">
+                            <div id="cartModal" class="cartModal2" style="display: none;">
                                 <div class="cart-modal-content">
-                                    <span class="close" onclick="closeModal('cartModal2')">&times;</span>
+                                    <span class="close" onclick="closeModal('cartModal')">&times;</span>
+                                    <!-- Fechar o modal de carrinho -->
                                     <h4>Seu Carrinho</h4>
                                     <div class="subtitulo">
                                         <p>Ops, seu carrinho ainda está vazio...</p>
                                     </div>
-                                    <button class="button">Escolher produtos</button>
+                                    <a href="#blog" class="button">Escolher produtos</a>
                                 </div>
                             </div>
 
-
-
-
-                            <!-- Ícone de Carrinho na Header -->
-                            <a href="javascript:void(0)" class="header-btn header-cart">
-                                <i id="compr-btn" class="uil uil-shopping-bag" onclick="toggleModal('cartModal')"></i>
-                            </a>
+                                <!-- Ícone de Carrinho na Header -->
+                                <a href="javascript:void(0)" class="header-btn header-cart">
+                                    <i id="compr-btn" class="uil uil-shopping-bag" onclick="toggleModal('cartModal')"></i>
+                                </a>
 
                         </div>
                     </div>
@@ -223,7 +299,8 @@
                                         <span>Orderup</span>
 
                                     </h1>
-                                    <p>Onde cada pedido é uma experiência! Saboreie salgados, bebidas e pratos deliciosos, tudo com a facilidade de um clique.</p>
+                                    <p>Onde cada pedido é uma experiência! Saboreie salgados, bebidas e pratos
+                                        deliciosos, tudo com a facilidade de um clique.</p>
                                     <div class="banner-btn mt-4">
                                         <a href="#blog" class="sec-btn">Faça seu pedido</a>
                                     </div>
@@ -251,7 +328,8 @@
                                 <div class="sec-title-shape mb-4">
                                     <img src="assets/images/title-shape.svg" alt="">
                                 </div>
-                                <div class="bg-pattern bg-light repeat-img" style="background-image: url(assets/images/blog-pattern-bg.png);">
+                                <div class="bg-pattern bg-light repeat-img"
+                                    style="background-image: url(assets/images/blog-pattern-bg.png);">
                                     <section class="blog-sec section" id="blog">
                                         <div class="sec-wp">
                                             <div class="container">
@@ -259,24 +337,28 @@
                                                 <div class="row">
                                                     <div class="col-lg-4">
                                                         <div class="blog-box">
-                                                            <div class="blog-img back-img" style="background-image: url(../img/OrderUpsemnome.png);">
+                                                            <div class="blog-img back-img"
+                                                                style="background-image: url(../img/OrderUpsemnome.png);">
                                                             </div>
                                                             <div class="blog-text">
                                                                 <a href="#" class="h4-title">Cantina Térreo</a>
                                                                 <p></p>
-                                                                <a href="cardapioTerreo.php" class="sec-btn">Compre Aqui</a>
+                                                                <a href="cardapioTerreo.php" class="sec-btn">Compre
+                                                                    Aqui</a>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="blog-box">
-                                                            <div class="blog-img back-img" style="background-image: url(../img/OrderUpsemnome.png);">
+                                                            <div class="blog-img back-img"
+                                                                style="background-image: url(../img/OrderUpsemnome.png);">
                                                             </div>
                                                             <div class="blog-text">
 
                                                                 <a href="#" class="h4-title">Cantina 5 Andar</a>
                                                                 <p></p>
-                                                                <a href="cardapioUltimoAndar.php" class="sec-btn">Compre Aqui</a>
+                                                                <a href="cardapioUltimoAndar.php" class="sec-btn">Compre
+                                                                    Aqui</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -294,7 +376,8 @@
                     </div>
             </section>
 
-            <section style="background-image: url(assets/images/menu-bg.png);" class="our-menu section bg-light repeat-img" id="menu">
+            <section style="background-image: url(assets/images/menu-bg.png);"
+                class="our-menu section bg-light repeat-img" id="menu">
 
                 <div class="sec-wp">
                     <div class="container">
@@ -314,10 +397,18 @@
                             <div class="col-lg-10 m-auto">
                                 <div class="book-table-img-slider" id="icon">
                                     <div class="swiper-wrapper">
-                                        <a href="../imagens/bannercoxinha.jpeg" data-fancybox="table-slider" class="book-table-img back-img swiper-slide" style="background-image: url(../img/bannercoxinha.jpeg)"></a>
-                                        <a href="assets/images/bt2.jpg" data-fancybox="table-slider" class="book-table-img back-img swiper-slide" style="background-image: url(../img/banneralmoço.jpeg)"></a>
-                                        <a href="assets/images/bt3.jpg" data-fancybox="table-slider" class="book-table-img back-img swiper-slide" style="background-image: url(../img/doce.jpeg)"></a>
-                                        <a href="assets/images/bt4.jpg" data-fancybox="table-slider" class="book-table-img back-img swiper-slide" style="background-image: url(../img/banner-bebidas.png)"></a>
+                                        <a href="../imagens/bannercoxinha.jpeg" data-fancybox="table-slider"
+                                            class="book-table-img back-img swiper-slide"
+                                            style="background-image: url(../img/bannercoxinha.jpeg)"></a>
+                                        <a href="assets/images/bt2.jpg" data-fancybox="table-slider"
+                                            class="book-table-img back-img swiper-slide"
+                                            style="background-image: url(../img/banneralmoço.jpeg)"></a>
+                                        <a href="assets/images/bt3.jpg" data-fancybox="table-slider"
+                                            class="book-table-img back-img swiper-slide"
+                                            style="background-image: url(../img/doce.jpeg)"></a>
+                                        <a href="assets/images/bt4.jpg" data-fancybox="table-slider"
+                                            class="book-table-img back-img swiper-slide"
+                                            style="background-image: url(../img/banner-bebidas.png)"></a>
                                     </div>
 
                                     <div class="swiper-button-wp">
@@ -339,7 +430,8 @@
 
             </section>
 
-            <div class="bg-pattern bg-light repeat-img" style="background-image: url(assets/images/blog-pattern-bg.png);">
+            <div class="bg-pattern bg-light repeat-img"
+                style="background-image: url(assets/images/blog-pattern-bg.png);">
 
             </div>
 
@@ -534,8 +626,10 @@
     <script>
         // Função para alternar a exibição do modal de login
         function toggleLoginModal() {
-            const modal = document.getElementById('loginModal'); // Seleciona o modal pelo ID
-            if (modal.style.display === 'block') {
+            const modal = document.getElementById('loginModal'); // Seleciona o modal de login pelo ID
+
+            // Verifica se o modal está visível
+            if (window.getComputedStyle(modal).display === 'block') {
                 modal.style.display = 'none'; // Se estiver visível, oculta
             } else {
                 modal.style.display = 'block'; // Se estiver oculto, exibe
@@ -545,7 +639,9 @@
         // Função para alternar a exibição de outros modais (como o carrinho)
         function toggleModal(modalId) {
             const modal = document.getElementById(modalId); // Seleciona o modal pelo ID
-            if (modal.style.display === 'block') {
+
+            // Verifica se o modal está visível
+            if (window.getComputedStyle(modal).display === 'block') {
                 modal.style.display = 'none'; // Se estiver visível, oculta
             } else {
                 modal.style.display = 'block'; // Se estiver oculto, exibe
@@ -554,9 +650,11 @@
 
         // Função para fechar o modal
         function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
+            const modal = document.getElementById(modalId); // Seleciona o modal pelo ID
             modal.style.display = 'none'; // Fecha o modal
         }
+
+
     </script>
 </body>
 

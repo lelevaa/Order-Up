@@ -22,10 +22,14 @@ header {
 }
 
 .navbar{
+  display: flex;
   width: 100%;
   background-color: #dda52f;
   height: 102px;
+  justify-content: center;
+  overflow: hidden;
 }
+
 
 .nav_g {
   width: 131px;
@@ -298,10 +302,6 @@ html, body {
   flex-direction: column; /* Se desejar que os elementos dentro do container se empilhem verticalmente */
 }
 
-.navbar {
-  width: 100%;
-  height: 102px; /* Mantém a altura da navbar */
-}
 
 .form-container {
   flex: 1; /* Faz com que o form-container ocupe o espaço restante */
@@ -390,11 +390,11 @@ textarea{
   padding: 10px 20px;
   font-size: 16px;
   color: white; /* Cor do texto */
-  background-color: #007bff; /* Cor de fundo */
+  background-color: #dda52f; /* Cor de fundo */
   text-decoration: none; /* Remove o sublinhado */
   border-radius: 4px; /* Bordas arredondadas */
 }
 
 .cantinaBtn:hover {
-  background-color: #0056b3; /* Cor ao passar o mouse */
+  background-color: #dda52f; /* Cor ao passar o mouse */
 }
