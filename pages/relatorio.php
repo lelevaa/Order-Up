@@ -28,125 +28,102 @@
         @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
         * {
-            font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif;
+}
 
-        }
+.hidden {
+    display: none;
+}
 
-        .hidden {
-            display: none;
-        }
+.produto-option {
+    cursor: pointer;
+}
 
-        .produto-option {
-            cursor: pointer;
-        }
+.produto-table {
+    width: 100%;
+    max-width: 1000px;
+    margin: 57px auto;
+    border-collapse: collapse;
+}
 
-        .produto-table {
-            width: 80%;
-            /* Set the desired width */
-            max-width: 1000px;
-            /* Optional: maximum width for larger screens */
-            margin: 57px auto;
-            /* Center the table horizontally and add some vertical space */
-            border-collapse: collapse;
-            /* Maintain border style */
-        }
+.produto-table th,
+.produto-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
 
+.produto-table th {
+    text-align: center;
+    background-color: #dda52f;
+    font-weight: bold;
+    color: #ffff;
+}
 
-        .produto-table th,
-        .produto-table td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: center;
-        }
+.produto-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
 
-        .produto-table th {
-            text-align: center;
-            background-color: #dda52f;
-            font-weight: bold;
-            color: #ffff;
-        }
+.produto-table tr:hover {
+    background-color: #e2e6ea;
+}
 
-        .produto-table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
+.btn-primary {
+    padding: 3px 35px;
+    background-color: #dda52f;
+    color: white;
+    border: none;
+    border-radius: 29px;
+}
 
-        .produto-table tr:hover {
-            background-color: #e2e6ea;
-        }
+.btn-secundary {
+    margin-top: 92px;
+    padding: 3px 47px;
+    background-color: #dda52f;
+    color: white;
+    border: none;
+    border-radius: 43px;
+}
 
-        .btn-primary {
-            padding: 3px 35px;
-            background-color: #dda52f;
-            color: white;
-            border: none;
-            border-radius: 29px;
-        }
+.btn-primary:hover, .btn-secundary:hover, .btn-pdf:hover {
+    color: #000;
+    background-color: #f5ebd9;
+}
 
-        .btn-secundary {
-            margin-top: 92px;
-            padding: 3px 47px;
-            background-color: #dda52f;
-            color: white;
-            border: none;
-            border-radius: 43px;
-        }
+.btn-pdf {
+    margin-top: -31px;
+    margin-right: 126px;
+    padding: 3px 10px;
+    background-color: #dda52f;
+    color: white;
+    border: none;
+    border-radius: 29px;
+}
 
-        .btn-primary:hover {
-            color: #000;
-            background-color: #f5ebd9;
-        }
+.text-center {
+    margin-top: 17px;
+}
 
-        .btn-secundary:hover {
-            color: #000;
-            background-color: #f5ebd9;
-        }
+#filtro0 {
+    background-color: #dda52f;
+    font-weight: 700;
+    border: none;
+    color: #ffff;
+}
 
-        .btn-pdf:hover {
-            color: #000;
-            background-color: #f5ebd9;
-        }
+.site-nav-header {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 99;
+    transition: 0.5s;
+    border-bottom: 1px solid transparent;
+}
 
-        .btn-pdf {
-            margin-top: -31px;
-            margin-right: 126px;
-            padding: 3px 10px;
-            background-color: #dda52f;
-            color: white;
-            border: none;
-            border-radius: 29px;
-        }
-
-        .text-center {
-            margin-top: 17px;
-        }
-
-        #filtro0 {
-            background-color: #dda52f;
-            font-weight: 700;
-            border: none;
-            color: #ffff;
-        }
-
-        .site-nav-header {
-            /*background-color: #F5EBD9;*/
-            padding: 10px 0;
-            display: flex;
-            align-items: center;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 99;
-            transition: 0.5s;
-            border-bottom: 1px solid transparent;
-        }
-        .site-nav-header {
-        display: flex;}
-        .site-nav-header {
-            display: flex;
-            width: 100%;
-            /* Ocupa 100% da largura */
-        }
-        .imagem-container {
+.imagem-container {
     width: 70px;
     height: 70px;
     background-color: #f0f0f0;
@@ -155,11 +132,45 @@
     align-items: center;
     border-radius: 8px;
     overflow: hidden;
-        }
-        .imagem {
+}
+
+.imagem {
     max-width: 100%;
     max-height: 100%;
-        }
+}
+
+.ajuste-de-tela-de-tabela {
+    width: 100%;
+    overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+    .ajuste-de-tela-de-tabela {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .produto-table {
+        width: 100%;
+        display: block;
+        min-width: 600px; /* Garantir que a tabela tenha uma largura mínima */
+    }
+
+    .produto-table th, .produto-table td {
+        padding: 10px;
+        font-size: 12px; /* Reduz o tamanho da fonte para caber em telas menores */
+    }
+
+    .btn-primary, .btn-secundary, .btn-pdf {
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+
+    .btn-pdf {
+        margin-right: 16px;
+    }
+}
+
     </style>
 </head>
 
@@ -222,6 +233,7 @@
 
 <body>
     <h2 class="text-center flex-grow-1">Produtos no Cardápio</h2>
+    <div class="ajuste-de-tela-de-tabela">
     <table class="produto-table" id="produtosTabela">
         <thead>
             <tr>
@@ -307,6 +319,7 @@
             ?>
         </tbody>
     </table>
+        </div>
 
     <div class="d-flex justify-content-end my-3">
         <button id="gerarPDFtabela" class="btn-pdf" onclick="gerarPDF()">Gerar PDF</button>
