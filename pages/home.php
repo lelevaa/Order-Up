@@ -27,19 +27,38 @@
 <body class="body-fixed">
     <style>
         /* Estilos gerais dos modais */
-        #loginModal,
-        #cartModal {
+        #loginModal {
+            height: 1200px;
             display: none;
             /* Inicialmente oculto */
             position: absolute;
-            top: 30px;
+            top: 0px;
             /* Posição do modal */
             right: 0;
             background-color: #fff;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             padding: 15px;
             border-radius: 5px;
-            width: 250px;
+            width: 300px;
+            /* Tamanho do modal */
+            z-index: 1000;
+            font-family: Arial, sans-serif;
+            /* Animação */
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        #cartModal {
+            height: 1200px;
+            display: none;
+            /* Inicialmente oculto */
+            position: absolute;
+            top: 0px;
+            /* Posição do modal */
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            border-radius: 5px;
+            width: 300px;
             /* Tamanho do modal */
             z-index: 1000;
             font-family: Arial, sans-serif;
@@ -149,9 +168,9 @@
                         <button class="menu-toggle"><span></span><span></span></button>
                         <nav class="header-menu">
                             <ul class="menu food-nav-menu">
-                                <li><a href="#inicio">Inicio</a></li>
+                                <li><a href="home.php">Inicio</a></li>
                                 <li><a href="#about"></a></li>
-                                <li><a href="cardapio.html">Menu</a></li>
+                                <li><a href="#">Menu</a></li>
                                 <li><a href="#gallery"></a></li>
                                 <li><a href="#blog"></a></li>
                                 <li><a href="#contact"></a></li>
@@ -169,6 +188,7 @@
                                 <i class="uil uil-user-md" onclick="toggleLoginModal()"></i> <!-- Alterado para usar toggleLoginModal -->
                                 <div id="loginModal" class="dropdown-menu">
                                     <div class="dropdown-header">
+                                    <span class="close" onclick="closeModal('cartModal')">&times;</span>
                                         <p id="welcomeMessage">Seja bem-vindo(a), Alana!</p>
                                         <a href="javascript:void(0)" onclick="toggleModal('cartModal')">Abrir Carrinho</a> <!-- Abre o modal de carrinho -->
                                     </div>
@@ -178,7 +198,7 @@
                             <!-- Modal do Carrinho -->
                             <div id="cartModal" class="cartModal2">
                                 <div class="cart-modal-content">
-                                    <span class="close" onclick="closeModal('cartModal2')">&times;</span>
+                                    <span class="close" onclick="closeModal('cartModal')">&times;</span>
                                     <h4>Seu Carrinho</h4>
                                     <div class="subtitulo">
                                         <p>Ops, seu carrinho ainda está vazio...</p>

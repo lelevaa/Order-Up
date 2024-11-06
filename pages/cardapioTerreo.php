@@ -26,6 +26,18 @@ include '../php/conexao.php';
 
 <body>
     <style>
+        #loginModal .dropdown-menu {
+    max-width: 100%; /* Ajusta para caber no container */
+    overflow: hidden; /* Impede que o texto ultrapasse */
+    word-wrap: break-word; /* Quebra palavras longas se necessário */
+    padding: 10px; /* Ajusta o espaço interno para melhorar a legibilidade */
+}
+
+#loginModal .dropdown-header {
+    word-wrap: break-word; /* Evita que texto se sobreponha */
+    white-space: normal; /* Permite que o texto se quebre normalmente */
+}
+
         /* Estilo básico para o modal */
 /* Estilos gerais dos modais */
 #loginModal,
@@ -56,6 +68,39 @@ include '../php/conexao.php';
             width: 300px;
             border-radius: 10px;
         }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Estilo para o conteúdo dentro do modal de login */
+        #loginModal .dropdown-header p {
+            margin: 0;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
+
+        #loginModal .dropdown-header a {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #007bff;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        #loginModal .dropdown-header a:hover {
+            text-decoration: underline;
+        }
+
 
                 /* Estilo para o conteúdo dentro do modal de login */
                 #loginModal .dropdown-header p {
@@ -213,19 +258,20 @@ include '../php/conexao.php';
                                             <i class="uil uil-search"></i>
                                         </button>
                                     </form>
+
                             <!-- Modal de Login -->
                             <div id="login" class="header-btn header-dropdown">
                                 <i class="uil uil-user-md" onclick="toggleLoginModal()"></i> <!-- Alterado para usar toggleLoginModal -->
                                 <div id="loginModal" class="dropdown-menu">
                                     <div class="dropdown-header">
                                         <p id="welcomeMessage">Seja bem-vindo(a), Alana!</p>
-                                        <a href="javascript:void(0)" onclick="toggleModal('cartModal')">Abrir Carrinho</a> <!-- Abre o modal de carrinho -->
+                                        <a href="javascript:void(0)" onclick="toggleModal('modal-carrinho')">Abrir Carrinho</a> <!-- Abre o modal de carrinho -->
                                     </div>
                                 </div>
                             </div>
-                                    <a href="javascript:void(0)" class="header-btn header-cart">
-                                        <i id="compr-btn" class="uil uil-shopping-bag"></i>
-                                    </a>
+                            <a href="javascript:void(0)" class="header-btn header-cart" onclick="toggleModal('modal-carrinho')">
+    <i id="compr-btn" class="uil uil-shopping-bag"></i>
+</a>
 
                                     <!-- Dropdown de Usuário Atualizado -->
                                 </div>
@@ -264,8 +310,8 @@ include '../php/conexao.php';
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="blog-box-custom">
-                                <div class="blog-img-custom back-img" style="background-image: url(./img/pngegg.png);">
-                                </div>
+                            <div class="blog-img-custom back-img" style="background-image: url('../img/474.webp');">
+                            </div>
                                 <div class="blog-text-custom">
                                     <p class="blog-date-custom"></p>
                                     <a href="#" class="h4-title-custom"></a>
@@ -275,17 +321,17 @@ include '../php/conexao.php';
                         </div>
                         <div class="col-lg-4">
                             <div class="blog-box-custom">
-                                <div class="blog-img-custom back-img" style="background-image: url(assets/images/blog/blog2.jpg);"></div>
+                                <div class="blog-img-custom back-img" style="background-image: url('../img/png-transparent-chicken-parm-thumbnail.png');"></div>
                                 <div class="blog-text-custom">
                                     <p class="blog-date-custom"></p>
                                     <a href="#" class="h4-title-custom"></a>
-
+                                    
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="blog-box-custom">
-                                <div class="blog-img-custom back-img" style="background-image: url(assets/images/blog/blog2.jpg);"></div>
+                                <div class="blog-img-custom back-img" style="background-image: url('../img/OIP.jpg');"></div>
                                 <div class="blog-text-custom">
                                     <p class="blog-date-custom"></p>
                                     <a href="#" class="h4-title-custom"></a>
@@ -1010,6 +1056,32 @@ function scrollToSection(sectionId) {
             } else {
                 modal.style.display = 'block'; // Se estiver oculto, exibe
             }
+        }
+
+                // Função para alternar a exibição do modal de login
+                function toggleLoginModal() {
+            const modal = document.getElementById('loginModal'); // Seleciona o modal pelo ID
+            if (modal.style.display === 'block') {
+                modal.style.display = 'none'; // Se estiver visível, oculta
+            } else {
+                modal.style.display = 'block'; // Se estiver oculto, exibe
+            }
+        }
+
+        // Função para alternar a exibição de outros modais (como o carrinho)
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId); // Seleciona o modal pelo ID
+            if (modal.style.display === 'block') {
+                modal.style.display = 'none'; // Se estiver visível, oculta
+            } else {
+                modal.style.display = 'block'; // Se estiver oculto, exibe
+            }
+        }
+
+        // Função para fechar o modal
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'none'; // Fecha o modal
         }
 
     </script>

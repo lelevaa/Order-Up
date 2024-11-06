@@ -27,252 +27,262 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
 
 <body>
     <style>
-/* Estilo para o modal de carrinho */
-.modal-carrinho {
-    display: none;
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 350px;
-    height: 100%;
-    background-color: white;
-    border-left: 1px solid #ccc;
-    padding: 20px;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    font-family: 'Georgia', serif;
-    overflow-y: auto;
-}
+        /* Estilo para o modal de carrinho */
+        .modal-carrinho {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 350px;
+            height: 100%;
+            background-color: white;
+            border-left: 1px solid #ccc;
+            padding: 20px;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            font-family: 'Georgia', serif;
+            overflow-y: auto;
+        }
 
-.modal-content-carrinho {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-}
+        .modal-content-carrinho {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
 
-/* Título do modal */
-.modal-content-carrinho h3 {
-    font-size: 24px;
-    color: #1f2141;
-    margin-bottom: 20px;
-    text-align: center;
-}
+        /* Título do modal */
+        .modal-content-carrinho h3 {
+            font-size: 24px;
+            color: #1f2141;
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-/* Botão de fechar o modal */
-#fechar-modal-carrinho {
-    background-color: transparent;
-    border: none;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    display: flex;
-    justify-content: end;
-}
+        /* Botão de fechar o modal */
+        #fechar-modal-carrinho {
+            background-color: transparent;
+            border: none;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            display: flex;
+            justify-content: end;
+        }
 
-/* Lista de itens no carrinho */
-#lista-carrinho {
-    flex-grow: 1;
-    margin-bottom: 20px;
-}
+        /* Lista de itens no carrinho */
+        #lista-carrinho {
+            flex-grow: 1;
+            margin-bottom: 20px;
+        }
 
-#lista-carrinho .item-carrinho {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-    justify-content: space-between;
-    /* Adiciona espaçamento entre os elementos */
-}
+        #lista-carrinho .item-carrinho {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            justify-content: space-between;
+            /* Adiciona espaçamento entre os elementos */
+        }
 
-/* Imagem do produto */
-#lista-carrinho .item-carrinho img {
-    width: 50px; /* Largura consistente */
-    height: 50px; /* Altura consistente */
-    object-fit: cover;
-    margin-right: 10px;
-    border-radius: 5px; /* Bordas arredondadas */
-}
+        /* Imagem do produto */
+        #lista-carrinho .item-carrinho img {
+            width: 50px;
+            /* Largura consistente */
+            height: 50px;
+            /* Altura consistente */
+            object-fit: cover;
+            margin-right: 10px;
+            border-radius: 5px;
+            /* Bordas arredondadas */
+        }
 
-/* Nome e preço empilhados verticalmente */
-#lista-carrinho .item-carrinho .produto-info {
-    display: flex;
-    flex-direction: column; /* Exibe nome e preço em coluna */
-    justify-content: center;
-    font-size: 14px;
-    margin-right: 10px;
-    flex-grow: 1;
-}
+        /* Nome e preço empilhados verticalmente */
+        #lista-carrinho .item-carrinho .produto-info {
+            display: flex;
+            flex-direction: column;
+            /* Exibe nome e preço em coluna */
+            justify-content: center;
+            font-size: 14px;
+            margin-right: 10px;
+            flex-grow: 1;
+        }
 
-#lista-carrinho .item-carrinho .produto-nome {
-    font-size: 14px;
-    color: #333;
-    font-weight: bold;
-}
+        #lista-carrinho .item-carrinho .produto-nome {
+            font-size: 14px;
+            color: #333;
+            font-weight: bold;
+        }
 
-#lista-carrinho .item-carrinho .produto-preco {
-    font-size: 14px;
-    color: #555;
-    margin-top: 5px; /* Espaço entre o nome e o preço */
-}
+        #lista-carrinho .item-carrinho .produto-preco {
+            font-size: 14px;
+            color: #555;
+            margin-top: 5px;
+            /* Espaço entre o nome e o preço */
+        }
 
-/* Seção de quantidade */
-#lista-carrinho .item-carrinho .quantidade {
-    display: flex;
-    align-items: center;
-    margin-right: 10px;
-}
+        /* Seção de quantidade */
+        #lista-carrinho .item-carrinho .quantidade {
+            display: flex;
+            align-items: center;
+            margin-right: 10px;
+        }
 
-/* Botões de quantidade (+ e -) */
-#lista-carrinho .item-carrinho .quantidade button {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    color: #333;
-    font-size: 16px;
-    width: 30px;
-    height: 30px;
-    margin: 0 5px;
-    cursor: pointer;
-}
+        /* Botões de quantidade (+ e -) */
+        #lista-carrinho .item-carrinho .quantidade button {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            color: #333;
+            font-size: 16px;
+            width: 30px;
+            height: 30px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
 
-/* Campo de entrada para a quantidade */
-#lista-carrinho .item-carrinho .quantidade input {
-    width: 40px; /* Largura consistente para o input */
-    text-align: center;
-    font-size: 16px;
-}
+        /* Campo de entrada para a quantidade */
+        #lista-carrinho .item-carrinho .quantidade input {
+            width: 40px;
+            /* Largura consistente para o input */
+            text-align: center;
+            font-size: 16px;
+        }
 
-/* Botão Deletar */
-#lista-carrinho .item-carrinho .botao-deletar {
-    background-color: #fff;
-    border: 1px solid #333;
-    color: #333;
-    padding: 5px 10px;
-    font-size: 14px;
-    cursor: pointer;
-}
+        /* Botão Deletar */
+        #lista-carrinho .item-carrinho .botao-deletar {
+            background-color: #fff;
+            border: 1px solid #333;
+            color: #333;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+        }
 
-/* Total do carrinho */
-#total-carrinho {
-    font-weight: bold;
-    color: #333;
-    text-align: right;
-    font-size: 18px;
-}
+        /* Total do carrinho */
+        #total-carrinho {
+            font-weight: bold;
+            color: #333;
+            text-align: right;
+            font-size: 18px;
+        }
 
-.preco-total {
-    margin-top: 20px; /* Espaço acima da div de preço */
-    text-align: right; /* Alinha o texto à direita */
-    font-size: 18px; /* Tamanho da fonte */
-    color: #333; /* Cor do texto */
-    font-weight: bold; /* Negrito para o preço */
-}
-
-
-/* Botão de ir para o pagamento */
-#ir-para-pagamento {
-    background-color: #f5a623;
-    color: white;
-    padding: 10px;
-    width: 100%;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 20px;
-}
-
-/* Efeito hover no botão de pagamento */
-#ir-para-pagamento:hover {
-    background-color: #e59500;
-}
-
-/* Botão genérico para ações como continuar comprando e finalizar pedido */
-.a {
-    background-color: #DDA52F;
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 10px;
-    font-size: 16px;
-}
-
-.a:hover {
-    background-color: #CDA52F;
-}
-
-/* Subtotal e total no carrinho */
-p.subtotal, p.total {
-    text-align: right;
-    font-size: 16px;
-    color: #333;
-    margin-top: 10px;
-}
-
-/* Modal básico de login */
-.login-modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.login-modal-content {
-    background-color: #fff;
-    margin: 15% auto;
-    padding: 20px;
-    width: 300px;
-    border-radius: 10px;
-}
-
-/* Botão de fechar do modal de login */
-.close {
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.close:hover {
-    color: red;
-}
-
-/* Estilo para o input de quantidade no carrinho */
-.item-carrinho input[type="number"] {
-    width: 40px;
-    padding: 5px;
-    margin-right: 10px;
-    text-align: center;
-}
-
-/* Modal genérico */
-.modal {
-    display: none;
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    z-index: 10;
-}
-
-/* Conteúdo do modal genérico */
-.modal-content {
-    max-width: 400px;
-}
+        .preco-total {
+            margin-top: 20px;
+            /* Espaço acima da div de preço */
+            text-align: right;
+            /* Alinha o texto à direita */
+            font-size: 18px;
+            /* Tamanho da fonte */
+            color: #333;
+            /* Cor do texto */
+            font-weight: bold;
+            /* Negrito para o preço */
+        }
 
 
+        /* Botão de ir para o pagamento */
+        #ir-para-pagamento {
+            background-color: #f5a623;
+            color: white;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        /* Efeito hover no botão de pagamento */
+        #ir-para-pagamento:hover {
+            background-color: #e59500;
+        }
+
+        /* Botão genérico para ações como continuar comprando e finalizar pedido */
+        .a {
+            background-color: #DDA52F;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .a:hover {
+            background-color: #CDA52F;
+        }
+
+        /* Subtotal e total no carrinho */
+        p.subtotal,
+        p.total {
+            text-align: right;
+            font-size: 16px;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        /* Modal básico de login */
+        .login-modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .login-modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            width: 300px;
+            border-radius: 10px;
+        }
+
+        /* Botão de fechar do modal de login */
+        .close {
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: red;
+        }
+
+        /* Estilo para o input de quantidade no carrinho */
+        .item-carrinho input[type="number"] {
+            width: 40px;
+            padding: 5px;
+            margin-right: 10px;
+            text-align: center;
+        }
+
+        /* Modal genérico */
+        .modal {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            z-index: 10;
+        }
+
+        /* Conteúdo do modal genérico */
+        .modal-content {
+            max-width: 400px;
+        }
     </style>
     <div class="header_header">
         <div>
@@ -283,8 +293,7 @@ p.subtotal, p.total {
                         <div class="col-lg-2">
                             <div class="header-logo">
                                 <a href="index.html">
-                                    <img src="..
-                                    /img/logoOrderup.png" alt="Logo" />
+                                    <img src="../img/logoOrderup.png" alt="Logo" />
                                 </a>
                             </div>
                         </div>
@@ -354,7 +363,7 @@ p.subtotal, p.total {
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="blog-box-custom">
-                                <div class="blog-img-custom back-img" style="background-image: url(./img/pngegg.png);">
+                                <div class="blog-img-custom back-img" style="background-image: url(../img/474.webp);">
                                 </div>
                                 <div class="blog-text-custom">
                                     <p class="blog-date-custom"></p>
@@ -366,7 +375,7 @@ p.subtotal, p.total {
                         <div class="col-lg-4">
                             <div class="blog-box-custom">
                                 <div class="blog-img-custom back-img"
-                                    style="background-image: url(assets/images/blog/blog2.jpg);"></div>
+                                    style="background-image: url('../img/OIP (1).jpg');"></div>
                                 <div class="blog-text-custom">
                                     <p class="blog-date-custom"></p>
                                     <a href="#" class="h4-title-custom"></a>
@@ -377,7 +386,7 @@ p.subtotal, p.total {
                         <div class="col-lg-4">
                             <div class="blog-box-custom">
                                 <div class="blog-img-custom back-img"
-                                    style="background-image: url(assets/images/blog/blog2.jpg);"></div>
+                                    style="background-image: url(../img/bauruzinho.jpg);"></div>
                                 <div class="blog-text-custom">
                                     <p class="blog-date-custom"></p>
                                     <a href="#" class="h4-title-custom"></a>
@@ -680,49 +689,50 @@ p.subtotal, p.total {
 
     <!-- Modal de Carrinho que fica do lado direito da página -->
     <div id="modal-carrinho" class="modal-carrinho">
-    <div class="modal-content-carrinho">
-        <button id="fechar-modal-carrinho" class="fechar-modal-btn">&times;</button> <!-- Botão de fechar -->
-        <h3>Carrinho de Compras</h3>
+        <div class="modal-content-carrinho">
+            <button id="fechar-modal-carrinho" class="fechar-modal-btn">&times;</button> <!-- Botão de fechar -->
+            <h3>Carrinho de Compras</h3>
 
-        <!-- ajuste-de-conteudo -->
+            <!-- ajuste-de-conteudo -->
 
-        <div class="ajuste-de-conteudo">
+            <div class="ajuste-de-conteudo">
 
-        <!-- Lista de Itens no Carrinho -->
-        <div id="lista-carrinho"></div>
+                <!-- Lista de Itens no Carrinho -->
+                <div id="lista-carrinho"></div>
 
+            </div>
+
+            <!-- Total Geral -->
+            <div class="preco-total">
+                <p>Total: R$ <span id="total-carrinho">0.00</span></p>
+            </div>
+
+            <!-- Botão de Pagamento -->
+            <button class="n" id="ir-para-pagamento">Ir para pagamento</button>
         </div>
+    </div>
 
-        <!-- Total Geral -->
-        <div class="preco-total">
-            <p>Total: R$ <span id="total-carrinho">0.00</span></p>
+    <!-- Modal de Pagamento -->
+    <div id="modal-pagamento" class="modal">
+        <div class="modal-content">
+            <span class="close-pagamento">&times;</span> <!-- Botão de fechar -->
+            <h3>Resumo do Pedido</h3>
+
+            <!-- Lista de Itens no Resumo -->
+            <div id="resumo-carrinho"></div>
+
+            <!-- Total Geral -->
+            <p>Total: R$ <span id="total-pagamento">0.00</span></p>
+
+            <!-- Código do Pedido, inicialmente oculto -->
+            <p id="codigo-pedido-container" style="display: none;">Código do Pedido: <span id="codigo-pedido"></span>
+            </p>
+
+            <!-- Botões de Ação -->
+            <button id="confirmar-pagamento" onclick="verificacaoSaldo()">Confirmar Pagamento</button>
+            <button id="cancelar-pagamento">Cancelar</button>
         </div>
-
-        <!-- Botão de Pagamento -->
-        <button class="n" id="ir-para-pagamento">Ir para pagamento</button>
     </div>
-</div>
-
-<!-- Modal de Pagamento -->
-<div id="modal-pagamento" class="modal">
-    <div class="modal-content">
-        <span class="close-pagamento">&times;</span> <!-- Botão de fechar -->
-        <h3>Resumo do Pedido</h3>
-
-        <!-- Lista de Itens no Resumo -->
-        <div id="resumo-carrinho"></div>
-
-        <!-- Total Geral -->
-        <p>Total: R$ <span id="total-pagamento">0.00</span></p>
-
-        <!-- Código do Pedido, inicialmente oculto -->
-        <p id="codigo-pedido-container" style="display: none;">Código do Pedido: <span id="codigo-pedido"></span></p>
-
-        <!-- Botões de Ação -->
-        <button id="confirmar-pagamento" onclick="verificacaoSaldo()">Confirmar Pagamento</button>
-        <button id="cancelar-pagamento">Cancelar</button>
-    </div>
-</div>
 
     <!-- Modal para Carrinho -->
     <div id="loginModal" class="login-modal">
@@ -799,269 +809,270 @@ p.subtotal, p.total {
         </div>
     </div>
 
-<!-- Modal de Pagamento -->
-<div id="modal-pagamento" class="modal">
-    <div class="modal-content">
-        <span class="close-pagamento">&times;</span> <!-- Botão de fechar -->
-        <h3>Resumo do Pedido</h3>
+    <!-- Modal de Pagamento -->
+    <div id="modal-pagamento" class="modal">
+        <div class="modal-content">
+            <span class="close-pagamento">&times;</span> <!-- Botão de fechar -->
+            <h3>Resumo do Pedido</h3>
 
-        <!-- Lista de Itens no Resumo -->
-        <div id="resumo-carrinho"></div>
+            <!-- Lista de Itens no Resumo -->
+            <div id="resumo-carrinho"></div>
 
-        <!-- Total Geral -->
-        <p>Total: R$ <span id="total-pagamento">0.00</span></p>
+            <!-- Total Geral -->
+            <p>Total: R$ <span id="total-pagamento">0.00</span></p>
 
-        <!-- Código do Pedido, inicialmente oculto -->
-        <p id="codigo-pedido-container" style="display: none;">Código do Pedido: <span id="codigo-pedido"></span></p>
+            <!-- Código do Pedido, inicialmente oculto -->
+            <p id="codigo-pedido-container" style="display: none;">Código do Pedido: <span id="codigo-pedido"></span>
+            </p>
 
-        <!-- Botões de Ação -->
-        <button id="confirmar-pagamento" onclick="abrirCode()">Confirmar Pagamento</button>
-        <button id="cancelar-pagamento">Cancelar</button>
+            <!-- Botões de Ação -->
+            <button id="confirmar-pagamento" onclick="abrirCode()">Confirmar Pagamento</button>
+            <button id="cancelar-pagamento">Cancelar</button>
+        </div>
     </div>
-</div>
 
-<script>
- let carrinho = [];
-let saldo = 10;
+    <script>
+        let carrinho = [];
+        let saldo = 10;
 
-let total = 0;
+        let total = 0;
 
-const modalCarrinho = document.getElementById('modal-carrinho');
-const modalPagamento = document.getElementById('modal-pagamento');
-const closePagamento = document.querySelector('.close-pagamento');
-const closeCarrinho = document.getElementById('fechar-modal-carrinho');
-const resumoCarrinho = document.getElementById('resumo-carrinho');
-const totalPagamentoDisplay = document.getElementById('total-pagamento');
-const listaCarrinho = document.getElementById('lista-carrinho');
-const totalCarrinhoDisplay = document.getElementById('total-carrinho');
-const produtoNomeModal = document.getElementById('produto-nome-modal');
-const produtoImagemModal = document.getElementById('produto-imagem-modal');
-const produtoPrecoModal = document.getElementById('produto-preco-modal');
-const produtoTotalModal = document.getElementById('produto-total-modal');
-const quantidadeInput = document.getElementById('quantidade');
-const headerDropdownBtn = document.querySelector('.header-btn.header-dropdown');
-const loginModal = document.getElementById('loginModal');
-const closeModalBtn = document.querySelector('.close');
+        const modalCarrinho = document.getElementById('modal-carrinho');
+        const modalPagamento = document.getElementById('modal-pagamento');
+        const closePagamento = document.querySelector('.close-pagamento');
+        const closeCarrinho = document.getElementById('fechar-modal-carrinho');
+        const resumoCarrinho = document.getElementById('resumo-carrinho');
+        const totalPagamentoDisplay = document.getElementById('total-pagamento');
+        const listaCarrinho = document.getElementById('lista-carrinho');
+        const totalCarrinhoDisplay = document.getElementById('total-carrinho');
+        const produtoNomeModal = document.getElementById('produto-nome-modal');
+        const produtoImagemModal = document.getElementById('produto-imagem-modal');
+        const produtoPrecoModal = document.getElementById('produto-preco-modal');
+        const produtoTotalModal = document.getElementById('produto-total-modal');
+        const quantidadeInput = document.getElementById('quantidade');
+        const headerDropdownBtn = document.querySelector('.header-btn.header-dropdown');
+        const loginModal = document.getElementById('loginModal');
+        const closeModalBtn = document.querySelector('.close');
 
-let carrinhoAberto = false;
+        let carrinhoAberto = false;
 
-// Função para abrir o modal de login
-if (headerDropdownBtn) {
-    headerDropdownBtn.addEventListener('click', function () {
-        const dropdownContent = document.querySelector('.dropdown-content');
-        dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
-    });
-}
+        // Função para abrir o modal de login
+        if (headerDropdownBtn) {
+            headerDropdownBtn.addEventListener('click', function () {
+                const dropdownContent = document.querySelector('.dropdown-content');
+                dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
+            });
+        }
 
-// Função para fechar o modal de login
-if (closeModalBtn) {
-    closeModalBtn.addEventListener('click', function () {
-        loginModal.style.display = 'none';
-    });
-}
+        // Função para fechar o modal de login
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', function () {
+                loginModal.style.display = 'none';
+            });
+        }
 
-// Fecha o modal de login ao clicar fora
-window.addEventListener('click', function (event) {
-    if (event.target === loginModal) {
-        loginModal.style.display = 'none';
-    }
-});
-
-// Função para adicionar novo item ao carrinho
-function adicionarNovoItem() {
-    const nome = produtoNomeModal.textContent;
-    const imagem = produtoImagemModal.src.split('/').pop();
-    const preco = parseFloat(produtoPrecoModal.textContent);
-    const quantidade = parseInt(quantidadeInput.value);
-    const totalProduto = preco * quantidade;
-
-    const item = {
-        nome,
-        imagem,
-        preco,
-        quantidade,
-        totalProduto
-    };
-
-    carrinho.push(item);
-    atualizarCarrinho();
-
-    if (!carrinhoAberto) {
-        abrirCarrinho();
-        carrinhoAberto = true;
-    }
-}
-
-// Função para abrir o modal do carrinho
-function abrirCarrinho() {
-    modalCarrinho.style.display = 'block';
-}
-
-// Função para atualizar o carrinho
-function atualizarCarrinho() {
-    listaCarrinho.innerHTML = '';
-    total = 0;
-    carrinho.forEach((item, index) => {
-        const itemDiv = document.createElement('div');
-        itemDiv.classList.add('item-carrinho');
-
-        const img = document.createElement('img');
-        img.src = '../uploads/' + item.imagem;
-        img.alt = item.nome;
-        img.style.width = '50px';
-        img.style.marginRight = '10px';
-
-        const quantidadeInput = document.createElement('input');
-        quantidadeInput.type = 'number';
-        quantidadeInput.value = item.quantidade;
-        quantidadeInput.min = 1;
-        quantidadeInput.addEventListener('input', function () {
-            atualizarQuantidade(index, parseInt(quantidadeInput.value));
+        // Fecha o modal de login ao clicar fora
+        window.addEventListener('click', function (event) {
+            if (event.target === loginModal) {
+                loginModal.style.display = 'none';
+            }
         });
 
-        const p = document.createElement('p');
-        p.textContent = `${item.nome} - R$ ${item.totalProduto.toFixed(2)}`;
+        // Função para adicionar novo item ao carrinho
+        function adicionarNovoItem() {
+            const nome = produtoNomeModal.textContent;
+            const imagem = produtoImagemModal.src.split('/').pop();
+            const preco = parseFloat(produtoPrecoModal.textContent);
+            const quantidade = parseInt(quantidadeInput.value);
+            const totalProduto = preco * quantidade;
 
-        const deletarBtn = document.createElement('button');
-        deletarBtn.textContent = 'Deletar';
-        deletarBtn.addEventListener('click', () => deletarItem(index));
+            const item = {
+                nome,
+                imagem,
+                preco,
+                quantidade,
+                totalProduto
+            };
 
-        itemDiv.appendChild(img);
-        itemDiv.appendChild(p);
-        itemDiv.appendChild(quantidadeInput);
-        itemDiv.appendChild(deletarBtn);
+            carrinho.push(item);
+            atualizarCarrinho();
 
-        listaCarrinho.appendChild(itemDiv);
-        total += item.totalProduto;
-    });
+            if (!carrinhoAberto) {
+                abrirCarrinho();
+                carrinhoAberto = true;
+            }
+        }
 
-    totalCarrinhoDisplay.textContent = total.toFixed(2);
-}
+        // Função para abrir o modal do carrinho
+        function abrirCarrinho() {
+            modalCarrinho.style.display = 'block';
+        }
 
-// Função para atualizar a quantidade de um item
-function atualizarQuantidade(index, novaQuantidade) {
-    const item = carrinho[index];
-    item.quantidade = novaQuantidade;
-    item.totalProduto = item.preco * novaQuantidade;
-    atualizarCarrinho();
-}
+        // Função para atualizar o carrinho
+        function atualizarCarrinho() {
+            listaCarrinho.innerHTML = '';
+            total = 0;
+            carrinho.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.classList.add('item-carrinho');
 
-// Função para deletar um item do carrinho
-function deletarItem(index) {
-    carrinho.splice(index, 1);
-    atualizarCarrinho();
-}
+                const img = document.createElement('img');
+                img.src = '../uploads/' + item.imagem;
+                img.alt = item.nome;
+                img.style.width = '50px';
+                img.style.marginRight = '10px';
 
-// Função para atualizar o resumo no modal de pagamento
-function atualizarResumoPagamento() {
-    resumoCarrinho.innerHTML = '';
-    carrinho.forEach(item => {
-        const divItem = document.createElement('div');
-        divItem.textContent = `${item.quantidade}x ${item.nome} - R$ ${item.totalProduto.toFixed(2)}`;
-        resumoCarrinho.appendChild(divItem);
-    });
-    totalPagamentoDisplay.textContent = total.toFixed(2);
-}
+                const quantidadeInput = document.createElement('input');
+                quantidadeInput.type = 'number';
+                quantidadeInput.value = item.quantidade;
+                quantidadeInput.min = 1;
+                quantidadeInput.addEventListener('input', function () {
+                    atualizarQuantidade(index, parseInt(quantidadeInput.value));
+                });
 
-// Quando clicar no botão "Ir para pagamento"
-document.getElementById('ir-para-pagamento').addEventListener('click', () => {
-    atualizarResumoPagamento();
-    modalCarrinho.style.display = 'none'; // Oculta o modal do carrinho
-    modalPagamento.style.display = 'block'; // Abre o modal de pagamento
-});
+                const p = document.createElement('p');
+                p.textContent = `${item.nome} - R$ ${item.totalProduto.toFixed(2)}`;
 
-// Fechar o modal de pagamento
-closePagamento.addEventListener('click', () => {
-    modalPagamento.style.display = 'none';
-    modalCarrinho.style.display = 'block'; // Retorna ao modal do carrinho
-});
+                const deletarBtn = document.createElement('button');
+                deletarBtn.textContent = 'Deletar';
+                deletarBtn.addEventListener('click', () => deletarItem(index));
 
-// Fechar o modal de pagamento clicando fora da área de conteúdo
-window.addEventListener('click', function (event) {
-    if (event.target === modalPagamento) {
-        modalPagamento.style.display = 'none';
-        modalCarrinho.style.display = 'block'; // Retorna ao modal do carrinho
-    }
-});
+                itemDiv.appendChild(img);
+                itemDiv.appendChild(p);
+                itemDiv.appendChild(quantidadeInput);
+                itemDiv.appendChild(deletarBtn);
 
-// Fechar o modal do carrinho
-closeCarrinho.addEventListener('click', () => {
-    modalCarrinho.style.display = 'none'; // Fecha o modal do carrinho
-    carrinhoAberto = false; // Reseta o estado para permitir a reabertura
-});
+                listaCarrinho.appendChild(itemDiv);
+                total += item.totalProduto;
+            });
 
-// Função para abrir o modal do produto
-const buyButtons = document.querySelectorAll('.buy-btn');
-buyButtons.forEach(button => {
-    button.addEventListener('click', function () {
-        const nome = this.getAttribute('data-nome');
-        const imagem = this.getAttribute('data-imagem');
-        const preco = parseFloat(this.getAttribute('data-preco'));
+            totalCarrinhoDisplay.textContent = total.toFixed(2);
+        }
 
-        produtoNomeModal.textContent = nome;
-        produtoImagemModal.src = '../uploads/' + imagem;
-        produtoPrecoModal.textContent = preco.toFixed(2);
-        produtoTotalModal.textContent = preco.toFixed(2);
-        quantidadeInput.value = 1;
+        // Função para atualizar a quantidade de um item
+        function atualizarQuantidade(index, novaQuantidade) {
+            const item = carrinho[index];
+            item.quantidade = novaQuantidade;
+            item.totalProduto = item.preco * novaQuantidade;
+            atualizarCarrinho();
+        }
 
-        adicionarNovoItem();
-    });
-});
+        // Função para deletar um item do carrinho
+        function deletarItem(index) {
+            carrinho.splice(index, 1);
+            atualizarCarrinho();
+        }
 
-// Fechar o modal de pagamento quando clicar no botão "Cancelar"
-document.getElementById('cancelar-pagamento').addEventListener('click', () => {
-    modalPagamento.style.display = 'none'; // Fecha o modal de pagamento
-    modalCarrinho.style.display = 'block'; // Retorna ao modal do carrinho
-});
+        // Função para atualizar o resumo no modal de pagamento
+        function atualizarResumoPagamento() {
+            resumoCarrinho.innerHTML = '';
+            carrinho.forEach(item => {
+                const divItem = document.createElement('div');
+                divItem.textContent = `${item.quantidade}x ${item.nome} - R$ ${item.totalProduto.toFixed(2)}`;
+                resumoCarrinho.appendChild(divItem);
+            });
+            totalPagamentoDisplay.textContent = total.toFixed(2);
+        }
 
-// Fecha o dropdown se clicar fora dele
-window.addEventListener('click', function (event) {
-    const dropdownContent = document.querySelector('.dropdown-content');
-    if (dropdownContent && !headerDropdownBtn.contains(event.target) && !dropdownContent.contains(event.target)) {
-        dropdownContent.style.display = 'none';
-    }
-});
+        // Quando clicar no botão "Ir para pagamento"
+        document.getElementById('ir-para-pagamento').addEventListener('click', () => {
+            atualizarResumoPagamento();
+            modalCarrinho.style.display = 'none'; // Oculta o modal do carrinho
+            modalPagamento.style.display = 'block'; // Abre o modal de pagamento
+        });
 
-// Função para exibir o código do pedido
-function abrirCode() {
-    const codigoPedidoContainer = document.getElementById('codigo-pedido-container');
-    
-    // Gera o código aleatório
-    const codigoAleatorio = gerarCodigoAleatorio();
-    document.getElementById('codigo-pedido').textContent = codigoAleatorio;
-    
-    // Exibe o elemento do código do pedido
-    codigoPedidoContainer.style.display = 'block';
-}
+        // Fechar o modal de pagamento
+        closePagamento.addEventListener('click', () => {
+            modalPagamento.style.display = 'none';
+            modalCarrinho.style.display = 'block'; // Retorna ao modal do carrinho
+        });
 
-// Função para gerar um código aleatório de 6 caracteres
-function gerarCodigoAleatorio() {
-    const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let codigo = '';
-    for (let i = 0; i < 6; i++) {
-        const indiceAleatorio = Math.floor(Math.random() * caracteres.length);
-        codigo += caracteres[indiceAleatorio];
-    }
-    return codigo;
-}
+        // Fechar o modal de pagamento clicando fora da área de conteúdo
+        window.addEventListener('click', function (event) {
+            if (event.target === modalPagamento) {
+                modalPagamento.style.display = 'none';
+                modalCarrinho.style.display = 'block'; // Retorna ao modal do carrinho
+            }
+        });
 
-// Função para verificar o saldo e exibir o código, se houver saldo suficiente
-function verificacaoSaldo() {
-    const totalPagamento = parseFloat(totalPagamentoDisplay.textContent);
+        // Fechar o modal do carrinho
+        closeCarrinho.addEventListener('click', () => {
+            modalCarrinho.style.display = 'none'; // Fecha o modal do carrinho
+            carrinhoAberto = false; // Reseta o estado para permitir a reabertura
+        });
 
-    if (saldo >= totalPagamento) {
-        abrirCode();
-    } else {
-        alert("Você não tem saldo suficiente");
-    }
-}
+        // Função para abrir o modal do produto
+        const buyButtons = document.querySelectorAll('.buy-btn');
+        buyButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const nome = this.getAttribute('data-nome');
+                const imagem = this.getAttribute('data-imagem');
+                const preco = parseFloat(this.getAttribute('data-preco'));
 
-// Chama a função de verificação ao clicar no botão "Confirmar Pagamento"
-document.getElementById('confirmar-pagamento').addEventListener('click', verificacaoSaldo);
+                produtoNomeModal.textContent = nome;
+                produtoImagemModal.src = '../uploads/' + imagem;
+                produtoPrecoModal.textContent = preco.toFixed(2);
+                produtoTotalModal.textContent = preco.toFixed(2);
+                quantidadeInput.value = 1;
+
+                adicionarNovoItem();
+            });
+        });
+
+        // Fechar o modal de pagamento quando clicar no botão "Cancelar"
+        document.getElementById('cancelar-pagamento').addEventListener('click', () => {
+            modalPagamento.style.display = 'none'; // Fecha o modal de pagamento
+            modalCarrinho.style.display = 'block'; // Retorna ao modal do carrinho
+        });
+
+        // Fecha o dropdown se clicar fora dele
+        window.addEventListener('click', function (event) {
+            const dropdownContent = document.querySelector('.dropdown-content');
+            if (dropdownContent && !headerDropdownBtn.contains(event.target) && !dropdownContent.contains(event.target)) {
+                dropdownContent.style.display = 'none';
+            }
+        });
+
+        // Função para exibir o código do pedido
+        function abrirCode() {
+            const codigoPedidoContainer = document.getElementById('codigo-pedido-container');
+
+            // Gera o código aleatório
+            const codigoAleatorio = gerarCodigoAleatorio();
+            document.getElementById('codigo-pedido').textContent = codigoAleatorio;
+
+            // Exibe o elemento do código do pedido
+            codigoPedidoContainer.style.display = 'block';
+        }
+
+        // Função para gerar um código aleatório de 6 caracteres
+        function gerarCodigoAleatorio() {
+            const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let codigo = '';
+            for (let i = 0; i < 6; i++) {
+                const indiceAleatorio = Math.floor(Math.random() * caracteres.length);
+                codigo += caracteres[indiceAleatorio];
+            }
+            return codigo;
+        }
+
+        // Função para verificar o saldo e exibir o código, se houver saldo suficiente
+        function verificacaoSaldo() {
+            const totalPagamento = parseFloat(totalPagamentoDisplay.textContent);
+
+            if (saldo >= totalPagamento) {
+                abrirCode();
+            } else {
+                alert("Você não tem saldo suficiente");
+            }
+        }
+
+        // Chama a função de verificação ao clicar no botão "Confirmar Pagamento"
+        document.getElementById('confirmar-pagamento').addEventListener('click', verificacaoSaldo);
 
 
 
-</script>
+    </script>
 
 
     <!-- jquery  -->
