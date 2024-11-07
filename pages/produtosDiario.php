@@ -58,6 +58,16 @@ $conn->close();
 </head>
 
 <body>
+    <style>
+        .Botões-cantinas {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        
+    </style>
     <header>
         <nav class="navbar">
             <ul>
@@ -90,7 +100,6 @@ $conn->close();
                 <a href="produtosDiario2.php" class="cantinaBtn" data-value="cantina2">Cantina 2</a>
 
             </div>
-            <button id="confirmBtn">Confirmar</button>
         </div>
     </div>
 
@@ -134,8 +143,7 @@ $conn->close();
                         <div class="form-container">
                             <div class="form-group">
                                 <label for="descricao">Descrição:</label>
-                                <input id="descricao" name="descricao"
-                                    readonly><?php echo htmlspecialchars($descricaoProduto); ?></input><br><br>
+                                <input id="descricao" name="descricao" readonly><?php echo htmlspecialchars($descricaoProduto); ?></input><br><br>
                             </div>
 
 
@@ -175,8 +183,8 @@ $conn->close();
     <div class="produtosEncontrados">
         <h2>Produtos Encontrados</h2>
         <ul id="produtosLista">
-            <?php if (!empty($produtosFiltrados)): ?>
-                <?php foreach ($produtosFiltrados as $produto): ?>
+            <?php if (!empty($produtosFiltrados)) : ?>
+                <?php foreach ($produtosFiltrados as $produto) : ?>
                     <li class="produto-option" data-produto='<?php echo json_encode($produto); ?>'>
                         <?php echo htmlspecialchars($produto['nome']); ?> -
                         <?php echo htmlspecialchars($produto['descricao']); ?> -
@@ -184,7 +192,7 @@ $conn->close();
                         <?php echo htmlspecialchars($produto['categoria']); ?>
                     </li>
                 <?php endforeach; ?>
-            <?php else: ?>
+            <?php else : ?>
                 <li>Nenhum produto encontrado.</li>
             <?php endif; ?>
         </ul>

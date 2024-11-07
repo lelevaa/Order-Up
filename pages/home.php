@@ -22,10 +22,28 @@
 
     <!-- custom css  -->
     <link rel="stylesheet" href="../css/home_style.css">
+
+
 </head>
 
 <body class="body-fixed">
     <style>
+        .button {
+            background-color: #F5EBD9;
+            border: 2px solid #DDA52F;
+            color: #000;
+            padding: 11px 25px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 15px;
+            margin: 4px 2px;
+            margin-top: 38px;
+            cursor: pointer;
+            border-radius: 40px;
+            font-weight: normal;
+        }
+
         /* Estilos gerais dos modais */
         #loginModal {
             height: 1200px;
@@ -204,6 +222,138 @@
                 opacity: 1;
             }
         }
+
+        .login-modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            width: 300px;
+            border-radius: 10px;
+        }
+
+        /* Modal básico de login */
+        .login-modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        /* Modal do Carrinho - Estilos Gerais */
+        #cartModal {
+            display: none;
+            /* Inicialmente oculto */
+            position: absolute;
+            top: 30px;
+            right: 0;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            border-radius: 5px;
+            width: 300px;
+            /* Largura ajustada */
+            z-index: 1000;
+            font-family: Arial, sans-serif;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        /* Animação para o modal */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Conteúdo do Modal */
+        .cart-modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .cart-modal-content h4 {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        /* Fechar o Modal (Botão X) */
+        .close {
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: red;
+        }
+
+        /* Estilo para itens do carrinho */
+        #cart-items {
+            margin-top: 20px;
+        }
+
+        .cart-item {
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        /* Seção de Total */
+        .cart-total {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        /* Seção de Carrinho Vazio */
+        .cart-empty-message {
+            display: none;
+            /* Inicialmente oculto */
+        }
+
+        .cart-empty-message p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        /* Botões de Ação no Modal */
+        .cart-actions button {
+            background-color: #DDA52F;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .cart-actions button:hover {
+            background-color: #CDA52F;
+        }
+
+
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        #cart-actions {
+            display: none;
+            /* Inicialmente oculto */
+        }
+
+        #cart-empty-message {
+            display: block;
+        }
     </style>
     <!-- start of header  -->
     <header class="site-header">
@@ -242,16 +392,40 @@
                                 <i class="uil uil-user-md" onclick="toggleLoginModal()"></i>
                                 <!-- Abre/fecha o modal de login -->
                                 <div id="loginModal" class="dropdown-menu">
-                                    <div class="dropdown-header">
+                                    <div class="login-modal-content">
                                         <span class="close" onclick="closeModal('loginModal')">&times;</span>
-                                        <!-- Fechar o modal de login -->
-                                        <p id="welcomeMessage">Seja bem-vindo(a), Alana!</p>
-                                        <a href="javascript:void(0)" onclick="toggleModal('cartModal')">Abrir
-                                            Carrinho</a> <!-- Abre o modal de carrinho -->
-                                            <button onclick="window.location.href='saldo/pagamentoSDK.php'">Adicionar saldo</button>
-                                            </div>
+                                        <h4>Orderup Card</h4>
+                                        <hr class="modal-divider"> <!-- Linha abaixo do título -->
+
+                                        <!-- Título e saudação -->
+                                        <div class="subtitulo">
+                                            <h3 class="modal-title" id="welcomeMessage">Seja Bem-Vindo, Alana</h3>
+                                        </div>
+
+                                        <!-- Texto informativo abaixo -->
+                                        <p class="modal-text">Consulte as suas informações de pagamento.</p>
+
+                                        <!-- Botão Adicionar saldo -->
+                                        <button class="button" onclick="adicionarSaldo()">Adicionar saldo a sua conta</button>
+
+                                        <!-- Divisor com "ou" -->
+                                        <div class="modal-divider-container">
+                                            <hr class="modal-divider">
+                                            <span class="modal-or">OU</span>
+                                            <hr class="modal-divider">
+                                        </div>
+
+                                        <!-- Botão Verificar saldo -->
+                                        <button class="button" onclick="verificarSaldo()">Verificar saldo da conta</button>
+
+                                        <!-- Logo -->
+                                        <div class="modal-logo">
+                                            <img src="../img/logoOrderup.png" alt="Logo">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
 
                             <!-- Modal do Carrinho -->
                             <div id="cartModal" class="cartModal2" style="display: none;">
@@ -259,17 +433,36 @@
                                     <span class="close" onclick="closeModal('cartModal')">&times;</span>
                                     <!-- Fechar o modal de carrinho -->
                                     <h4>Seu Carrinho</h4>
-                                    <div class="subtitulo">
-                                        <p>Ops, seu carrinho ainda está vazio...</p>
+
+                                    <!-- Seção para mostrar itens no carrinho -->
+                                    <div id="cart-items" class="cart-items">
+                                        <!-- Os itens serão dinamicamente inseridos aqui -->
                                     </div>
-                                    <a href="#blog" class="button">Escolher produtos</a>
+
+                                    <!-- Seção de total do carrinho -->
+                                    <div id="cart-total" class="cart-total">
+                                        <p><strong>Total:</strong> R$ <span id="cart-total-value">0.00</span></p>
+                                    </div>
+
+                                    <!-- Se o carrinho estiver vazio -->
+                                    <div id="cart-empty-message" class="cart-empty-message">
+                                        <p>Ops, seu carrinho ainda está vazio...</p>
+                                        <a href="#blog" class="button">Escolher produtos</a>
+                                    </div>
+
+                                    <!-- Botões de ação -->
+                                    <div id="cart-actions" class="cart-actions">
+                                        <button id="go-to-payment" class="button">Ir para pagamento</button>
+                                        <button id="continue-shopping" class="button">Continuar comprando</button>
+                                    </div>
                                 </div>
                             </div>
 
-                                <!-- Ícone de Carrinho na Header -->
-                                <a href="javascript:void(0)" class="header-btn header-cart">
-                                    <i id="compr-btn" class="uil uil-shopping-bag" onclick="toggleModal('cartModal')"></i>
-                                </a>
+
+                            <!-- Ícone de Carrinho na Header -->
+                            <a href="javascript:void(0)" class="header-btn header-cart">
+                                <i id="compr-btn" class="uil uil-shopping-bag" onclick="toggleModal('cartModal')"></i>
+                            </a>
 
                         </div>
                     </div>
@@ -328,8 +521,7 @@
                                 <div class="sec-title-shape mb-4">
                                     <img src="assets/images/title-shape.svg" alt="">
                                 </div>
-                                <div class="bg-pattern bg-light repeat-img"
-                                    style="background-image: url(assets/images/blog-pattern-bg.png);">
+                                <div class="bg-pattern bg-light repeat-img" style="background-image: url(assets/images/blog-pattern-bg.png);">
                                     <section class="blog-sec section" id="blog">
                                         <div class="sec-wp">
                                             <div class="container">
@@ -337,8 +529,7 @@
                                                 <div class="row">
                                                     <div class="col-lg-4">
                                                         <div class="blog-box">
-                                                            <div class="blog-img back-img"
-                                                                style="background-image: url(../img/OrderUpsemnome.png);">
+                                                            <div class="blog-img back-img" style="background-image: url(../img/OrderUpsemnome.png);">
                                                             </div>
                                                             <div class="blog-text">
                                                                 <a href="#" class="h4-title">Cantina Térreo</a>
@@ -350,8 +541,7 @@
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="blog-box">
-                                                            <div class="blog-img back-img"
-                                                                style="background-image: url(../img/OrderUpsemnome.png);">
+                                                            <div class="blog-img back-img" style="background-image: url(../img/OrderUpsemnome.png);">
                                                             </div>
                                                             <div class="blog-text">
 
@@ -376,8 +566,7 @@
                     </div>
             </section>
 
-            <section style="background-image: url(assets/images/menu-bg.png);"
-                class="our-menu section bg-light repeat-img" id="menu">
+            <section style="background-image: url(assets/images/menu-bg.png);" class="our-menu section bg-light repeat-img" id="menu">
 
                 <div class="sec-wp">
                     <div class="container">
@@ -397,18 +586,10 @@
                             <div class="col-lg-10 m-auto">
                                 <div class="book-table-img-slider" id="icon">
                                     <div class="swiper-wrapper">
-                                        <a href="../imagens/bannercoxinha.jpeg" data-fancybox="table-slider"
-                                            class="book-table-img back-img swiper-slide"
-                                            style="background-image: url(../img/bannercoxinha.jpeg)"></a>
-                                        <a href="assets/images/bt2.jpg" data-fancybox="table-slider"
-                                            class="book-table-img back-img swiper-slide"
-                                            style="background-image: url(../img/banneralmoço.jpeg)"></a>
-                                        <a href="assets/images/bt3.jpg" data-fancybox="table-slider"
-                                            class="book-table-img back-img swiper-slide"
-                                            style="background-image: url(../img/doce.jpeg)"></a>
-                                        <a href="assets/images/bt4.jpg" data-fancybox="table-slider"
-                                            class="book-table-img back-img swiper-slide"
-                                            style="background-image: url(../img/banner-bebidas.png)"></a>
+                                        <a href="../imagens/bannercoxinha.jpeg" data-fancybox="table-slider" class="book-table-img back-img swiper-slide" style="background-image: url(../img/bannercoxinha.jpeg)"></a>
+                                        <a href="assets/images/bt2.jpg" data-fancybox="table-slider" class="book-table-img back-img swiper-slide" style="background-image: url(../img/banneralmoço.jpeg)"></a>
+                                        <a href="assets/images/bt3.jpg" data-fancybox="table-slider" class="book-table-img back-img swiper-slide" style="background-image: url(../img/doce.jpeg)"></a>
+                                        <a href="assets/images/bt4.jpg" data-fancybox="table-slider" class="book-table-img back-img swiper-slide" style="background-image: url(../img/banner-bebidas.png)"></a>
                                     </div>
 
                                     <div class="swiper-button-wp">
@@ -430,8 +611,7 @@
 
             </section>
 
-            <div class="bg-pattern bg-light repeat-img"
-                style="background-image: url(assets/images/blog-pattern-bg.png);">
+            <div class="bg-pattern bg-light repeat-img" style="background-image: url(assets/images/blog-pattern-bg.png);">
 
             </div>
 
@@ -654,7 +834,16 @@
             modal.style.display = 'none'; // Fecha o modal
         }
 
+        function adicionarSaldo() {
+            // Redireciona para a página de pagamento
+            window.location.href = 'saldo/pagamentoSDK.php'; // Substitua pelo URL real de seu pagamento
+        }
 
+        // Função de exemplo para verificar saldo
+        function verificarSaldo() {
+            // Redireciona para a página de pagamento
+            window.location.href = 'saldo/pagamentoSDK.php'; // Substitua pelo URL real de seu pagamento
+        }
     </script>
 </body>
 

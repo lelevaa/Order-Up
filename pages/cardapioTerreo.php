@@ -20,12 +20,14 @@ include '../php/conexao.php';
     <!-- custom css  -->
     <link rel="stylesheet" href="../css/home_style.css" />
     <link rel="stylesheet" href="../css/cardapio.css" />
+
     <link rel="stylesheet" href="login.html" />
-    <title>Cardápio</title>
+    <title>Cardápio Térreo</title>
 </head>
 
 <body>
     <style>
+
         #loginModal .dropdown-menu {
             max-width: 100%;
             /* Ajusta para caber no container */
@@ -275,7 +277,7 @@ include '../php/conexao.php';
             width: 100%;
         }
 
-        .btns-resumo{
+        .btns-resumo {
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -313,24 +315,47 @@ include '../php/conexao.php';
                                         </button>
                                     </form>
 
-
                                     <!-- Modal de Login -->
                                     <div id="login" class="header-btn header-dropdown">
                                         <i class="uil uil-user-md" onclick="toggleLoginModal()"></i>
                                         <!-- Abre/fecha o modal de login -->
                                         <div id="loginModal" class="dropdown-menu">
-                                            <div class="dropdown-header">
+                                            <div class="login-modal-content">
                                                 <span class="close" onclick="closeModal('loginModal')">&times;</span>
-                                                <!-- Fechar o modal de login -->
-                                                <p id="welcomeMessage">Seja bem-vindo(a), Alana!</p>
-                                                <a href="javascript:void(0)" onclick="toggleModal('cartModal')">Abrir
-                                                    Carrinho</a> <!-- Abre o modal de carrinho -->
+                                                <h4>Orderup Card</h4>
+                                                <hr class="modal-divider"> <!-- Linha abaixo do título -->
+
+                                                <!-- Título e saudação -->
+                                                <div class="subtitulo">
+                                                    <h3 class="modal-title" id="welcomeMessage">Seja Bem-Vindo, Alana</h3>
+                                                </div>
+
+                                                <!-- Texto informativo abaixo -->
+                                                <p class="modal-text">Consulte as suas informações de pagamento.</p>
+
+                                                <!-- Botão Adicionar saldo -->
+                                                <button class="button" onclick="adicionarSaldo()">Adicionar saldo a sua conta</button>
+
+                                                <!-- Divisor com "ou" -->
+                                                <div class="modal-divider-container">
+                                                    <hr class="modal-divider">
+                                                    <span class="modal-or">OU</span>
+                                                    <hr class="modal-divider">
+                                                </div>
+
+                                                <!-- Botão Verificar saldo -->
+                                                <button class="button" onclick="verificarSaldo()">Verificar saldo da conta</button>
+
+                                                <!-- Logo -->
+                                                <div class="modal-logo">
+                                                    <img src="../img/logoOrderup.png" alt="Logo">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <a href="javascript:void(0)" class="header-btn header-cart"
-                                        onclick="toggleModal('modal-carrinho')">
+
+                                    <a href="javascript:void(0)" class="header-btn header-cart" onclick="toggleModal('modal-carrinho')">
                                         <i id="compr-btn" class="uil uil-shopping-bag"></i>
                                     </a>
 
@@ -382,8 +407,7 @@ include '../php/conexao.php';
                         </div>
                         <div class="col-lg-4">
                             <div class="blog-box-custom">
-                                <div class="blog-img-custom back-img"
-                                    style="background-image: url('../img/png-transparent-chicken-parm-thumbnail.png');">
+                                <div class="blog-img-custom back-img" style="background-image: url('../img/png-transparent-chicken-parm-thumbnail.png');">
                                 </div>
                                 <div class="blog-text-custom">
                                     <p class="blog-date-custom"></p>
@@ -558,7 +582,7 @@ include '../php/conexao.php';
             <p class="modal-text">Consulte as suas informações de pagamento.</p>
 
             <!-- Botão -->
-            <button class="modal-button primary-button">Adicionar saldo a sua conta</button>
+            <button class="button">Adicionar saldo a sua conta</button>
 
             <!-- Divisor com "ou" -->
             <div class="modal-divider-container">
@@ -568,7 +592,7 @@ include '../php/conexao.php';
             </div>
 
             <!-- Outro botão -->
-            <button class="modal-button secondary-button">Verificar saldo da conta</button>
+            <button class="button">Verificar saldo da conta</button>
 
             <!-- Logo -->
             <div class="modal-logo">
@@ -671,10 +695,8 @@ include '../php/conexao.php';
     <!-- footer ends  -->
 
     <!-- voltar para cima -->
-    <button id="botaoVoltar" class="botao" onclick="voltarAoTopo()"><svg xmlns="http://www.w3.org/2000/svg" width="16"
-            height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
-            <path fill-rule="evenodd"
-                d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5" />
+    <button id="botaoVoltar" class="botao" onclick="voltarAoTopo()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5" />
         </svg></button>
 
     <!-- <div id="cartModal" class="cart-modal">
@@ -714,7 +736,7 @@ include '../php/conexao.php';
             <p>Total: R$ <span id="total-carrinho">0.00</span></p>
 
             <!-- Botão de Pagamento -->
-            <button class="n" id="ir-para-pagamento">Ir para pagamento</button>
+            <button class="button" id="ir-para-pagamento">Ir para pagamento</button>
         </div>
     </div>
 
@@ -767,7 +789,7 @@ include '../php/conexao.php';
             <p class="modal-text">Consulte as suas informações de pagamento.</p>
 
             <!-- Botão -->
-            <button class="modal-button primary-button">Adicionar saldo a sua conta</button>
+            <button class="button">Adicionar saldo a sua conta</button>
 
             <!-- Divisor com "ou" -->
             <div class="modal-divider-container">
@@ -816,10 +838,19 @@ include '../php/conexao.php';
             <p id="total">Total: R$ <span>0.00</span></p>
 
             <!-- Botões -->
-            <button id="adicionar-carrinho">Ir para pagamento</button>
+            <button type="submit" id="adicionar-carrinho">Ir para pagamento</button>
             <button id="adicionar-novo-item">Adicionar Item</button>
         </div>
     </div>
+
+    <!-- Modal de Aviso -->
+    <div id="alert-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeAlertModal()">&times;</span>
+            <p id="alert-message"></p>
+        </div>
+    </div>
+
 
     <!-- Modal de Pagamento -->
     <div id="modal-pagamento" class="modal">
@@ -847,6 +878,16 @@ include '../php/conexao.php';
         let carrinho = [];
         let saldo = 10;
         let total = 0;
+        let estoque = 2;
+
+        if (quantidade > estoque) {
+            alert("Puxa, infelizmente acabou!")
+        } else {
+
+        }
+
+        // Quantidade disponível no estoque (fictício, poderia vir de uma API ou banco de dados)
+        let quantidadeDisponivel = 10; // Exemplo de estoque disponível
 
         const modalCarrinho = document.getElementById('modal-carrinho');
         const modalPagamento = document.getElementById('modal-pagamento');
@@ -865,8 +906,6 @@ include '../php/conexao.php';
         const loginModal = document.getElementById('loginModal');
         const closeModalBtn = document.querySelector('.close');
 
-
-
         let carrinhoAberto = false;
 
         const confirmarRecebimentoBtn = document.getElementById('confirmar-recebimento');
@@ -876,19 +915,19 @@ include '../php/conexao.php';
         confirmarPagamentoBtn.style.display = 'block';
 
         if (headerDropdownBtn) {
-            headerDropdownBtn.addEventListener('click', function () {
+            headerDropdownBtn.addEventListener('click', function() {
                 const dropdownContent = document.querySelector('.dropdown-content');
                 dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
             });
         }
 
         if (closeModalBtn) {
-            closeModalBtn.addEventListener('click', function () {
+            closeModalBtn.addEventListener('click', function() {
                 loginModal.style.display = 'none';
             });
         }
 
-        window.addEventListener('click', function (event) {
+        window.addEventListener('click', function(event) {
             if (event.target === loginModal) {
                 loginModal.style.display = 'none';
             }
@@ -900,6 +939,12 @@ include '../php/conexao.php';
             const preco = parseFloat(produtoPrecoModal.textContent);
             const quantidade = parseInt(quantidadeInput.value);
             const totalProduto = preco * quantidade;
+
+            // Verificação se a quantidade desejada não excede a quantidade disponível
+            if (quantidade > quantidadeDisponivel) {
+                alert("Você não consegue comprar essa quantidade, estoque insuficiente.");
+                return;
+            }
 
             const item = {
                 nome,
@@ -939,7 +984,7 @@ include '../php/conexao.php';
                 quantidadeInput.type = 'number';
                 quantidadeInput.value = item.quantidade;
                 quantidadeInput.min = 1;
-                quantidadeInput.addEventListener('input', function () {
+                quantidadeInput.addEventListener('input', function() {
                     atualizarQuantidade(index, parseInt(quantidadeInput.value));
                 });
 
@@ -995,7 +1040,7 @@ include '../php/conexao.php';
             modalCarrinho.style.display = 'block';
         });
 
-        window.addEventListener('click', function (event) {
+        window.addEventListener('click', function(event) {
             if (event.target === modalPagamento) {
                 modalPagamento.style.display = 'none';
                 modalCarrinho.style.display = 'block';
@@ -1009,7 +1054,7 @@ include '../php/conexao.php';
 
         const buyButtons = document.querySelectorAll('.buy-btn');
         buyButtons.forEach(button => {
-            button.addEventListener('click', function () {
+            button.addEventListener('click', function() {
                 const nome = this.getAttribute('data-nome');
                 const imagem = this.getAttribute('data-imagem');
                 const preco = parseFloat(this.getAttribute('data-preco'));
@@ -1029,7 +1074,7 @@ include '../php/conexao.php';
             modalCarrinho.style.display = 'block';
         });
 
-        window.addEventListener('click', function (event) {
+        window.addEventListener('click', function(event) {
             const dropdownContent = document.querySelector('.dropdown-content');
             if (dropdownContent && !headerDropdownBtn.contains(event.target) && !dropdownContent.contains(event.target)) {
                 dropdownContent.style.display = 'none';
@@ -1045,7 +1090,6 @@ include '../php/conexao.php';
             confirmarPagamentoBtn.style.display = 'none';
             enviarPedido(codigoAleatorio, total);
         }
-
 
         function gerarCodigoAleatorio() {
             const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -1067,20 +1111,14 @@ include '../php/conexao.php';
             }
         }
 
+        document.getElementById('confirmar-pagamento').addEventListener('click', function(event) {
+            event.preventDefault();
 
-        document.getElementById('confirmar-pagamento').addEventListener('click', function (event) {
-            event.preventDefault(); // Impede o comportamento padrão do botão
-
-            // Obtendo os valores de total e código do pedido
             const totalPagamento = parseFloat(document.getElementById('total-pagamento').textContent);
             const codigoPedido = document.getElementById('codigo-pedido').textContent;
 
-            // Verificação de saldo antes de prosseguir
             if (saldo >= totalPagamento) {
-                // Chama a função para abrir o código de pedido (gerar o código aleatório)
                 abrirCode();
-
-                // Enviar os dados para o servidor
                 enviarPedido(totalPagamento, codigoPedido);
             } else {
                 alert("Você não tem saldo suficiente");
@@ -1088,72 +1126,63 @@ include '../php/conexao.php';
         });
 
         function preencherCampos() {
-            // Captura os valores dos elementos visíveis
             const total = document.getElementById('total-pagamento').innerText;
             const codigoPedido = document.getElementById('codigo-pedido').innerText;
 
-            // Preenche os campos ocultos com os valores capturados
             document.getElementById('codigo-pedido-input').value = codigoPedido;
             document.getElementById('total-pagamento-input').value = total;
 
-            // Pode fazer uma verificação para garantir que os valores não estão vazios
             if (!total || !codigoPedido) {
                 alert("Erro: Dados incompletos!");
-                return false; // Impede o envio do formulário se os dados estiverem faltando
+                return false;
             }
 
-            // Agora o formulário pode ser enviado
             document.getElementById('form-pagamento').submit();
         }
+
         function scrollToSection(sectionId) {
-            // Encontra a seção usando o ID
             var section = document.getElementById(sectionId);
 
-            // Verifica se a seção existe
             if (section) {
-                // Realiza a rolagem suave até a seção
                 section.scrollIntoView({
-                    behavior: 'smooth', // Faz a rolagem suave
-                    block: 'start' // Alinha a seção ao topo da página
+                    behavior: 'smooth',
+                    block: 'start'
                 });
             }
         }
 
         function toggleLoginModal() {
-            const modal = document.getElementById('loginModal'); // Seleciona o modal pelo ID
+            const modal = document.getElementById('loginModal');
             if (modal.style.display === 'block') {
-                modal.style.display = 'none'; // Se estiver visível, oculta
+                modal.style.display = 'none';
             } else {
-                modal.style.display = 'block'; // Se estiver oculto, exibe
+                modal.style.display = 'block';
             }
         }
 
-        // Função para alternar a exibição do modal de login
-        function toggleLoginModal() {
-            const modal = document.getElementById('loginModal'); // Seleciona o modal pelo ID
-            if (modal.style.display === 'block') {
-                modal.style.display = 'none'; // Se estiver visível, oculta
-            } else {
-                modal.style.display = 'block'; // Se estiver oculto, exibe
-            }
-        }
-
-        // Função para alternar a exibição de outros modais (como o carrinho)
         function toggleModal(modalId) {
-            const modal = document.getElementById(modalId); // Seleciona o modal pelo ID
+            const modal = document.getElementById(modalId);
             if (modal.style.display === 'block') {
-                modal.style.display = 'none'; // Se estiver visível, oculta
+                modal.style.display = 'none';
             } else {
-                modal.style.display = 'block'; // Se estiver oculto, exibe
+                modal.style.display = 'block';
             }
         }
 
-        // Função para fechar o modal
         function closeModal(modalId) {
             const modal = document.getElementById(modalId);
-            modal.style.display = 'none'; // Fecha o modal
+            modal.style.display = 'none';
+        }
+                function adicionarSaldo() {
+            // Redireciona para a página de pagamento
+            window.location.href = 'saldo/pagamentoSDK.php'; // Substitua pelo URL real de seu pagamento
         }
 
+        // Função de exemplo para verificar saldo
+        function verificarSaldo() {
+            // Redireciona para a página de pagamento
+            window.location.href = 'saldo/pagamentoSDK.php'; // Substitua pelo URL real de seu pagamento
+        }
     </script>
 
 
@@ -1167,58 +1196,6 @@ include '../php/conexao.php';
 
     <!-- fancy box  -->
     <script src="./js/jquery.fancybox.min.js"></script>
-    <?php
-    // Incluir a conexão com o banco de dados
-    include '../php/conexao.php'; // Caminho correto para o arquivo conexao.php
-    
-    // Verificar se os dados foram enviados via POST
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Obter os dados enviados do formulário
-        $codigo_pedido = $_POST['codigo-pedido'];
-        $total_pagamento = $_POST['total-pagamento'];
-
-        // Validar os dados (opcional)
-        if (empty($codigo_pedido) || empty($total_pagamento)) {
-            echo "Erro: Dados incompletos!";
-            exit;
-        }
-
-        // Inserir os dados na tabela tb_pedidos
-        $query = "INSERT INTO tb_pedidos (usuario, codigo, total) VALUES (?, ?, ?)";
-
-        // Usar a conexão já estabelecida para preparar e executar a consulta
-        if ($stmt = $db->prepare($query)) {
-            // Definindo o valor de 'usuario'. Aqui você pode pegar o usuário logado ou um valor estático.
-            // Por exemplo, se o usuário for logado:
-            // $usuario = $_SESSION['usuario_id']; 
-            // Se for estático:
-            $usuario = '1'; // Este valor pode ser alterado conforme sua lógica
-    
-            // Vincular os parâmetros da consulta (usuario como string, total como float/double, e codigo como string)
-            $stmt->bind_param('isd', $usuario, $codigo_pedido, $total_pagamento);
-
-            // Executar a consulta
-            if ($stmt->execute()) {
-                // Sucesso
-                echo json_encode(['success' => true, 'message' => 'Pedido realizado com sucesso!']);
-            } else {
-                // Erro ao executar a consulta
-                echo json_encode(['success' => false, 'message' => 'Erro ao salvar o pedido: ' . $stmt->error]);
-            }
-
-            // Fechar a declaração
-            $stmt->close();
-        } else {
-            echo "Erro ao preparar a consulta: " . $db->error;
-        }
-
-        // Fechar a conexão com o banco de dados
-        $db->close();
-    } else {
-        // Caso o método não seja POST, retornar um erro
-        echo json_encode(['success' => false, 'message' => 'Método inválido.']);
-    }
-    ?>
 
 
 </body>

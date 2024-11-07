@@ -35,14 +35,14 @@
 
         /* Cada retângulo */
         .retangulo {
-            cursor:pointer;
-            border:1px solid #d2ab60;
+            cursor: pointer;
+            border: 1px solid #d2ab60;
             display: flex;
             justify-content: center;
             align-items: center;
             width: 100%;
             height: 120px;
-            background-color: #F9EAE1;
+            background-color: #dda52f;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             padding: 10px;
@@ -129,8 +129,6 @@
                 justify-content: space-around;
             }
         }
-
-    
     </style>
 
 </head>
@@ -255,15 +253,30 @@
     </div>
 
     <script>
-        // Selecionando o botão de menu e o menu de navegação
-        const menuIcon = document.getElementById('menu-icon');
-        const navbarMenu = document.getElementById('navbar-menu');
+    // Espera o DOM estar completamente carregado
+    document.addEventListener('DOMContentLoaded', function() {
+        // Verifique se os elementos foram encontrados
+        const retangulos = document.querySelectorAll('.retangulo');
+        
+        if (retangulos.length > 0) {
+            console.log('Retângulos encontrados:', retangulos.length);
+        } else {
+            console.log('Nenhum retângulo encontrado');
+        }
 
-        // Função para alternar a visibilidade do menu
-        menuIcon.addEventListener('click', function () {
-            navbarMenu.classList.toggle('active');
+        // Para cada retângulo, adicionamos um event listener de clique
+        retangulos.forEach(function(retangulo) {
+            console.log('Adicionando evento de clique ao retângulo:', retangulo);  // Log para depuração
+
+            retangulo.addEventListener('click', function() {
+                console.log('Retângulo clicado, removendo:', this); // Log para depuração
+                // Remove o retângulo da página
+                this.remove();
+            });
         });
-    </script>
+    });
+</script>
+
 
 </body>
 

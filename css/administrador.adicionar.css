@@ -32,7 +32,7 @@ header {
 
 
 .nav_g {
-  width: 131px;
+  width: 250px;
   height: 29px;
   display: flex;
   align-items: center;
@@ -55,7 +55,7 @@ header {
 .navbar a {
   color: rgb(0, 0, 0);
   text-decoration: none;
-  font-size: 9px;
+  font-size: 12px;
   transition: color 0.3s ease;
 }
 
@@ -84,6 +84,7 @@ header {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin:70px;
 }
 
 .linha_add {
@@ -398,3 +399,4 @@ textarea{
 .cantinaBtn:hover {
   background-color: #dda52f; /* Cor ao passar o mouse */
 }
+

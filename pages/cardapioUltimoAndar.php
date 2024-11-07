@@ -1,6 +1,5 @@
 <?php
-include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dados
-
+include '../php/conexao.php';
 
 ?>
 
@@ -21,13 +20,144 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
     <!-- custom css  -->
     <link rel="stylesheet" href="../css/home_style.css" />
     <link rel="stylesheet" href="../css/cardapio.css" />
+
     <link rel="stylesheet" href="login.html" />
-    <title>Cardápio</title>
+    <title>Cardápio Térreo</title>
 </head>
 
 <body>
     <style>
-        /* Estilo para o modal de carrinho */
+
+        #loginModal .dropdown-menu {
+            max-width: 100%;
+            /* Ajusta para caber no container */
+            overflow: hidden;
+            /* Impede que o texto ultrapasse */
+            word-wrap: break-word;
+            /* Quebra palavras longas se necessário */
+            padding: 10px;
+            /* Ajusta o espaço interno para melhorar a legibilidade */
+        }
+
+        #loginModal .dropdown-header {
+            word-wrap: break-word;
+            /* Evita que texto se sobreponha */
+            white-space: normal;
+            /* Permite que o texto se quebre normalmente */
+        }
+
+        /* Estilo básico para o modal */
+        /* Estilos gerais dos modais */
+
+        #cartModal {
+            display: none;
+            /* Inicialmente oculto */
+            position: absolute;
+            top: 30px;
+            /* Posição do modal */
+            right: 0;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            border-radius: 5px;
+            width: 250px;
+            /* Tamanho do modal */
+            z-index: 1000;
+            font-family: Arial, sans-serif;
+            /* Animação */
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        /* Conteúdo do modal */
+        .login-modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            width: 300px;
+            border-radius: 10px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Estilo para o conteúdo dentro do modal de login */
+        #loginModal .dropdown-header p {
+            margin: 0;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
+
+        #loginModal .dropdown-header a {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #007bff;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        #loginModal .dropdown-header a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* Estilo para o conteúdo dentro do modal de login */
+        #loginModal .dropdown-header p {
+            margin: 0;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
+
+        #loginModal .dropdown-header a {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #007bff;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        #loginModal .dropdown-header a:hover {
+            text-decoration: underline;
+        }
+
+        /* Estilo para o botão de fechar (X) */
+        .close {
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: red;
+        }
+
+        .item-carrinho input[type="number"] {
+            width: 20%;
+            padding: 5px;
+            margin-right: 10px;
+            text-align: center;
+        }
+
+        .item-carrinho {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
         .modal-carrinho {
             display: none;
             position: fixed;
@@ -40,8 +170,6 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
             padding: 20px;
             box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
             z-index: 1000;
-            font-family: 'Georgia', serif;
-            overflow-y: auto;
         }
 
         .modal-content-carrinho {
@@ -51,237 +179,124 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
             height: 100%;
         }
 
-        /* Título do modal */
         .modal-content-carrinho h3 {
-            font-size: 24px;
-            color: #1f2141;
             margin-bottom: 20px;
-            text-align: center;
         }
 
-        /* Botão de fechar o modal */
-        #fechar-modal-carrinho {
-            background-color: transparent;
-            border: none;
-            font-size: 24px;
-            font-weight: bold;
-            cursor: pointer;
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            display: flex;
-            justify-content: end;
-        }
-
-        /* Lista de itens no carrinho */
         #lista-carrinho {
             flex-grow: 1;
             margin-bottom: 20px;
         }
 
-        #lista-carrinho .item-carrinho {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-            justify-content: space-between;
-            /* Adiciona espaçamento entre os elementos */
-        }
-
-        /* Imagem do produto */
-        #lista-carrinho .item-carrinho img {
-            width: 50px;
-            /* Largura consistente */
-            height: 50px;
-            /* Altura consistente */
-            object-fit: cover;
-            margin-right: 10px;
-            border-radius: 5px;
-            /* Bordas arredondadas */
-        }
-
-        /* Nome e preço empilhados verticalmente */
-        #lista-carrinho .item-carrinho .produto-info {
-            display: flex;
-            flex-direction: column;
-            /* Exibe nome e preço em coluna */
-            justify-content: center;
-            font-size: 14px;
-            margin-right: 10px;
-            flex-grow: 1;
-        }
-
-        #lista-carrinho .item-carrinho .produto-nome {
-            font-size: 14px;
-            color: #333;
-            font-weight: bold;
-        }
-
-        #lista-carrinho .item-carrinho .produto-preco {
-            font-size: 14px;
-            color: #555;
-            margin-top: 5px;
-            /* Espaço entre o nome e o preço */
-        }
-
-        /* Seção de quantidade */
-        #lista-carrinho .item-carrinho .quantidade {
-            display: flex;
-            align-items: center;
-            margin-right: 10px;
-        }
-
-        /* Botões de quantidade (+ e -) */
-        #lista-carrinho .item-carrinho .quantidade button {
-            background-color: #fff;
-            border: 1px solid #ccc;
-            color: #333;
-            font-size: 16px;
-            width: 30px;
-            height: 30px;
-            margin: 0 5px;
-            cursor: pointer;
-        }
-
-        /* Campo de entrada para a quantidade */
-        #lista-carrinho .item-carrinho .quantidade input {
-            width: 40px;
-            /* Largura consistente para o input */
-            text-align: center;
-            font-size: 16px;
-        }
-
-        /* Botão Deletar */
-        #lista-carrinho .item-carrinho .botao-deletar {
-            background-color: #fff;
-            border: 1px solid #333;
-            color: #333;
-            padding: 5px 10px;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        /* Total do carrinho */
-        #total-carrinho {
-            font-weight: bold;
-            color: #333;
-            text-align: right;
-            font-size: 18px;
-        }
-
-        .preco-total {
-            margin-top: 20px;
-            /* Espaço acima da div de preço */
-            text-align: right;
-            /* Alinha o texto à direita */
-            font-size: 18px;
-            /* Tamanho da fonte */
-            color: #333;
-            /* Cor do texto */
-            font-weight: bold;
-            /* Negrito para o preço */
-        }
-
-
-        /* Botão de ir para o pagamento */
-        #ir-para-pagamento {
-            background-color: #f5a623;
-            color: white;
-            padding: 10px;
-            width: 100%;
-            border: none;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-
-        /* Efeito hover no botão de pagamento */
-        #ir-para-pagamento:hover {
-            background-color: #e59500;
-        }
-
-        /* Botão genérico para ações como continuar comprando e finalizar pedido */
-        .a {
+        #ir-para-pagamento,
+        #confirmar-pagamento,
+        #cancelar-pagamento,
+        #confirmar-recebimento {
             background-color: #DDA52F;
             color: white;
             border: none;
             padding: 10px;
             cursor: pointer;
-            width: 100%;
-            margin-top: 10px;
-            font-size: 16px;
         }
 
-        .a:hover {
+        #ir-para-pagamento:hover {
             background-color: #CDA52F;
+            /* Cor de hover mais escura */
         }
 
-        /* Subtotal e total no carrinho */
-        p.subtotal,
-        p.total {
-            text-align: right;
-            font-size: 16px;
-            color: #333;
-            margin-top: 10px;
-        }
-
-        /* Modal básico de login */
-        .login-modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .login-modal-content {
-            background-color: #fff;
-            margin: 15% auto;
-            padding: 20px;
-            width: 300px;
-            border-radius: 10px;
-        }
-
-        /* Botão de fechar do modal de login */
-        .close {
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .close:hover {
-            color: red;
-        }
-
-        /* Estilo para o input de quantidade no carrinho */
-        .item-carrinho input[type="number"] {
-            width: 40px;
-            padding: 5px;
-            margin-right: 10px;
-            text-align: center;
-        }
-
-        /* Modal genérico */
         .modal {
             display: none;
             position: fixed;
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.5);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
             z-index: 10;
         }
 
-        /* Conteúdo do modal genérico */
         .modal-content {
             max-width: 400px;
+        }
+
+        #fechar-modal-carrinho {
+            background-color: transparent;
+            border: none;
+            display: flex;
+            justify-content: end;
+        }
+
+        .a {
+            background-color: #DDA52F;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        /* Estilos gerais dos modais */
+        #loginModal {
+            height: 100%;
+            /* Ajuste a altura do modal */
+            display: none;
+            /* Inicialmente oculto */
+            position: fixed;
+            /* Fica fixado na tela */
+            top: 0;
+            /* Fica no topo da tela */
+            right: 0;
+            /* Fica no canto direito da tela */
+            background-color: #fff;
+            /* Cor de fundo */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* Sombra suave */
+            padding: 15px;
+            border-radius: 5px;
+            width: 300px;
+            /* Largura fixa do modal */
+            z-index: 1000;
+            /* Fica acima de outros elementos */
+            font-family: Arial, sans-serif;
+            animation: fadeIn 0.3s ease-in-out;
+            /* Animação suave */
+        }
+
+        /* Definição da animação fadeIn */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .btn-resumo {
+            width: 100%;
+        }
+
+        .btns-resumo {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .button {
+            background-color: #F5EBD9;
+            border: 2px solid #DDA52F;
+            color: #000;
+            padding: 11px 25px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 15px;
+            margin: 4px 2px;
+            margin-top: 38px;
+            cursor: pointer;
+            border-radius: 40px;
+            font-weight: normal;
         }
     </style>
     <div class="header_header">
@@ -304,8 +319,8 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
                                 </button>
                                 <nav class="header-menu">
                                     <ul class="menu food-nav-menu">
-                                        <li><a href="index.html">Inicio</a></li>
-                                        <li><a href="cardapio.html">Menu</a></li>
+                                        <li><a href="home.php">Inicio</a></li>
+                                        <li><a href="#container">Menu</a></li>
                                     </ul>
                                 </nav>
                                 <div class="header-right">
@@ -315,14 +330,48 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
                                             <i class="uil uil-search"></i>
                                         </button>
                                     </form>
-                                    <div class="header-btn header-dropdown">
-                                        <button id="header-btn header-dropdown" class="loginbotao" type="submit">
-                                            <i class="uil uil-user-md"></i>
-                                        </button>
 
+                                    <!-- Modal de Login -->
+                                    <div id="login" class="header-btn header-dropdown">
+                                        <i class="uil uil-user-md" onclick="toggleLoginModal()"></i>
+                                        <!-- Abre/fecha o modal de login -->
+                                        <div id="loginModal" class="dropdown-menu">
+                                            <div class="login-modal-content">
+                                                <span class="close" onclick="closeModal('loginModal')">&times;</span>
+                                                <h4>Orderup Card</h4>
+                                                <hr class="modal-divider"> <!-- Linha abaixo do título -->
 
+                                                <!-- Título e saudação -->
+                                                <div class="subtitulo">
+                                                    <h3 class="modal-title" id="welcomeMessage">Seja Bem-Vindo, Alana</h3>
+                                                </div>
+
+                                                <!-- Texto informativo abaixo -->
+                                                <p class="modal-text">Consulte as suas informações de pagamento.</p>
+
+                                                <!-- Botão Adicionar saldo -->
+                                                <button class="button" onclick="adicionarSaldo()">Adicionar saldo a sua conta</button>
+
+                                                <!-- Divisor com "ou" -->
+                                                <div class="modal-divider-container">
+                                                    <hr class="modal-divider">
+                                                    <span class="modal-or">OU</span>
+                                                    <hr class="modal-divider">
+                                                </div>
+
+                                                <!-- Botão Verificar saldo -->
+                                                <button class="button" onclick="verificarSaldo()">Verificar saldo da conta</button>
+
+                                                <!-- Logo -->
+                                                <div class="modal-logo">
+                                                    <img src="../img/logoOrderup.png" alt="Logo">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <a href="javascript:void(0)" class="header-btn header-cart">
+
+
+                                    <a href="javascript:void(0)" class="header-btn header-cart" onclick="toggleModal('modal-carrinho')">
                                         <i id="compr-btn" class="uil uil-shopping-bag"></i>
                                     </a>
 
@@ -347,8 +396,8 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
 
     <div class="bg-pattern bg-light repeat-img" style="background-image: url(assets/images/blog-pattern-bg.png);">
         <section class="blog-sec section" id="blog">
-            <div class="sec-wp">
-                <div class="container">
+            <div class="sec-wp" id="sec-wp">
+                <div class="container" id="container">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="sec-title text-center mb-5">
@@ -363,7 +412,7 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="blog-box-custom">
-                                <div class="blog-img-custom back-img" style="background-image: url(../img/474.webp);">
+                                <div class="blog-img-custom back-img" style="background-image: url('../img/474.webp');">
                                 </div>
                                 <div class="blog-text-custom">
                                     <p class="blog-date-custom"></p>
@@ -374,8 +423,8 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
                         </div>
                         <div class="col-lg-4">
                             <div class="blog-box-custom">
-                                <div class="blog-img-custom back-img"
-                                    style="background-image: url('../img/OIP (1).jpg');"></div>
+                                <div class="blog-img-custom back-img" style="background-image: url('../img/bauruzinho.jpg');">
+                                </div>
                                 <div class="blog-text-custom">
                                     <p class="blog-date-custom"></p>
                                     <a href="#" class="h4-title-custom"></a>
@@ -385,8 +434,8 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
                         </div>
                         <div class="col-lg-4">
                             <div class="blog-box-custom">
-                                <div class="blog-img-custom back-img"
-                                    style="background-image: url(../img/bauruzinho.jpg);"></div>
+                                <div class="blog-img-custom back-img" style="background-image: url('../img/OIP (1).jpg');">
+                                </div>
                                 <div class="blog-text-custom">
                                     <p class="blog-date-custom"></p>
                                     <a href="#" class="h4-title-custom"></a>
@@ -549,7 +598,7 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
             <p class="modal-text">Consulte as suas informações de pagamento.</p>
 
             <!-- Botão -->
-            <button class="modal-button primary-button">Adicionar saldo a sua conta</button>
+            <button class="button">Adicionar saldo a sua conta</button>
 
             <!-- Divisor com "ou" -->
             <div class="modal-divider-container">
@@ -559,11 +608,11 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
             </div>
 
             <!-- Outro botão -->
-            <button class="modal-button secondary-button">Verificar saldo da conta</button>
+            <button class="button">Verificar saldo da conta</button>
 
             <!-- Logo -->
             <div class="modal-logo">
-                <img src="../img/logoOrderup.png" alt="Logo">
+                <img src="./img/logoOrderup.png" alt="Logo">
             </div>
 
             <!-- Adicione mais conteúdo conforme necessário -->
@@ -662,10 +711,8 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
     <!-- footer ends  -->
 
     <!-- voltar para cima -->
-    <button id="botaoVoltar" class="botao" onclick="voltarAoTopo()"><svg xmlns="http://www.w3.org/2000/svg" width="16"
-            height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
-            <path fill-rule="evenodd"
-                d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5" />
+    <button id="botaoVoltar" class="botao" onclick="voltarAoTopo()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5" />
         </svg></button>
 
     <!-- <div id="cartModal" class="cart-modal">
@@ -694,7 +741,6 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
             <h3>Carrinho de Compras</h3>
 
             <!-- ajuste-de-conteudo -->
-
             <div class="ajuste-de-conteudo">
 
                 <!-- Lista de Itens no Carrinho -->
@@ -703,36 +749,40 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
             </div>
 
             <!-- Total Geral -->
-            <div class="preco-total">
-                <p>Total: R$ <span id="total-carrinho">0.00</span></p>
-            </div>
+            <p>Total: R$ <span id="total-carrinho">0.00</span></p>
 
             <!-- Botão de Pagamento -->
-            <button class="n" id="ir-para-pagamento">Ir para pagamento</button>
+            <button class="button" id="ir-para-pagamento">Ir para pagamento</button>
         </div>
     </div>
 
-    <!-- Modal de Pagamento -->
     <div id="modal-pagamento" class="modal">
         <div class="modal-content">
-            <span class="close-pagamento">&times;</span> <!-- Botão de fechar -->
+            <span class="close-pagamento">&times;</span> <!-- Botão de fechar pagamento -->
             <h3>Resumo do Pedido</h3>
-
-            <!-- Lista de Itens no Resumo -->
             <div id="resumo-carrinho"></div>
-
-            <!-- Total Geral -->
-            <p>Total: R$ <span id="total-pagamento">0.00</span></p>
-
-            <!-- Código do Pedido, inicialmente oculto -->
-            <p id="codigo-pedido-container" style="display: none;">Código do Pedido: <span id="codigo-pedido"></span>
+            <p>Total: R$ <span id="total-pagamento" name="total-pagamento">0.00</span></p>
+            <p id="codigo-pedido-container" style="display: none;">
+                Código do Pedido: <span id="codigo-pedido" name="codigo-pedido">12345</span>
             </p>
 
-            <!-- Botões de Ação -->
-            <button id="confirmar-pagamento" onclick="verificacaoSaldo()">Confirmar Pagamento</button>
-            <button id="cancelar-pagamento">Cancelar</button>
+            <!-- Formulário de pagamento -->
+            <form method="POST" id="form-pagamento" action="">
+                <!-- Campos ocultos para enviar o código do pedido e o total do pagamento -->
+                <input type="hidden" id="codigo-pedido-input" name="codigo-pedido">
+                <input type="hidden" id="total-pagamento-input" name="total-pagamento">
+                <div class="btns-resumo">
+                    <button class="btn-resumo" type="button" id="confirmar-pagamento">Confirmar Compra</button>
+                    <button class="btn-resumo" type="submit" id="confirmar-recebimento" style="display: none;">Pedido
+                        Recebido</button>
+                    <button class="btn-resumo" type="button" id="cancelar-pagamento">Cancelar</button>
+                </div>
+            </form>
         </div>
     </div>
+
+
+
 
     <!-- Modal para Carrinho -->
     <div id="loginModal" class="login-modal">
@@ -755,7 +805,7 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
             <p class="modal-text">Consulte as suas informações de pagamento.</p>
 
             <!-- Botão -->
-            <button class="modal-button primary-button">Adicionar saldo a sua conta</button>
+            <button class="button">Adicionar saldo a sua conta</button>
 
             <!-- Divisor com "ou" -->
             <div class="modal-divider-container">
@@ -781,7 +831,7 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
         </div>
     </div>
 
-    <!-- JavaScript -->
+
     <div id="modal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span> <!-- Botão de fechar -->
@@ -804,10 +854,19 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
             <p id="total">Total: R$ <span>0.00</span></p>
 
             <!-- Botões -->
-            <button id="adicionar-carrinho">Ir para pagamento</button>
+            <button type="submit" id="adicionar-carrinho">Ir para pagamento</button>
             <button id="adicionar-novo-item">Adicionar Item</button>
         </div>
     </div>
+
+    <!-- Modal de Aviso -->
+    <div id="alert-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeAlertModal()">&times;</span>
+            <p id="alert-message"></p>
+        </div>
+    </div>
+
 
     <!-- Modal de Pagamento -->
     <div id="modal-pagamento" class="modal">
@@ -834,8 +893,17 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
     <script>
         let carrinho = [];
         let saldo = 10;
-
         let total = 0;
+        let estoque = 2;
+
+        if (quantidade > estoque) {
+            alert("Puxa, infelizmente acabou!")
+        } else {
+
+        }
+
+        // Quantidade disponível no estoque (fictício, poderia vir de uma API ou banco de dados)
+        let quantidadeDisponivel = 10; // Exemplo de estoque disponível
 
         const modalCarrinho = document.getElementById('modal-carrinho');
         const modalPagamento = document.getElementById('modal-pagamento');
@@ -856,35 +924,43 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
 
         let carrinhoAberto = false;
 
-        // Função para abrir o modal de login
+        const confirmarRecebimentoBtn = document.getElementById('confirmar-recebimento');
+        const confirmarPagamentoBtn = document.getElementById('confirmar-pagamento');
+
+        confirmarRecebimentoBtn.style.display = 'none';
+        confirmarPagamentoBtn.style.display = 'block';
+
         if (headerDropdownBtn) {
-            headerDropdownBtn.addEventListener('click', function () {
+            headerDropdownBtn.addEventListener('click', function() {
                 const dropdownContent = document.querySelector('.dropdown-content');
                 dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
             });
         }
 
-        // Função para fechar o modal de login
         if (closeModalBtn) {
-            closeModalBtn.addEventListener('click', function () {
+            closeModalBtn.addEventListener('click', function() {
                 loginModal.style.display = 'none';
             });
         }
 
-        // Fecha o modal de login ao clicar fora
-        window.addEventListener('click', function (event) {
+        window.addEventListener('click', function(event) {
             if (event.target === loginModal) {
                 loginModal.style.display = 'none';
             }
         });
 
-        // Função para adicionar novo item ao carrinho
         function adicionarNovoItem() {
             const nome = produtoNomeModal.textContent;
             const imagem = produtoImagemModal.src.split('/').pop();
             const preco = parseFloat(produtoPrecoModal.textContent);
             const quantidade = parseInt(quantidadeInput.value);
             const totalProduto = preco * quantidade;
+
+            // Verificação se a quantidade desejada não excede a quantidade disponível
+            if (quantidade > quantidadeDisponivel) {
+                alert("Você não consegue comprar essa quantidade, estoque insuficiente.");
+                return;
+            }
 
             const item = {
                 nome,
@@ -903,12 +979,10 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
             }
         }
 
-        // Função para abrir o modal do carrinho
         function abrirCarrinho() {
             modalCarrinho.style.display = 'block';
         }
 
-        // Função para atualizar o carrinho
         function atualizarCarrinho() {
             listaCarrinho.innerHTML = '';
             total = 0;
@@ -926,7 +1000,7 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
                 quantidadeInput.type = 'number';
                 quantidadeInput.value = item.quantidade;
                 quantidadeInput.min = 1;
-                quantidadeInput.addEventListener('input', function () {
+                quantidadeInput.addEventListener('input', function() {
                     atualizarQuantidade(index, parseInt(quantidadeInput.value));
                 });
 
@@ -949,7 +1023,6 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
             totalCarrinhoDisplay.textContent = total.toFixed(2);
         }
 
-        // Função para atualizar a quantidade de um item
         function atualizarQuantidade(index, novaQuantidade) {
             const item = carrinho[index];
             item.quantidade = novaQuantidade;
@@ -957,13 +1030,11 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
             atualizarCarrinho();
         }
 
-        // Função para deletar um item do carrinho
         function deletarItem(index) {
             carrinho.splice(index, 1);
             atualizarCarrinho();
         }
 
-        // Função para atualizar o resumo no modal de pagamento
         function atualizarResumoPagamento() {
             resumoCarrinho.innerHTML = '';
             carrinho.forEach(item => {
@@ -974,37 +1045,32 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
             totalPagamentoDisplay.textContent = total.toFixed(2);
         }
 
-        // Quando clicar no botão "Ir para pagamento"
         document.getElementById('ir-para-pagamento').addEventListener('click', () => {
             atualizarResumoPagamento();
-            modalCarrinho.style.display = 'none'; // Oculta o modal do carrinho
-            modalPagamento.style.display = 'block'; // Abre o modal de pagamento
+            modalCarrinho.style.display = 'none';
+            modalPagamento.style.display = 'block';
         });
 
-        // Fechar o modal de pagamento
         closePagamento.addEventListener('click', () => {
             modalPagamento.style.display = 'none';
-            modalCarrinho.style.display = 'block'; // Retorna ao modal do carrinho
+            modalCarrinho.style.display = 'block';
         });
 
-        // Fechar o modal de pagamento clicando fora da área de conteúdo
-        window.addEventListener('click', function (event) {
+        window.addEventListener('click', function(event) {
             if (event.target === modalPagamento) {
                 modalPagamento.style.display = 'none';
-                modalCarrinho.style.display = 'block'; // Retorna ao modal do carrinho
+                modalCarrinho.style.display = 'block';
             }
         });
 
-        // Fechar o modal do carrinho
         closeCarrinho.addEventListener('click', () => {
-            modalCarrinho.style.display = 'none'; // Fecha o modal do carrinho
-            carrinhoAberto = false; // Reseta o estado para permitir a reabertura
+            modalCarrinho.style.display = 'none';
+            carrinhoAberto = false;
         });
 
-        // Função para abrir o modal do produto
         const buyButtons = document.querySelectorAll('.buy-btn');
         buyButtons.forEach(button => {
-            button.addEventListener('click', function () {
+            button.addEventListener('click', function() {
                 const nome = this.getAttribute('data-nome');
                 const imagem = this.getAttribute('data-imagem');
                 const preco = parseFloat(this.getAttribute('data-preco'));
@@ -1019,33 +1085,28 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
             });
         });
 
-        // Fechar o modal de pagamento quando clicar no botão "Cancelar"
         document.getElementById('cancelar-pagamento').addEventListener('click', () => {
-            modalPagamento.style.display = 'none'; // Fecha o modal de pagamento
-            modalCarrinho.style.display = 'block'; // Retorna ao modal do carrinho
+            modalPagamento.style.display = 'none';
+            modalCarrinho.style.display = 'block';
         });
 
-        // Fecha o dropdown se clicar fora dele
-        window.addEventListener('click', function (event) {
+        window.addEventListener('click', function(event) {
             const dropdownContent = document.querySelector('.dropdown-content');
             if (dropdownContent && !headerDropdownBtn.contains(event.target) && !dropdownContent.contains(event.target)) {
                 dropdownContent.style.display = 'none';
             }
         });
 
-        // Função para exibir o código do pedido
         function abrirCode() {
             const codigoPedidoContainer = document.getElementById('codigo-pedido-container');
-
-            // Gera o código aleatório
             const codigoAleatorio = gerarCodigoAleatorio();
             document.getElementById('codigo-pedido').textContent = codigoAleatorio;
-
-            // Exibe o elemento do código do pedido
             codigoPedidoContainer.style.display = 'block';
+            confirmarRecebimentoBtn.style.display = 'block';
+            confirmarPagamentoBtn.style.display = 'none';
+            enviarPedido(codigoAleatorio, total);
         }
 
-        // Função para gerar um código aleatório de 6 caracteres
         function gerarCodigoAleatorio() {
             const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             let codigo = '';
@@ -1056,7 +1117,6 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
             return codigo;
         }
 
-        // Função para verificar o saldo e exibir o código, se houver saldo suficiente
         function verificacaoSaldo() {
             const totalPagamento = parseFloat(totalPagamentoDisplay.textContent);
 
@@ -1067,11 +1127,78 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
             }
         }
 
-        // Chama a função de verificação ao clicar no botão "Confirmar Pagamento"
-        document.getElementById('confirmar-pagamento').addEventListener('click', verificacaoSaldo);
+        document.getElementById('confirmar-pagamento').addEventListener('click', function(event) {
+            event.preventDefault();
 
+            const totalPagamento = parseFloat(document.getElementById('total-pagamento').textContent);
+            const codigoPedido = document.getElementById('codigo-pedido').textContent;
 
+            if (saldo >= totalPagamento) {
+                abrirCode();
+                enviarPedido(totalPagamento, codigoPedido);
+            } else {
+                alert("Você não tem saldo suficiente");
+            }
+        });
 
+        function preencherCampos() {
+            const total = document.getElementById('total-pagamento').innerText;
+            const codigoPedido = document.getElementById('codigo-pedido').innerText;
+
+            document.getElementById('codigo-pedido-input').value = codigoPedido;
+            document.getElementById('total-pagamento-input').value = total;
+
+            if (!total || !codigoPedido) {
+                alert("Erro: Dados incompletos!");
+                return false;
+            }
+
+            document.getElementById('form-pagamento').submit();
+        }
+
+        function scrollToSection(sectionId) {
+            var section = document.getElementById(sectionId);
+
+            if (section) {
+                section.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+
+        function toggleLoginModal() {
+            const modal = document.getElementById('loginModal');
+            if (modal.style.display === 'block') {
+                modal.style.display = 'none';
+            } else {
+                modal.style.display = 'block';
+            }
+        }
+
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal.style.display === 'block') {
+                modal.style.display = 'none';
+            } else {
+                modal.style.display = 'block';
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'none';
+        }
+        function adicionarSaldo() {
+            // Redireciona para a página de pagamento
+            window.location.href = 'saldo/pagamentoSDK.php'; // Substitua pelo URL real de seu pagamento
+        }
+
+        // Função de exemplo para verificar saldo
+        function verificarSaldo() {
+            // Redireciona para a página de pagamento
+            window.location.href = 'saldo/pagamentoSDK.php'; // Substitua pelo URL real de seu pagamento
+        }
     </script>
 
 
@@ -1085,6 +1212,7 @@ include '../php/conexao.php'; // Inclui o arquivo de conexão com o banco de dad
 
     <!-- fancy box  -->
     <script src="./js/jquery.fancybox.min.js"></script>
+
 
 </body>
 
