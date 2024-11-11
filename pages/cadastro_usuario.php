@@ -12,7 +12,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
 
     <script>
-        // Configuração do Firebase
+        // Configuração do Firebase 
         const firebaseConfig = {
             apiKey: "AIzaSyAceMTLRz9OQGNG8WoW83idPXeo9i59y4w",
             authDomain: "recuperacaosenha-7745e.firebaseapp.com",

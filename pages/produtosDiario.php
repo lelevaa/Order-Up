@@ -361,7 +361,7 @@ $conn->close();
                 const correspondeNome = nomeFiltro === '' || produto.nome === nomeFiltro;
                 return correspondeCategoria && correspondeNome;
             });
-
+                
             atualizarProdutosLista(produtosFiltrados);
         }
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 29-Out-2024 às 15:27
+-- Tempo de geração: 11-Nov-2024 às 15:05
 -- Versão do servidor: 10.4.13-MariaDB
 -- versão do PHP: 7.4.7
 
@@ -20,6 +20,25 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `orderup`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `administrador`
+--
+
+CREATE TABLE `administrador` (
+  `id` int(11) NOT NULL,
+  `usuario` varchar(50) NOT NULL,
+  `senha` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `administrador`
+--
+
+INSERT INTO `administrador` (`id`, `usuario`, `senha`) VALUES
+(1, 'administrador01', 'adoleta@976854');
 
 -- --------------------------------------------------------
 
@@ -104,19 +123,16 @@ CREATE TABLE `tb_produtos` (
   `categoria` varchar(255) NOT NULL,
   `lancamento` varchar(255) NOT NULL,
   `vencimento` varchar(255) NOT NULL,
-  `imagem` varchar(255) DEFAULT NULL
+  `fk_imagem` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `tb_produtos`
 --
 
-INSERT INTO `tb_produtos` (`id`, `nome`, `descricao`, `preco`, `quantidade`, `categoria`, `lancamento`, `vencimento`, `imagem`) VALUES
-(39, 'coxinha com frango', 'coxinha de frango', '6.00', 10, 'salgados', '2024-10-11', '2024-10-14', '6709296c0e0917.66655770.png'),
-(48, 'espirra', 'tetetet', '2.90', 0, 'salgados', '', '', '6709335daa9098.40476080.jpg'),
-(49, 'croquete', 'dad', '6.00', 28, 'salgados', '2024-10-30', '2024-10-30', NULL),
-(50, 'espirra', 'tetetet', '2.90', 89, 'salgados', '2024-10-29', '2024-10-31', NULL),
-(51, 'croquete', 'dad', '6.00', 100, 'salgados', '2024-10-29', '2024-11-01', NULL);
+INSERT INTO `tb_produtos` (`id`, `nome`, `descricao`, `preco`, `quantidade`, `categoria`, `lancamento`, `vencimento`, `fk_imagem`) VALUES
+(52, 'espirra', 'tetetet', '2.90', -22, 'salgados', '2024-11-11', '2024-11-12', ''),
+(53, 'croquete', 'dad', '6.00', 2, 'salgados', '2024-11-11', '2024-11-12', '');
 
 -- --------------------------------------------------------
 
@@ -187,29 +203,15 @@ CREATE TABLE `usuarios` (
 INSERT INTO `usuarios` (`id`, `nome`, `cpf`, `email`, `senha`) VALUES
 (1, 'juninho souza silva', '6680994321', 'juninho_silva@gmail.com', '$2y$10$HhxEvSgul9sCJyioDWfDD.yqCfgukkcuP3gbXTPzFw55Y7qSKOmz.');
 
--- --------------------------------------------------------
-
 --
--- Estrutura da tabela `administrador`
---
-
-CREATE TABLE `administrador` (
-  `id` int(11) NOT NULL,
-  `usuario` varchar(50) NOT NULL,
-  `senha` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Extraindo dados da tabela `administrador`
---
-
-INSERT INTO `administrador` (`id`, `usuario`, `senha`) VALUES
-(1, 'administrador01', 'adoleta@976854');
-
--- --------------------------------------------------------
-
 -- Índices para tabelas despejadas
 --
+
+--
+-- Índices para tabela `administrador`
+--
+ALTER TABLE `administrador`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Índices para tabela `payment`
@@ -221,13 +223,15 @@ ALTER TABLE `payment`
 -- Índices para tabela `produtosgeral`
 --
 ALTER TABLE `produtosgeral`
-  ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (`ID`),
+  ADD UNIQUE KEY `imagem` (`imagem`);
 
 --
 -- Índices para tabela `tb_produtos`
 --
 ALTER TABLE `tb_produtos`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_imagem` (`fk_imagem`);
 
 --
 -- Índices para tabela `tb_produtos2`
@@ -254,6 +258,12 @@ ALTER TABLE `usuarios`
 --
 
 --
+-- AUTO_INCREMENT de tabela `administrador`
+--
+ALTER TABLE `administrador`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de tabela `payment`
 --
 ALTER TABLE `payment`
@@ -269,7 +279,7 @@ ALTER TABLE `produtosgeral`
 -- AUTO_INCREMENT de tabela `tb_produtos`
 --
 ALTER TABLE `tb_produtos`
-  MODIFY `id` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT de tabela `tb_produtos2`
@@ -288,20 +298,17 @@ ALTER TABLE `user`
 --
 ALTER TABLE `usuarios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Restrições para despejos de tabelas
+--
+
+--
+-- Limitadores para a tabela `tb_produtos`
+--
+ALTER TABLE `tb_produtos`
+  ADD CONSTRAINT `fk_imagem` FOREIGN KEY (`fk_imagem`) REFERENCES `produtosgeral` (`imagem`);
 COMMIT;
-
---
--- Índices para tabela `administrador`
---
-ALTER TABLE `administrador`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT de tabela `administrador`
---
-ALTER TABLE `administrador`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
